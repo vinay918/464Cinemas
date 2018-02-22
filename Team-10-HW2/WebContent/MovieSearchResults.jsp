@@ -64,7 +64,7 @@
 	      <td class="text-center">12</td>
 	      <td class="text-center">8:30 pm, 10:45 pm</td>
 	      <td class="text-center">34</td>
-	      <td class="text-center">$10</td>
+	      <td class="text-center">$100</td>
 	      <td><img src="./Images/img2.jpg" alt="Movie 1" class="poster"></td>
 	      <td><a href="MovieDetailsAndSelection.jsp" class="btn btn-info">View Details</a></td> 	      
 	    </tr>
