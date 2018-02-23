@@ -52,7 +52,7 @@
 		    </ul>
 		    <ul class="navbar-nav mr-auto">
 		      <li class="nav-item active">
-		        <a class="nav-link" href="About">About <span class="sr-only">(current)</span></a>
+		        <a class="nav-link" href="About">Abt <span class="sr-only">(current)</span></a>
 		      </li>
 		    </ul>
 		  </div>
