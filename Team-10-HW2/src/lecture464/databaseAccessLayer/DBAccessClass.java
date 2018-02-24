@@ -9,6 +9,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+import lecture464.model.User;
+
 
 public class DBAccessClass {	
 	Connection conn = null;
@@ -27,13 +29,12 @@ public class DBAccessClass {
 	static final String PASS = "4F3bog";   // Replace with your CSE MySQL_PASSWORD
 
 
-	public void addEmployeeDB(int id, String fName, String lName, double salary){
-
+	public void registerUser(User person){
 
 		try {
 			stmt = conn.createStatement();
-			String query = "INSERT INTO Employees " +
-			          "VALUES ("+id+", '"+fName+"', '"+lName+"', "+salary+");";			
+			String query = "INSERT INTO `User` (`Username`,`Password`) " +
+			          "VALUES ('"+person.getUserName()+"', '"+person.getPassword()+"');";
 			stmt.executeUpdate(query);		
 			
 		} catch (SQLException e) {
@@ -41,6 +42,31 @@ public class DBAccessClass {
 			e.printStackTrace();
 		}
 	}
+	
+	public String getPassword(User person){
+		ps = null;
+		String password = "";
+		try {
+			String query = "SELECT * FROM `User` WHERE Username=?;";			
+			ps = conn.prepareStatement(query);
+			ps.setString(1,person.getUserName());
+			ResultSet rs = ps.executeQuery();
+			while(rs.next()) {
+			    password = rs.getString("Password");
+			    if(password.trim().equals(person.getPassword().trim())){
+			    	return password;
+			    }
+			}			
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return password;
+	}	
+	
+	
 	
 	public void connectMeIn() {
 		try{

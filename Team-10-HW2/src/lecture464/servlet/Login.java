@@ -34,15 +34,14 @@ public class Login extends HttpServlet {
 		/* The users.properties file is stored in the "WEB-INF" folder.
 		   To access this file, you will need its absolute path. */
 
-		ServletContext sc = this.getServletContext();
 		User user = new User(userName, password);
 		
-		if(user.validateUser(user, sc)){
+		if(user.validateUser(user)){
 			response.sendRedirect("CustomerHomePage.jsp");
 		}else{
 			response.sendRedirect("Register.jsp");			
 		}
-		System.out.println("test");
+
 
 	}
 

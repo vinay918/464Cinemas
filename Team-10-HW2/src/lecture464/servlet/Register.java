@@ -57,19 +57,14 @@ public class Register extends HttpServlet {
 		String userName = request.getParameter("userName");
 		String password = request.getParameter("password");
 		
-		
-		ServletContext sc = this.getServletContext();
-		String propFilePath = sc.getRealPath("/WEB-INF/users.properties");
-
-		
 		// Registration via the Users object
 		User aUser = new User(userName, password);
 		
 		//First check whether the user already exists via methods from Users class
 		
 		// Register the Users object
-		if(!aUser.validateUser(aUser, sc)){
-			aUser.registerUser(aUser, propFilePath);
+		if(!aUser.validateUser(aUser)){
+			aUser.registerUser(aUser);
 			users++;
 		}
 		

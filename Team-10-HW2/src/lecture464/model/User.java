@@ -8,7 +8,7 @@ import java.util.Properties;
 
 import javax.servlet.ServletContext;
 
-
+import lecture464.databaseAccessLayer.UserDB;
 
 public class User {
 	
@@ -18,15 +18,19 @@ public class User {
 	public String getUserName() {
 		return userName;
 	}
+	
 	public void setUserName(String userName) {
 		this.userName = userName;
 	}
+	
 	public String getPassword() {
 		return password;
 	}
+	
 	public void setPassword(String password) {
 		this.password = password;
 	}
+	
 	public User(String userName, String password) {
 		super();
 		this.userName = userName;
@@ -37,37 +41,19 @@ public class User {
 		super();
 	}
 	
-	public void registerUser(User aUser, String propFilePath) {
-		
-		Properties p = new Properties();
-		FileInputStream fis = null;
-		
-		try {
-			fis = new FileInputStream(propFilePath);
-			p.load(fis);
-			p.setProperty(aUser.getUserName(), aUser.getPassword());
-			p.store(new FileOutputStream(propFilePath), null);
-			
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} finally {
-			if(fis!=null) {
-				try {
-					fis.close();
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			}
-		}
+	public void registerUser(User aUser) {
+		UserDB dbInterface = new UserDB();
+		dbInterface.addUser(aUser);
 	}
 	
-	public Boolean validateUser(User currentUser,ServletContext sc){
-		return true;
+	public Boolean validateUser(User currentUser){
+		UserDB dbInterface = new UserDB();
+		return dbInterface.userValid(currentUser);
+	}
+	
+	public Boolean userRegistered(User currentUser){
+		UserDB dbInterface = new UserDB();
+		return dbInterface.existingUser(currentUser);		
 	}
 	// removeUser
 	
