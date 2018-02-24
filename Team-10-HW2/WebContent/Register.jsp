@@ -68,6 +68,7 @@
 		<h3> Register here</h3>
 		<form name="userForm" action	= Register 
 		      onsubmit="return validateForm()" method="post">
+		      <p>${UserNameTaken}</p>
 			  <div class="form-group col-sm-6 offset-sm-3 text-center">
 			    <label for="exampleInputEmail1">User Name</label>
 			    <input type="text" class="form-control" name="userName"  aria-describedby="emailHelp" placeholder="Enter Username">

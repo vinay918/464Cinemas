@@ -64,7 +64,29 @@ public class DBAccessClass {
 		}
 		
 		return password;
-	}	
+	}
+	
+	public int getUserId(User person){
+		ps = null;
+		int id = 0;
+		try {
+			String query = "SELECT * FROM `User` WHERE Username=? and Password=?;";			
+			ps = conn.prepareStatement(query);
+			ps.setString(1,person.getUserName());
+			ps.setString(2,person.getPassword());
+			ResultSet rs = ps.executeQuery();
+			while(rs.next()) {
+			    id = rs.getInt("UserId");
+			    return id;
+			}			
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return id;
+	}		
 	
 	
 	

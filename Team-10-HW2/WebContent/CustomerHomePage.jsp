@@ -42,7 +42,7 @@
 
 
 
-<h2 style="padding-left:10px">Welcome, User</h2>
+<h2 style="padding-left:10px">Welcome, ${user.userName}</h2>
 
 <br>
 	<div class="col-sm-10 offset-sm-1 text-center">

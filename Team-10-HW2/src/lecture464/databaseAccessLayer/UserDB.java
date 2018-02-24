@@ -6,8 +6,10 @@ import lecture464.model.User;
 
 public class UserDB 
 {
-	public int getUserId(String userName, String password){
-		return 10;
+	public int getUserId(User user){
+		DBAccessClass db = new DBAccessClass();
+		db.connectMeIn();
+		return db.getUserId(user);
 	}
 	
 	public void addUser(User newUser){
@@ -36,8 +38,10 @@ public class UserDB
 		db.connectMeIn();
 		String dbPass = db.getPassword(newUser);
 		if(dbPass.equals("")){
+			db.closeConnection();
 			return false;
 		}else{
+			db.closeConnection();
 			return true;
 		}
 	}	

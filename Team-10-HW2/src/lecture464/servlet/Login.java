@@ -9,6 +9,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import lecture464.model.User;
 
@@ -34,12 +35,23 @@ public class Login extends HttpServlet {
 		/* The users.properties file is stored in the "WEB-INF" folder.
 		   To access this file, you will need its absolute path. */
 
+		HttpSession session = request.getSession();
+		
 		User user = new User(userName, password);
 		
 		if(user.validateUser(user)){
 			response.sendRedirect("CustomerHomePage.jsp");
-		}else{
+			session.removeAttribute("WrongPassword");
+			session.removeAttribute("UserNameTaken");
+			session.setAttribute("user", user);
+		}else if(!user.userRegistered(user)){
+			session.removeAttribute("WrongPassword");
+			session.setAttribute("UserNameTaken","Your username is not registered in our system");
 			response.sendRedirect("Register.jsp");			
+		}else{
+			session.setAttribute("WrongPassword","Incorrect Password");
+			session.removeAttribute("UserNameTaken");
+			response.sendRedirect("Login.jsp");				
 		}
 
 

@@ -9,6 +9,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import lecture464.model.User;
 
@@ -60,12 +61,19 @@ public class Register extends HttpServlet {
 		// Registration via the Users object
 		User aUser = new User(userName, password);
 		
-		//First check whether the user already exists via methods from Users class
+		HttpSession session = request.getSession();
 		
 		// Register the Users object
-		if(!aUser.validateUser(aUser)){
+		if(!aUser.validateUser(aUser) && !aUser.userRegistered(aUser)){
 			aUser.registerUser(aUser);
 			users++;
+			session.setAttribute("WrongPassword","You have been successfully registered!");
+			session.removeAttribute("UserNameTaken");
+		}else if(aUser.userRegistered(aUser)){
+			session.setAttribute("UserNameTaken","The Username has been already used. Please pick something else");
+			session.removeAttribute("WrongPassword");
+			response.sendRedirect("Register.jsp");
+			return;
 		}
 		
 		response.setContentType("text/html");
