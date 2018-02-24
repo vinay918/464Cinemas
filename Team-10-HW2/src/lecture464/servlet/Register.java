@@ -10,7 +10,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import lecture464.model.Users;
+import lecture464.model.User;
+
 
 /**
  * Servlet implementation class Register
@@ -62,7 +63,7 @@ public class Register extends HttpServlet {
 
 		
 		// Registration via the Users object
-		Users aUser = new Users(userName, password);
+		User aUser = new User(userName, password);
 		
 		//First check whether the user already exists via methods from Users class
 		

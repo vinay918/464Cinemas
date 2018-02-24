@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import lecture464.model.Users;
+import lecture464.model.User;
 
 /**
  * Servlet implementation class Login
@@ -21,7 +21,7 @@ public class Login extends HttpServlet {
      * @see HttpServlet#HttpServlet()
      */
     public Login() {
-        super();
+        super(); 
         // TODO Auto-generated constructor stub
     }
 
@@ -35,14 +35,14 @@ public class Login extends HttpServlet {
 		   To access this file, you will need its absolute path. */
 
 		ServletContext sc = this.getServletContext();
-		Users user = new Users(userName, password);
+		User user = new User(userName, password);
 		
 		if(user.validateUser(user, sc)){
 			response.sendRedirect("CustomerHomePage.jsp");
 		}else{
 			response.sendRedirect("Register.jsp");			
 		}
-		
+		System.out.println("test");
 
 	}
 
