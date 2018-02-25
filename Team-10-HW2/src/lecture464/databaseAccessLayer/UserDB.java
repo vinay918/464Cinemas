@@ -9,7 +9,9 @@ public class UserDB
 	public int getUserId(User user){
 		DBAccessClass db = new DBAccessClass();
 		db.connectMeIn();
-		return db.getUserId(user);
+		int userId = db.getUserId(user);
+		db.closeConnection();
+		return userId;
 	}
 
 	public User buildUser(User user){

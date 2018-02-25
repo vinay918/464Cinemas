@@ -69,6 +69,7 @@ public class Register extends HttpServlet {
 		// Register the Users object
 		if(!aUser.validateUser(aUser) && !aUser.userRegistered(aUser) && aUser.validEmail(aUser) && aUser.validPhone(aUser)){
 			aUser.registerUser(aUser);
+			
 			users++;
 			session.setAttribute("WrongPassword","You have been successfully registered!");
 			session.removeAttribute("Error");
