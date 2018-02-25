@@ -37,7 +37,7 @@ public class DBAccessClass {
 		HashMap<Integer,Theatre> theatres = new HashMap<Integer,Theatre>();
 		HashMap<Integer,Showroom> showrooms = new HashMap<Integer,Showroom>();
 		try {
-			String query = "SELECT * FROM TheatreBuilding t join Showroom s on t.TheatreBuildingId = s.TheatreBuilding";			
+			String query = "SELECT * FROM TheatreBuilding t left join Showroom s on t.TheatreBuildingId = s.TheatreBuilding";			
 			ps = conn.prepareStatement(query);
 			ResultSet rs = ps.executeQuery();
 			Theatre newTheatre;
