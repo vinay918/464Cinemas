@@ -11,6 +11,15 @@ public class UserDB
 		db.connectMeIn();
 		return db.getUserId(user);
 	}
+
+	public User buildUser(User user){
+		DBAccessClass db = new DBAccessClass();
+		db.connectMeIn();
+		User complete = db.getUser(db.getUserId(user));	
+		db.closeConnection();
+		return complete;
+	}	
+	
 	
 	public void addUser(User newUser){
 		DBAccessClass db = new DBAccessClass();

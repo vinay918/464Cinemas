@@ -35,16 +35,13 @@ public class DBAccessClass {
 	public HashMap<Integer,Theatre> getTheatres(){
 		ps = null;
 		HashMap<Integer,Theatre> theatres = new HashMap<Integer,Theatre>();
-		HashMap<Integer,Showroom> showrooms = new HashMap<Integer,Showroom>();
 		try {
-			String query = "SELECT * FROM TheatreBuilding t left join Showroom s on t.TheatreBuildingId = s.TheatreBuilding";			
+			String query = "SELECT * FROM TheatreBuilding;";			
 			ps = conn.prepareStatement(query);
 			ResultSet rs = ps.executeQuery();
 			Theatre newTheatre;
-			ArrayList<Showroom> theatreShowroom;
 			while(rs.next()) {
 			    int theatreId = rs.getInt("TheatreBuildingId");
-			    int showroomId = rs.getInt("ShowroomId");
 			    String name = rs.getString("Name");
 			    int ownerId = rs.getInt("OwnerId");
 			    User owner = getUser(ownerId);
@@ -52,14 +49,8 @@ public class DBAccessClass {
 			    String city = rs.getString("City");
 			    String state = rs.getString("State");
 			    String postalCode = rs.getString("PostalCode");
-			    if(!theatres.containsKey(theatreId)){
-			    	theatreShowroom = new ArrayList<Showroom>();
-			    	theatreShowroom.add(showrooms.get(showroomId));
-			    	newTheatre = new Theatre(name,address,owner,city,state,postalCode,theatreShowroom);
-			    	theatres.put(theatreId,newTheatre);
-			    }else{
-			    	theatres.get(theatreId).addShowroom(showrooms.get(showroomId));
-			    }
+			    newTheatre = new Theatre(name,address,owner,city,state,postalCode);
+			    theatres.put(theatreId,newTheatre);
 			}			
 			
 		} catch (SQLException e) {
@@ -73,15 +64,17 @@ public class DBAccessClass {
 	public HashMap<Integer,Showroom> getShowrooms(){
 		ps = null;
 		HashMap<Integer,Showroom> showrooms = new HashMap<Integer,Showroom>();
+		HashMap<Integer,Theatre> theatres = getTheatres();
 		try {
-			String query = "SELECT * FROM Showroom;";			
+			String query = "SELECT * FROM Showroom s JOIN TheatreBuilding t on t.TheatreBuildingId = s.TheatreBuilding";			
 			ps = conn.prepareStatement(query);
 			ResultSet rs = ps.executeQuery();
 			while(rs.next()) {
 			    int showroomId = rs.getInt("ShowroomId");
+			    int theatreBuildingId = rs.getInt("TheatreBuildingId");
 			    int availableSeats = rs.getInt("AvailableSeats");
 			    int number = rs.getInt("ShowroomNumber");
-			    Showroom newShowroom = new Showroom(number,availableSeats);
+			    Showroom newShowroom = new Showroom(number,availableSeats,theatres.get(theatreBuildingId));
 			    showrooms.put(showroomId, newShowroom);
 			}			
 			
@@ -97,10 +90,16 @@ public class DBAccessClass {
 
 		try {
 			stmt = conn.createStatement();
-			String query = "INSERT INTO `User` (`Username`,`Password`) " +
-			          "VALUES ('"+person.getUserName()+"', '"+person.getPassword()+"');";
-			stmt.executeUpdate(query);		
-			
+			String query = "INSERT INTO User (`Username`,`Password`,`FirstName`,`LastName`,`PhoneNumber`,`EmailAddress`) " +
+			          "VALUES (?,?,?,?,?,?);";		
+			ps = conn.prepareStatement(query);
+			ps.setString(1,person.getUserName());
+			ps.setString(2,person.getPassword());
+			ps.setString(3,person.getFirstName());
+			ps.setString(4,person.getLastName());
+			ps.setString(5,person.getPhone());
+			ps.setString(6,person.getEmail());
+			ps.executeUpdate();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -163,7 +162,11 @@ public class DBAccessClass {
 			while(rs.next()) {
 			    String username = rs.getString("UserName");
 			    String password = rs.getString("Password");
-			    return new User(username,password);
+			    String fName = rs.getString("FirstName");
+			    String lName = rs.getString("LastName");
+			    String email = rs.getString("EmailAddress");
+			    String phone = rs.getString("PhoneNumber");			    
+			    return new User(username,password,fName, lName, email, phone);
 			}			
 			
 		} catch (SQLException e) {

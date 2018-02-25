@@ -57,22 +57,30 @@ public class Register extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String userName = request.getParameter("userName");
 		String password = request.getParameter("password");
-		
+		String fName = request.getParameter("fName");
+		String lName = request.getParameter("lName");
+		String phone = request.getParameter("phone");
+		String email = request.getParameter("email");		
 		// Registration via the Users object
-		User aUser = new User(userName, password);
+		User aUser = new User(userName, password, fName, lName, email, phone);
 		
 		HttpSession session = request.getSession();
 		
 		// Register the Users object
-		if(!aUser.validateUser(aUser) && !aUser.userRegistered(aUser)){
+		if(!aUser.validateUser(aUser) && !aUser.userRegistered(aUser) && aUser.validEmail(aUser) && aUser.validPhone(aUser)){
 			aUser.registerUser(aUser);
 			users++;
 			session.setAttribute("WrongPassword","You have been successfully registered!");
-			session.removeAttribute("UserNameTaken");
+			session.removeAttribute("Error");
 		}else if(aUser.userRegistered(aUser)){
-			session.setAttribute("UserNameTaken","The Username has been already used. Please pick something else");
+			session.setAttribute("Error","The Username has been already used. Please pick something else");
 			session.removeAttribute("WrongPassword");
 			response.sendRedirect("Register.jsp");
+			return;
+		}else if(!aUser.validEmail(aUser) || !aUser.validPhone(aUser)){
+			session.setAttribute("Error","Please enter valid inputs for your email and phone numbers");
+			session.removeAttribute("WrongPassword");
+			response.sendRedirect("Register.jsp");	
 			return;
 		}
 		

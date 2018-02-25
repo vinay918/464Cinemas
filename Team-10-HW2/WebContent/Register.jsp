@@ -68,7 +68,23 @@
 		<h3> Register here</h3>
 		<form name="userForm" action	= Register 
 		      onsubmit="return validateForm()" method="post">
-		      <p>${UserNameTaken}</p>
+		      <p>${Error}</p>
+			  <div class="form-group col-sm-6 offset-sm-3 text-center">
+			    <label for="exampleInputEmail1">First Name</label>
+			    <input type="text" class="form-control" name="fName"  aria-describedby="emailHelp" placeholder="Enter First Name">
+			  </div>	
+			  <div class="form-group col-sm-6 offset-sm-3 text-center">
+			    <label for="exampleInputEmail1">Last Name</label>
+			    <input type="text" class="form-control" name="lName"  aria-describedby="emailHelp" placeholder="Enter Last Name">
+			  </div>				  		      	
+			  <div class="form-group col-sm-6 offset-sm-3 text-center">
+			    <label for="exampleInputEmail1">Email Address</label>
+			    <input type="text" class="form-control" name="email"  aria-describedby="emailHelp" placeholder="Enter Email Address">
+			  </div>	
+			  <div class="form-group col-sm-6 offset-sm-3 text-center">
+			    <label for="exampleInputEmail1">Phone Number</label>
+			    <input type="text" class="form-control" name="phone"  aria-describedby="emailHelp" placeholder="Enter Phone Number">
+			  </div>				  			  			  			  			  			  			  		      
 			  <div class="form-group col-sm-6 offset-sm-3 text-center">
 			    <label for="exampleInputEmail1">User Name</label>
 			    <input type="text" class="form-control" name="userName"  aria-describedby="emailHelp" placeholder="Enter Username">

@@ -1,7 +1,5 @@
 package lecture464.model;
 
-import java.util.ArrayList;
-
 public class Theatre {
 	private String name;
 	private String address;
@@ -9,7 +7,6 @@ public class Theatre {
 	private String city;
 	private String state;
 	private String postalCode;
-	private ArrayList<Showroom> showrooms;
 	
 	public String getName() {
 		return name;
@@ -59,16 +56,9 @@ public class Theatre {
 		this.postalCode = postalCode;
 	}
 	
-	public ArrayList<Showroom> getShowrooms() {
-		return showrooms;
-	}
+
 	
-	public void addShowroom(Showroom showroom) {
-		this.showrooms.add(showroom);
-	}
-	
-	public Theatre(String name, String address, User owner, String city, String state, String postalCode,
-			ArrayList<Showroom> showrooms) {
+	public Theatre(String name, String address, User owner, String city, String state, String postalCode) {
 		super();
 		this.name = name;
 		this.address = address;
@@ -76,7 +66,6 @@ public class Theatre {
 		this.city = city;
 		this.state = state;
 		this.postalCode = postalCode;
-		this.showrooms = showrooms;
 	}
 	
 	public Theatre() {

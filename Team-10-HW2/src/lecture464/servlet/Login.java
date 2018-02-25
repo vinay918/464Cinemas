@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import lecture464.databaseAccessLayer.TheatreDB;
+import lecture464.databaseAccessLayer.UserDB;
 import lecture464.model.Theatre;
 import lecture464.model.User;
 
@@ -40,23 +41,24 @@ public class Login extends HttpServlet {
 
 		HttpSession session = request.getSession();
 		
-		User user = new User(userName, password);
+		User tempUser = new User(userName, password, "","","","");
 		
-		if(user.validateUser(user)){
+		if(tempUser.validateUser(tempUser)){
+			User user = tempUser.completeUser(tempUser);
 			response.sendRedirect("CustomerHomePage.jsp");
 			session.removeAttribute("WrongPassword");
-			session.removeAttribute("UserNameTaken");
+			session.removeAttribute("Error");
 			session.setAttribute("user", user);
 			TheatreDB theatreDB = new TheatreDB();
 			ArrayList<Theatre> theatres = theatreDB.getTheatres();
 			session.setAttribute("theatres",theatres);
-		}else if(!user.userRegistered(user)){
+		}else if(!tempUser.userRegistered(tempUser)){
 			session.removeAttribute("WrongPassword");
-			session.setAttribute("UserNameTaken","Your username is not registered in our system");
+			session.setAttribute("Error","Your username is not registered in our system");
 			response.sendRedirect("Register.jsp");			
 		}else{
 			session.setAttribute("WrongPassword","Incorrect Password");
-			session.removeAttribute("UserNameTaken");
+			session.removeAttribute("Error");
 			response.sendRedirect("Login.jsp");				
 		}
 		return;

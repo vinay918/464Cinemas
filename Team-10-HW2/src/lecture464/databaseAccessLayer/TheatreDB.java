@@ -14,7 +14,6 @@ public class TheatreDB {
 		ArrayList<Theatre> output = new ArrayList<Theatre>();
 		for(Integer i : theatres.keySet()){
 			output.add(theatres.get(i));
-			System.out.println(theatres.get(i).getAddress());
 		}
 		db.closeConnection();
 		return output;

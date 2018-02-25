@@ -34,7 +34,7 @@
 		    </ul>	
 		    <ul class="navbar-nav mr-auto">
 		      <li class="nav-item active">
-		        <a class="nav-link" href="Login.jsp">Logout <span class="sr-only">(current)</span></a>
+		        <a class="nav-link" href="Logout">Logout <span class="sr-only">(current)</span></a>
 		      </li>
 		    </ul>
 
@@ -43,7 +43,7 @@
 
 
 
-<h2 style="padding-left:10px">Welcome, ${user.userName}</h2>
+<h2 style="padding-left:10px">Welcome, ${user.firstName}</h2>
 
 <br>
 	<div class="col-sm-10 offset-sm-1 text-center">
