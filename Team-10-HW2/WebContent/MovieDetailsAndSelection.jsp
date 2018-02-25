@@ -56,7 +56,7 @@
 
 	<div class="row text-center">  		
   		<div class="col-md-7 offset-md-2">
-  		<% 
+ 		<% 
   		response.setContentType("text/html");
   		String image = "";
   		if(request.getHeader("accept").contains("webp")){
