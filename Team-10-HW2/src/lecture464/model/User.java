@@ -14,6 +14,7 @@ public class User {
 	
 	private String userName;
 	private String password;
+	private int id;
 	
 	public String getUserName() {
 		return userName;
@@ -23,6 +24,14 @@ public class User {
 		this.userName = userName;
 	}
 	
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
 	public String getPassword() {
 		return password;
 	}
@@ -56,6 +65,5 @@ public class User {
 		return dbInterface.existingUser(currentUser);		
 	}
 	// removeUser
-	
 	
 }
