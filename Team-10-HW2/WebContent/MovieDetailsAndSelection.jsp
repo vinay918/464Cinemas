@@ -58,6 +58,7 @@
 
 	<div class="row text-center">  		
   		<div class="col-md-7 offset-md-2">
+<<<<<<< HEAD
  		<% 
   		response.setContentType("text/html");
   		String image = "";
@@ -69,8 +70,10 @@
   		%>
   		<img src=
   		<%=image %>
+=======
   		<img src="${showing.movie.thumbnail}"
   		
+>>>>>>> refs/remotes/origin/master
   		alt="Movie 2">
   		</div>
 	</div>	
