@@ -1,6 +1,8 @@
 package lecture464.model;
 
 public class Theatre {
+	
+	private int id;
 	private String name;
 	private String address;
 	private User owner;
@@ -8,6 +10,26 @@ public class Theatre {
 	private String state;
 	private String postalCode;
 	
+	
+	public Theatre(int id, String name, String address, User owner, String city, String state, String postalCode) {
+		super();
+		this.id = id;
+		this.name = name;
+		this.address = address;
+		this.owner = owner;
+		this.city = city;
+		this.state = state;
+		this.postalCode = postalCode;
+	}
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
 	public String getName() {
 		return name;
 	}
@@ -56,17 +78,6 @@ public class Theatre {
 		this.postalCode = postalCode;
 	}
 	
-
-	
-	public Theatre(String name, String address, User owner, String city, String state, String postalCode) {
-		super();
-		this.name = name;
-		this.address = address;
-		this.owner = owner;
-		this.city = city;
-		this.state = state;
-		this.postalCode = postalCode;
-	}
 	
 	public Theatre() {
 		super();

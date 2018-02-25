@@ -37,7 +37,7 @@ public class Login extends HttpServlet {
 
 		HttpSession session = request.getSession();
 		
-		User tempUser = new User(userName, password, "","","","");
+		User tempUser = new User(-1,userName, password, "","","","");
 		
 		if(tempUser.validateUser(tempUser)){
 			User user = tempUser.completeUser(tempUser);

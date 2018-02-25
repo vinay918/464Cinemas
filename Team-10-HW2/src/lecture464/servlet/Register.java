@@ -62,7 +62,7 @@ public class Register extends HttpServlet {
 		String phone = request.getParameter("phone");
 		String email = request.getParameter("email");		
 		// Registration via the Users object
-		User aUser = new User(userName, password, fName, lName, email, phone);
+		User aUser = new User(-1,userName, password, fName, lName, email, phone);
 		
 		HttpSession session = request.getSession();
 		session.setAttribute("aUser", aUser);

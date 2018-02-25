@@ -13,6 +13,8 @@ import java.util.HashMap;
 import java.util.HashSet;
 
 import lecture464.model.User;
+import lecture464.model.Movie;
+import lecture464.model.MovieShowing;
 import lecture464.model.Showroom;
 import lecture464.model.Theatre;
 
@@ -32,6 +34,48 @@ public class DBAccessClass {
 	static final String USER = "vbaldevsingh"; // Replace with your CSE_LOGIN
 	static final String PASS = "4F3bog";   // Replace with your CSE MySQL_PASSWORD
 	
+	public ArrayList<MovieShowing> getMovieShowings(int theatreId,String movie){
+		ps = null;
+		ArrayList<MovieShowing> showings = new ArrayList<MovieShowing>();
+		HashMap<Integer,Movie> movies = new HashMap<Integer,Movie>();
+		HashMap<Integer,Showroom> showrooms = getShowrooms();
+		movie = "%"+movie+"%";
+		
+		try {
+			String query = "SELECT * FROM Movie m join MovieShowing ms on m.MovieId = ms.MovieId join Showroom s on ms.ShowroomId = s.ShowroomId join TheatreBuilding tb on s.TheatreBuilding = tb.TheatreBuildingId WHERE "
+						+ "tb.TheatreBuildingId = ? AND m.MovieName like ?;";
+			ps = conn.prepareStatement(query);
+			ps.setInt(1,theatreId);
+			ps.setString(2,movie);
+			ResultSet rs = ps.executeQuery();
+			Movie currentMovie;
+			MovieShowing newShowing;
+			
+			while(rs.next()) {
+			    int movieId = rs.getInt("MovieId");
+			    if(movies.containsKey(movieId)){
+			    	currentMovie = movies.get(movieId);
+			    }else{
+			    	currentMovie = getMovie(movieId);
+			    }			    
+			    int id = rs.getInt("MovieShowingId");
+			    int price = rs.getInt("Price");
+			    int purchased = rs.getInt("NumberPurchased");
+			    int showroomId = rs.getInt("ShowroomId");
+			    Showroom showroom = showrooms.get(showroomId);
+			    String start = rs.getString("StartTime");
+			    String end = rs.getString("EndTime");
+			    newShowing = new MovieShowing(id,price,showroom,currentMovie,start,end,purchased);
+			    showings.add(newShowing);
+			}			
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return showings;
+	}
+	
 	public HashMap<Integer,Theatre> getTheatres(){
 		ps = null;
 		HashMap<Integer,Theatre> theatres = new HashMap<Integer,Theatre>();
@@ -49,7 +93,7 @@ public class DBAccessClass {
 			    String city = rs.getString("City");
 			    String state = rs.getString("State");
 			    String postalCode = rs.getString("PostalCode");
-			    newTheatre = new Theatre(name,address,owner,city,state,postalCode);
+			    newTheatre = new Theatre(theatreId,name,address,owner,city,state,postalCode);
 			    theatres.put(theatreId,newTheatre);
 			}			
 			
@@ -74,7 +118,7 @@ public class DBAccessClass {
 			    int theatreBuildingId = rs.getInt("TheatreBuildingId");
 			    int availableSeats = rs.getInt("AvailableSeats");
 			    int number = rs.getInt("ShowroomNumber");
-			    Showroom newShowroom = new Showroom(number,availableSeats,theatres.get(theatreBuildingId));
+			    Showroom newShowroom = new Showroom(showroomId,number,availableSeats,theatres.get(theatreBuildingId));
 			    showrooms.put(showroomId, newShowroom);
 			}			
 			
@@ -166,7 +210,7 @@ public class DBAccessClass {
 			    String lName = rs.getString("LastName");
 			    String email = rs.getString("EmailAddress");
 			    String phone = rs.getString("PhoneNumber");			    
-			    return new User(username,password,fName, lName, email, phone);
+			    return new User(id,username,password,fName, lName, email, phone);
 			}			
 			
 		} catch (SQLException e) {
@@ -176,6 +220,29 @@ public class DBAccessClass {
 		
 		return null;
 	}
+	
+	public Movie getMovie(int id){
+		ps = null;
+		try {
+			String query = "SELECT * FROM `Movie` WHERE MovieId=?;";			
+			ps = conn.prepareStatement(query);
+			ps.setInt(1,id);
+			ResultSet rs = ps.executeQuery();
+			while(rs.next()) {
+			    String name = rs.getString("MovieName");
+			    String description = rs.getString("Description");
+			    String thumbnail = rs.getString("Thumbnail");
+			    String rating = rs.getString("Rating");		    
+			    return new Movie(id,name,description,thumbnail, rating);
+			}			
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return null;
+	}	
 	
 	
 	public void connectMeIn() {
@@ -204,8 +271,6 @@ public class DBAccessClass {
 		}
 	}
 	
-	public void getUser(){
-		
-	}
+
 
 }

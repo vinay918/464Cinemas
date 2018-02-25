@@ -11,8 +11,12 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 <link rel = "stylesheet" type = "text/css" href = "customStyles/customStyle.css" />
+<%@ taglib prefix="c"  uri="http://java.sun.com/jstl/core_rt" %>
 </head>
 <body>
+	<c:if test="${active != 1 }">
+		<c:redirect url = "Login.jsp"/>
+	</c:if>
 		
 	<!-- STEP TWO COPY AND PASTE THIS WHOLE NAV CLASS AT THE TOP OF YOUR BODY TAG. IT CREATES A STANDARD LAYOUT -->
 	<!-- YOU CAN EDIT ANYTHING YOU NEED TO -->
@@ -35,7 +39,7 @@
 		    </ul>	
 		    <ul class="navbar-nav mr-auto">
 		      <li class="nav-item active">
-		        <a class="nav-link" href="Login.jsp">Logout <span class="sr-only">(current)</span></a>
+		        <a class="nav-link" href="Logout">Logout <span class="sr-only">(current)</span></a>
 		      </li>
 		    </ul>
 
@@ -58,26 +62,25 @@
 	    </tr>
 	  </thead>
 	  <tbody>
+	  <c:set var="count" value="1" scope="page" />
+	    <c:forEach var="showing" items="${showings}">
 	    <tr>
-	      <th scope="row">1</th>
-	      <td class="text-center">Avery</td>
-	      <td class="text-center">12</td>
-	      <td class="text-center">8:30 pm, 10:45 pm</td>
-	      <td class="text-center">34</td>
-	      <td class="text-center">$100</td>
-	      <td><img src="./Images/img2.jpg" alt="Movie 1" class="poster"></td>
-	      <td><a href="MovieDetailsAndSelection.jsp" class="btn btn-info">View Details</a></td> 	      
+	      <th scope="row">${count}</th>
+	      <c:set var="count" value="${count + 1}" scope="page"/>
+	      <td class="text-center">${showing.showroom.theatre.name}</td>
+	      <td class="text-center">${showing.showroom.number}</td>
+	      <td class="text-center">${showing.startTime}</td>
+	      <td class="text-center">${showing.seatsRemaining}</td>
+	      <td class="text-center">${showing.price}</td>
+	      <td><img src="${showing.movie.thumbnail}" alt="Movie 1" class="poster"></td>
+	      <td>
+	      	<form name="selectionForm" method="post" action="">
+				<input type="hidden" name="selection" value = "${showing.id}"  />
+				<button type="button" class="btn btn-primary">Details</button>
+			</form></td> 	      
 	    </tr>
-	    <tr>
-	      <th scope="row">2</th>
-	      <td class="text-center">Avery</td>
-	      <td class="text-center">15</td>
-	      <td class="text-center">10:45 pm</td>
-	      <td class="text-center">34</td>
-	      <td class="text-center">$10</td>
-	      <td><img src="./Images/img2.jpg" alt="Movie 2" class="poster"></td>
-	      <td><a href="MovieDetailsAndSelection.jsp" class="btn btn-info">View Details</a></td> 	      
-	    </tr>
+	    </c:forEach>
+
 
 	  </tbody>
 	</table>
