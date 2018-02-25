@@ -6,6 +6,11 @@ import lecture464.model.MovieShowing;
 
 public class MovieShowingDB {
 	
+<<<<<<< HEAD
+	public ArrayList<MovieShowing> getMovieShowings(){
+		return null;
+	}
+=======
 	public ArrayList<MovieShowing> getMovieShowings(int theatreId,String movie){
 		DBAccessClass db = new DBAccessClass();
 		db.connectMeIn();
@@ -22,4 +27,5 @@ public class MovieShowingDB {
 		return output;
 	}
 	
+>>>>>>> refs/remotes/origin/master
 }

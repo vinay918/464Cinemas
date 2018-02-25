@@ -59,7 +59,7 @@
 				  <label for="sel1">Select Theater:</label>
 				  <select class="form-control" id="sel1" name="theatre">
 				  <c:forEach var="theatre" items="${theatres}">
-				    <option value="${theatre.id}" >${theatre.name}</option>
+				    <option value="${theatre.address}" >${theatre.name}</option>
 				  </c:forEach>
 				    
 				  </select>
