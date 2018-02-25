@@ -1,23 +1,34 @@
 package lecture464.databaseAccessLayer;
 
-import java.util.*;
-
 import lecture464.model.User;
 
 
 
-public class MovieReviewDB 
+public class UserDB 
 {
-	public List<String> getMovieReviews(int id){
+	public int getUserId(User user){
 		DBAccessClass db = new DBAccessClass();
 		db.connectMeIn();
-		return db.getMovieReviews(id);
-	}
-	
-	public void addMovieReview(Movie movie){
-		DBAccessClass db = new DBAccessClass();
-		db.connectMeIn();
+		int userId = db.getUserId(user);
 		db.closeConnection();
+		return userId;
+	}
+
+	public User buildUser(User user){
+		DBAccessClass db = new DBAccessClass();
+		db.connectMeIn();
+		User complete = db.getUser(db.getUserId(user));	
+		db.closeConnection();
+		return complete;
+	}	
+	
+	
+	public void addUser(User newUser){
+		DBAccessClass db = new DBAccessClass();
+		db.connectMeIn();
+		db.registerUser(newUser);
+		db.closeConnection();
+		return;
 	}
 	
 	public Boolean userValid(User newUser){

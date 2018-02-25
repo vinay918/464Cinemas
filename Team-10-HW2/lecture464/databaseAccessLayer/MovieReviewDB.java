@@ -17,6 +17,7 @@ public class MovieReviewDB
 	public void addMovieReview(Movie movie){
 		DBAccessClass db = new DBAccessClass();
 		db.connectMeIn();
+		db.registerUser(newUser);
 		db.closeConnection();
 	}
 	
