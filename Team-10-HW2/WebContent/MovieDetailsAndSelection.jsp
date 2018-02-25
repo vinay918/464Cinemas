@@ -37,7 +37,7 @@
 		    </ul>	
 		    <ul class="navbar-nav mr-auto">
 		      <li class="nav-item active">
-		        <a class="nav-link" href="Login.jsp">Logout <span class="sr-only">(current)</span></a>
+		        <a class="nav-link" href="Logout">Logout <span class="sr-only">(current)</span></a>
 		      </li>
 		    </ul>
 
@@ -59,7 +59,6 @@
 	<div class="row text-center">  		
   		<div class="col-md-7 offset-md-2">
   		<img src="${showing.movie.thumbnail}"
-  		
   		alt="Movie 2">
   		</div>
 	</div>	
