@@ -53,7 +53,8 @@
 	      <th scope="col" >#</th>
 	      <th scope="col" class="text-center">Theatre</th>
 	      <th scope="col" class="text-center">Room</th>
-	      <th scope="col" class="text-center">Time</th>
+	      <th scope="col" class="text-center">Title</th>
+	      <th scope="col" class="text-center">Date & Time</th>
 	      <th scope="col" class="text-center">Seats Remaining</th>
 	      <th scope="col" class="text-center">Price</th>
 	      <th scope="col" class="text-center">Poster</th>
@@ -69,14 +70,15 @@
 	      <c:set var="count" value="${count + 1}" scope="page"/>
 	      <td class="text-center">${showing.showroom.theatre.name}</td>
 	      <td class="text-center">${showing.showroom.number}</td>
+	      <td class="text-center">${showing.movie.name}</td>
 	      <td class="text-center">${showing.startTime}</td>
 	      <td class="text-center">${showing.seatsRemaining}</td>
 	      <td class="text-center">${showing.price}</td>
 	      <td><img src="${showing.movie.thumbnail}" alt="Movie 1" class="poster"></td>
 	      <td>
-	      	<form name="selectionForm" method="post" action="">
+	      	<form name="selectionForm" method="post" action="MovieDetails">
 				<input type="hidden" name="selection" value = "${showing.id}"  />
-				<button type="button" class="btn btn-primary">Details</button>
+				<button type="submit" class="btn btn-primary">Details</button>
 			</form></td> 	      
 	    </tr>
 	    </c:forEach>

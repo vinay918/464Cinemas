@@ -10,7 +10,6 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 
 import lecture464.model.User;
 import lecture464.model.Movie;
@@ -221,6 +220,32 @@ public class DBAccessClass {
 		return null;
 	}
 	
+	public MovieShowing getShowing(int id){
+		ps = null;
+		try {
+			String query = "SELECT * FROM `MovieShowing` WHERE MovieShowingId=?;";			
+			ps = conn.prepareStatement(query);
+			ps.setInt(1,id);
+			ResultSet rs = ps.executeQuery();
+			while(rs.next()) {
+			    int price = rs.getInt("Price");
+			    int numPurchased = rs.getInt("NumberPurchased");
+			    String start = rs.getString("StartTime");
+			    String end = rs.getString("EndTime");
+			    Movie movie =getMovie(rs.getInt("MovieId"));
+			    Showroom showroom = getShowroom(rs.getInt("MovieId"));
+			    return new MovieShowing(id,price,showroom, movie, start, end,numPurchased);
+			}			
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return null;		
+	}
+	
+	
 	public Movie getMovie(int id){
 		ps = null;
 		try {
@@ -242,7 +267,54 @@ public class DBAccessClass {
 		}
 		
 		return null;
-	}	
+	}
+	
+	public Theatre getTheatre(int id){
+		ps = null;
+		try {
+			String query = "SELECT * FROM `TheatreBuilding` WHERE TheatreBuildingId=?;";			
+			ps = conn.prepareStatement(query);
+			ps.setInt(1,id);
+			ResultSet rs = ps.executeQuery();
+			while(rs.next()) {
+			    String name = rs.getString("Name");
+			    String address = rs.getString("Address");
+			    User owner = getUser(rs.getInt("OwnerId"));
+			    String city = rs.getString("City");
+			    String state = rs.getString("State");
+			    String zipcode = rs.getString("PostalCode");
+			    return new Theatre(id,name,address,owner,city,state,zipcode);
+			}			
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return null;
+	}
+	
+	public Showroom getShowroom(int id){
+		ps = null;
+		try {
+			String query = "SELECT * FROM `Showroom` WHERE ShowroomId=?;";			
+			ps = conn.prepareStatement(query);
+			ps.setInt(1,id);
+			ResultSet rs = ps.executeQuery();
+			while(rs.next()) {
+			    int number = rs.getInt("ShowroomNumber");
+			    int seats = rs.getInt("AvailableSeats");
+			    Theatre theatre = getTheatre(rs.getInt("TheatreBuilding"));
+			    return new Showroom(id,number,seats,theatre);
+			}			
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return null;
+	}		
 	
 	
 	public void connectMeIn() {

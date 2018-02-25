@@ -13,4 +13,13 @@ public class MovieShowingDB {
 		db.closeConnection();
 		return movieShowings;
 	}
+	
+	public MovieShowing getMovieShowing(int showingId){
+		DBAccessClass db = new DBAccessClass();
+		db.connectMeIn();
+		MovieShowing output = db.getShowing(showingId);
+		db.closeConnection();
+		return output;
+	}
+	
 }

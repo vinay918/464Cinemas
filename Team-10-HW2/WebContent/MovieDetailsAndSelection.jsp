@@ -10,10 +10,12 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 <link rel = "stylesheet" type = "text/css" href = "customStyles/customStyle.css" />
-
+<%@ taglib prefix="c"  uri="http://java.sun.com/jstl/core_rt" %>
 </head>
 <body>
-
+	<c:if test="${active != 1 }">
+		<c:redirect url = "Login.jsp"/>
+	</c:if>
 	<!-- STEP TWO COPY AND PASTE THIS WHOLE NAV CLASS AT THE TOP OF YOUR BODY TAG. IT CREATES A STANDARD LAYOUT -->
 	<!-- YOU CAN EDIT ANYTHING YOU NEED TO -->
 		<nav class="navbar navbar-toggleable-md navbar-light bg-faded">
@@ -56,17 +58,8 @@
 
 	<div class="row text-center">  		
   		<div class="col-md-7 offset-md-2">
-  		<% 
-  		response.setContentType("text/html");
-  		String image = "";
-  		if(request.getHeader("accept").contains("webp")){
-  			image = "./Images/img2.png";		
-  		}else{
-  			image = "./Images/img2.jpg";
-  		}
-  		%>
-  		<img src=
-  		<%=image %>
+  		<img src="${showing.movie.thumbnail}"
+  		
   		alt="Movie 2">
   		</div>
 	</div>	
@@ -84,31 +77,31 @@
 	
 	<div class="row">
   		<div class="col-xs-6 col-md-4 offset-md-2">Movie Title:</div>
-  		<div class="col-xs-5 col-md-5 text-center">Star Wars: Episode IV - A New Hope</div>
+  		<div class="col-xs-5 col-md-5 text-center">${showing.movie.name}</div>
 	</div>
 	<div class="row">
   		<div class="col-xs-6 col-md-4 offset-md-2">Description:</div>
-  		<div class="col-xs-5 col-md-5 text-center">Luke Skywalker joins forces with a Jedi Knight, a cocky pilot, a Wookiee and two droids to save the galaxy from the Empire's world-destroying battle-station while also attempting to rescue Princess Leia from the evil Darth Vader.</div>
+  		<div class="col-xs-5 col-md-5 text-center">${showing.movie.description}</div>
 	</div>	
 	<div class="row">
   		<div class="col-xs-6 col-md-4 offset-md-2">Rating:</div>
-  		<div class="col-xs-5 col-md-5 text-center">4.3/5</div>
+  		<div class="col-xs-5 col-md-5 text-center">${showing.movie.rating }</div>
 	</div>	
 	<div class="row">
   		<div class="col-xs-6 col-md-4 offset-md-2">Theatre Selection:</div>
-  		<div class="col-xs-5 col-md-5 text-center">Avery, 12</div>
+  		<div class="col-xs-5 col-md-5 text-center">${showing.showroom.theatre.name}</div>
 	</div>
 	<div class="row">
   		<div class="col-xs-6 col-md-4 offset-md-2">Showtime</div>
-  		<div class="col-xs-5 col-md-5 text-center">10:00 am</div>
+  		<div class="col-xs-5 col-md-5 text-center">${showing.startTime}</div>
 	</div>	
 	<div class="row">
   		<div class="col-xs-6 col-md-4 offset-md-2">Price per seat:</div>
-  		<div class="col-xs-5 col-md-5 text-center">$10</div>
+  		<div class="col-xs-5 col-md-5 text-center">${showing.price}</div>
 	</div>	
 	<div class="row">
   		<div class="col-xs-6 col-md-4 offset-md-2">Available Seats:</div>
-  		<div class="col-xs-5 col-md-5 text-center">32</div>
+  		<div class="col-xs-5 col-md-5 text-center">${showing.seatsRemaining}</div>
 	</div>	
 	
 <br>
