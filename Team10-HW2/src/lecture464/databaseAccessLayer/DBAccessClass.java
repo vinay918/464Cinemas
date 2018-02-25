@@ -10,6 +10,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.*;
 
 import lecture464.model.User;
 import lecture464.model.Movie;
@@ -314,6 +315,43 @@ public class DBAccessClass {
 		}
 		
 		return null;
+	}		
+	
+	public List<String> getMovieReviews(int id){
+		ps = null;
+		String customerReview;
+		List<String> customerReviews = new ArrayList<String>();
+		try {
+			String query = "SELECT * FROM `CustomerReview` WHERE MovieId=?;";			
+			ps = conn.prepareStatement(query);
+			ps.setInt(1,id);
+			ResultSet rs = ps.executeQuery();
+			while(rs.next()) {
+			    customerReview = rs.getString("Review");
+			    customerReviews.add(customerReview);
+			}
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return customerReviews;
+	}		
+	
+	public void addMovieReview(MovieShowing movie, User user, String review, double rating){
+		ps = null;
+		String customerReview;
+
+		try {
+			stmt = conn.createStatement();
+			String query = "INSERT INTO `CustomerReview` (`MovieId`,`UserId`,`ReviewDate`,`Rating`,`Review` ) " +
+			          "VALUES ('"+movie.getId()+"', '"+user.getId()+"', '"+java.time.LocalDate.now()+"', '"+rating+"', '"+review+"');";
+			stmt.executeUpdate(query);	
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}		
 	
 	
