@@ -91,6 +91,16 @@
   </servlet-mapping>
   <servlet>
     <description></description>
+    <display-name>MovieSearch</display-name>
+    <servlet-name>MovieSearch</servlet-name>
+    <servlet-class>lecture464.servlet.MovieSearch</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>MovieSearch</servlet-name>
+    <url-pattern>/MovieSearch</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
     <display-name>MovieDetails</display-name>
     <servlet-name>MovieDetails</servlet-name>
     <servlet-class>lecture464.servlet.MovieDetails</servlet-class>
