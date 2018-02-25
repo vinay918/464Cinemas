@@ -50,7 +50,7 @@
 <br>
 	<div class="col-sm-10 offset-sm-1 text-center">
 		<h3> Movie Show Times</h3>
-		<form name="movie" action=MovieSearch  method="post">
+		<form name="showingSearch" action= "MovieSearch"  method="post">
 			  <div class="form-group col-sm-6 offset-sm-3 text-center">
 			    <label for="exampleInputEmail1">Movie Title</label>
 			    <input type="text" class="form-control" name="movie"  aria-describedby="emailHelp" placeholder="Enter Movie Title">

@@ -14,8 +14,10 @@ import lecture464.databaseAccessLayer.UserDB;
 
 public class User {
 	
+	private int id;
 	private String userName;
 	private String password;
+<<<<<<< HEAD
 <<<<<<< HEAD
 	private int id;
 =======
@@ -24,7 +26,14 @@ public class User {
 	private String email;
 	private String phone;
 >>>>>>> refs/remotes/origin/master
+=======
+	private String firstName;
+	private String lastName;
+	private String email;
+	private String phone;
+>>>>>>> refs/remotes/origin/master
 	
+<<<<<<< HEAD
 	public User(String userName, String password, String firstName, String lastName, String email, String phone) {
 		super();
 		this.userName = userName;
@@ -33,6 +42,26 @@ public class User {
 		this.lastName = lastName;
 		this.email = email;
 		this.phone = phone;
+=======
+	public User(int id, String userName, String password, String firstName, String lastName, String email,
+			String phone) {
+		super();
+		this.id = id;
+		this.userName = userName;
+		this.password = password;
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.email = email;
+		this.phone = phone;
+	}
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+>>>>>>> refs/remotes/origin/master
 	}
 
 	public String getFirstName() {
@@ -109,6 +138,37 @@ public class User {
 		UserDB dbInterface = new UserDB();
 		return dbInterface.existingUser(currentUser);		
 	}
+<<<<<<< HEAD
+=======
+	
+	public User completeUser(User currentUser){
+		UserDB dbInterface = new UserDB();
+		return dbInterface.buildUser(currentUser);	
+	}
+	
+	public Boolean validPhone(User currentUser){
+		//taken from: https://stackoverflow.com/questions/5958665/validation-for-a-cell-number-in-android/5959341#5959341
+		String regexStr = "^(?:(?:\\+?1\\s*(?:[.-]\\s*)?)?(?:\\(\\s*([2-9]1[02-9]|[2-9][02-8]1|[2-9][02-8][02-9])\\s*\\)|([2-9]1[02-9]|[2-9][02-8]1|[2-9][02-8][02-9]))\\s*(?:[.-]\\s*)?)?([2-9]1[02-9]|[2-9][02-9]1|[2-9][02-9]{2})\\s*(?:[.-]\\s*)?([0-9]{4})(?:\\s*(?:#|x\\.?|ext\\.?|extension)\\s*(\\d+))?$";
+		if (currentUser.getPhone().matches(regexStr)){
+			return true;
+		}else{
+			return false;
+		}
+	}
+	
+	public Boolean validEmail(User currentUser){
+		//taken from: https://stackoverflow.com/questions/624581/what-is-the-best-java-email-address-validation-method
+		   boolean result = true;
+		   try {
+		      InternetAddress emailAddr = new InternetAddress(currentUser.getEmail());
+		      emailAddr.validate();
+		   } catch (AddressException ex) {
+		      result = false;
+		   }
+		   return result;
+	}
+	// removeUser
+>>>>>>> refs/remotes/origin/master
 	
 	public User completeUser(User currentUser){
 		UserDB dbInterface = new UserDB();
