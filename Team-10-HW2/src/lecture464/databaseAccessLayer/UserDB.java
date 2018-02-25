@@ -9,14 +9,26 @@ public class UserDB
 	public int getUserId(User user){
 		DBAccessClass db = new DBAccessClass();
 		db.connectMeIn();
-		return db.getUserId(user);
+		int userId = db.getUserId(user);
+		db.closeConnection();
+		return userId;
 	}
+
+	public User buildUser(User user){
+		DBAccessClass db = new DBAccessClass();
+		db.connectMeIn();
+		User complete = db.getUser(db.getUserId(user));	
+		db.closeConnection();
+		return complete;
+	}	
+	
 	
 	public void addUser(User newUser){
 		DBAccessClass db = new DBAccessClass();
 		db.connectMeIn();
 		db.registerUser(newUser);
 		db.closeConnection();
+		return;
 	}
 	
 	public Boolean userValid(User newUser){

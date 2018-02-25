@@ -11,9 +11,12 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 <link rel = "stylesheet" type = "text/css" href = "customStyles/customStyle.css" />
+<%@ taglib prefix="c"  uri="http://java.sun.com/jstl/core_rt" %>
 </head>
 <body>
-
+	<c:if test="${active != 1 }">
+		<c:redirect url = "Login.jsp"/>
+	</c:if>
 	<nav class="navbar navbar-toggleable-md navbar-light bg-faded">
 		  <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
 		    <span class="navbar-toggler-icon"></span>
@@ -33,7 +36,7 @@
 		    </ul>	
 		    <ul class="navbar-nav mr-auto">
 		      <li class="nav-item active">
-		        <a class="nav-link" href="Login.jsp">Logout <span class="sr-only">(current)</span></a>
+		        <a class="nav-link" href="Logout">Logout <span class="sr-only">(current)</span></a>
 		      </li>
 		    </ul>
 
@@ -42,23 +45,23 @@
 
 
 
-<h2 style="padding-left:10px">Welcome, ${user.userName}</h2>
+<h2 style="padding-left:10px">Welcome, ${user.firstName}</h2>
 
 <br>
 	<div class="col-sm-10 offset-sm-1 text-center">
 		<h3> Movie Show Times</h3>
-		<form name="movie" action=MovieSearchResults.jsp  method="post">
+		<form name="movie" action=MovieSearch  method="post">
 			  <div class="form-group col-sm-6 offset-sm-3 text-center">
 			    <label for="exampleInputEmail1">Movie Title</label>
 			    <input type="text" class="form-control" name="movie"  aria-describedby="emailHelp" placeholder="Enter Movie Title">
 			  </div>
 				<div class="form-group col-sm-6 offset-sm-3 text-center">
 				  <label for="sel1">Select Theater:</label>
-				  <select class="form-control" id="sel1">
-				    <option>Avery</option>
-				    <option>Burnett</option>
-				    <option>Jorgensen</option>
-				    <option>Nebraska Hall</option>
+				  <select class="form-control" id="sel1" name="theatre">
+				  <c:forEach var="theatre" items="${theatres}">
+				    <option value="${theatre.address}" >${theatre.name}</option>
+				  </c:forEach>
+				    
 				  </select>
 				</div>
 
