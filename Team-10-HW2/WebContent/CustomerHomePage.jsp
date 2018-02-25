@@ -11,6 +11,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 <link rel = "stylesheet" type = "text/css" href = "customStyles/customStyle.css" />
+<%@ taglib prefix="c"  uri="http://java.sun.com/jstl/core_rt" %>
 </head>
 <body>
 
@@ -55,10 +56,10 @@
 				<div class="form-group col-sm-6 offset-sm-3 text-center">
 				  <label for="sel1">Select Theater:</label>
 				  <select class="form-control" id="sel1">
-				    <option>Avery</option>
-				    <option>Burnett</option>
-				    <option>Jorgensen</option>
-				    <option>Nebraska Hall</option>
+				  <c:forEach var="theatre" items="${theatres}">
+				    <option>${theatre.name}</option>
+				  </c:forEach>
+				    
 				  </select>
 				</div>
 

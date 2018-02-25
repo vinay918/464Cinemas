@@ -78,6 +78,7 @@ public class Register extends HttpServlet {
 		
 		response.setContentType("text/html");
 		response.sendRedirect("Login.jsp"); 
+		return;
 
 	}
 

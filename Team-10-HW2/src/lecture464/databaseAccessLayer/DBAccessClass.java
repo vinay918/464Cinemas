@@ -8,9 +8,13 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
 
 import lecture464.model.User;
-
+import lecture464.model.Showroom;
+import lecture464.model.Theatre;
 
 public class DBAccessClass {	
 	Connection conn = null;
@@ -27,7 +31,67 @@ public class DBAccessClass {
 	//  Database credentials
 	static final String USER = "vbaldevsingh"; // Replace with your CSE_LOGIN
 	static final String PASS = "4F3bog";   // Replace with your CSE MySQL_PASSWORD
-
+	
+	public HashMap<Integer,Theatre> getTheatres(){
+		ps = null;
+		HashMap<Integer,Theatre> theatres = new HashMap<Integer,Theatre>();
+		HashMap<Integer,Showroom> showrooms = new HashMap<Integer,Showroom>();
+		try {
+			String query = "SELECT * FROM TheatreBuilding t join Showroom s on t.TheatreBuildingId = s.TheatreBuilding";			
+			ps = conn.prepareStatement(query);
+			ResultSet rs = ps.executeQuery();
+			Theatre newTheatre;
+			ArrayList<Showroom> theatreShowroom;
+			while(rs.next()) {
+			    int theatreId = rs.getInt("TheatreBuildingId");
+			    int showroomId = rs.getInt("ShowroomId");
+			    String name = rs.getString("Name");
+			    int ownerId = rs.getInt("OwnerId");
+			    User owner = getUser(ownerId);
+			    String address = rs.getString("Address");
+			    String city = rs.getString("City");
+			    String state = rs.getString("State");
+			    String postalCode = rs.getString("PostalCode");
+			    if(!theatres.containsKey(theatreId)){
+			    	theatreShowroom = new ArrayList<Showroom>();
+			    	theatreShowroom.add(showrooms.get(showroomId));
+			    	newTheatre = new Theatre(name,address,owner,city,state,postalCode,theatreShowroom);
+			    	theatres.put(theatreId,newTheatre);
+			    }else{
+			    	theatres.get(theatreId).addShowroom(showrooms.get(showroomId));
+			    }
+			}			
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return theatres;
+	
+	}
+	
+	public HashMap<Integer,Showroom> getShowrooms(){
+		ps = null;
+		HashMap<Integer,Showroom> showrooms = new HashMap<Integer,Showroom>();
+		try {
+			String query = "SELECT * FROM Showroom;";			
+			ps = conn.prepareStatement(query);
+			ResultSet rs = ps.executeQuery();
+			while(rs.next()) {
+			    int showroomId = rs.getInt("ShowroomId");
+			    int availableSeats = rs.getInt("AvailableSeats");
+			    int number = rs.getInt("ShowroomNumber");
+			    Showroom newShowroom = new Showroom(number,availableSeats);
+			    showrooms.put(showroomId, newShowroom);
+			}			
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}	
+		return showrooms;
+	}
+	
 
 	public void registerUser(User person){
 
@@ -41,6 +105,7 @@ public class DBAccessClass {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		return;
 	}
 	
 	public String getPassword(User person){
@@ -87,7 +152,27 @@ public class DBAccessClass {
 		
 		return id;
 	}		
-	
+
+	public User getUser(int id){
+		ps = null;
+		try {
+			String query = "SELECT * FROM `User` WHERE UserId=?;";			
+			ps = conn.prepareStatement(query);
+			ps.setInt(1,id);
+			ResultSet rs = ps.executeQuery();
+			while(rs.next()) {
+			    String username = rs.getString("UserName");
+			    String password = rs.getString("Password");
+			    return new User(username,password);
+			}			
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return null;
+	}
 	
 	
 	public void connectMeIn() {

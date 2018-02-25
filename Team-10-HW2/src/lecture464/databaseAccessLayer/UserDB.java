@@ -17,6 +17,7 @@ public class UserDB
 		db.connectMeIn();
 		db.registerUser(newUser);
 		db.closeConnection();
+		return;
 	}
 	
 	public Boolean userValid(User newUser){
