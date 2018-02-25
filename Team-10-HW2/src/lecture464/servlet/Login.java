@@ -1,11 +1,8 @@
 package lecture464.servlet;
 
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Properties;
 
-import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -13,7 +10,6 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import lecture464.databaseAccessLayer.TheatreDB;
-import lecture464.databaseAccessLayer.UserDB;
 import lecture464.model.Theatre;
 import lecture464.model.User;
 
@@ -51,6 +47,8 @@ public class Login extends HttpServlet {
 			session.setAttribute("user", user);
 			TheatreDB theatreDB = new TheatreDB();
 			ArrayList<Theatre> theatres = theatreDB.getTheatres();
+			int active = 1;
+			session.setAttribute("active",active);
 			session.setAttribute("theatres",theatres);
 		}else if(!tempUser.userRegistered(tempUser)){
 			session.removeAttribute("WrongPassword");

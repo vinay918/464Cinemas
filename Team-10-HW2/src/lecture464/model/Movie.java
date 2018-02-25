@@ -1,10 +1,26 @@
 package lecture464.model;
 
 public class Movie {
+	private int id;
 	private String name;
 	private String description;
 	private String thumbnail;
 	private String rating;
+	
+	public Movie(int id, String name, String description, String thumbnail, String rating) {
+		super();
+		this.id = id;
+		this.name = name;
+		this.description = description;
+		this.thumbnail = thumbnail;
+		this.rating = rating;
+	}
+	public int getId() {
+		return id;
+	}
+	public void setId(int id) {
+		this.id = id;
+	}
 	public String getName() {
 		return name;
 	}
@@ -29,13 +45,7 @@ public class Movie {
 	public void setRating(String rating) {
 		this.rating = rating;
 	}
-	public Movie(String name, String description, String thumbnail, String rating) {
-		super();
-		this.name = name;
-		this.description = description;
-		this.thumbnail = thumbnail;
-		this.rating = rating;
-	}
+
 	public Movie() {
 		super();
 	}
