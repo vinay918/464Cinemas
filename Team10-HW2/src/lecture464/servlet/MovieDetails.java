@@ -1,7 +1,7 @@
 package lecture464.servlet;
 import lecture464.model.*;
 import java.io.IOException;
-import java.util.ArrayList;
+import java.util.*;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -12,8 +12,9 @@ import javax.servlet.http.HttpSession;
 
 import lecture464.databaseAccessLayer.CustomerReviewDB;
 import lecture464.databaseAccessLayer.MovieShowingDB;
-import lecture464.model.MovieShowing;
+import lecture464.model.*;
 import lecture464.model.CustomerReview;
+
 /**
  * Servlet implementation class MovieDetails
  */

@@ -8,9 +8,10 @@ import lecture464.model.*;
 
 public class CustomerReviewDB 
 {
-	public List<String> getMovieReviews(int id){
+	public List<CustomerReview> getMovieReviews(int id){
 		DBAccessClass db = new DBAccessClass();
 		db.connectMeIn();
+		System.out.println(id);
 		return db.getMovieReviews(id);
 	}
 	

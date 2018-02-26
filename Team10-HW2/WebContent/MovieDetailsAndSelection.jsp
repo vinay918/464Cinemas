@@ -5,6 +5,22 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>CSCE 464 Cinemas</title>
+	<script>
+		function validateForm() {
+		    var x = document.forms["quantityForm"]["ticketQuantity"].value;
+			console.log(x);
+		    if (isNaN(x)) {
+		    		alert("Ticket Quantity is not a number!");
+		        return false;
+	   		}else if(x<=0){
+	   			alert("Ticket Quantity is must be greater than zero!");
+		        return false;
+	   		}else{
+		    		return true;
+		    }
+		
+		}
+	   </script>
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous"><script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
@@ -63,6 +79,14 @@
   		alt="Movie 2">
   		</div>
 	</div>	
+	<form name="quantityForm" action="Login" onsubmit="return validateForm()">
+	<div class=container>
+	<div class="row" style="padding-top:5px; padding-bottom:10px">
+  			<input type="text" class="form-control col-md-3 offset-md-4" name="ticketQuantity" placeholder="Number of ticket" value = "0" style="margin-right:5px"></input>
+  			<button type="submit" class="btn btn-primary">Add to Cart</button>
+	</div>
+	</div>
+	</form>
 	
 	<div class="row text-center">
   		<div class="col-xs-1 offset-sm-5">
@@ -121,6 +145,11 @@
 	
 <br>
 <br>
+<div class="container">
+	<div class="offset-md-5">
+		<h4>Reviews/Comments</h4>
+	</div>
+</div>
 
 	<div class="row">
   		<div class="col-md-5 offset-md-3 text-center"><h3>Customer Reviews</h3></div>
@@ -130,12 +159,6 @@
 	</div>	
 	
 <br>
-	<div class="row">
-  		<div class="col-md-3 offset-md-1 text-center"><strong>Customer</strong></div>
-  		<div class="col-md-3 text-center"><strong>Score</strong></div>
-  		<div class="col-md-3 text-center"><strong>Description</strong></div>
-	</div>	
-	
 <br>
 
 <c:forEach var="review" items="${reviews}">

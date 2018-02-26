@@ -10,8 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import lecture464.databaseAccessLayer.TheatreDB;
-import lecture464.model.Theatre;
-import lecture464.model.User;
+import lecture464.model.*;
 
 /**
  * Servlet implementation class Login
@@ -41,10 +40,13 @@ public class Login extends HttpServlet {
 		
 		if(tempUser.validateUser(tempUser)){
 			User user = tempUser.completeUser(tempUser);
+			ArrayList<CartItem> shoppingCart= (ArrayList<CartItem>)session.getAttribute("shoppingCart");
 			response.sendRedirect("CustomerHomePage.jsp");
 			session.removeAttribute("WrongPassword");
 			session.removeAttribute("Error");
 			session.setAttribute("user", user);
+			//TODO shopping cart
+			session.setAttribute("shoppingCart", shoppingCart);
 			TheatreDB theatreDB = new TheatreDB();
 			ArrayList<Theatre> theatres = theatreDB.getTheatres();
 			int active = 1;
