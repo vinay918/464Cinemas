@@ -15,13 +15,13 @@ import lecture464.model.*;
 /**
  * Servlet implementation class CustomerReview
  */
-public class CustomerReview extends HttpServlet {
+public class CustomerReviewServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public CustomerReview() {
+    public CustomerReviewServlet() {
         super();
         // TODO Auto-generated constructor stub
     }

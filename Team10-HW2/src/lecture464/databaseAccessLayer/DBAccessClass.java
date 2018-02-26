@@ -12,11 +12,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.*;
 
-import lecture464.model.User;
-import lecture464.model.Movie;
-import lecture464.model.MovieShowing;
-import lecture464.model.Showroom;
-import lecture464.model.Theatre;
+import lecture464.model.*;
 
 public class DBAccessClass {	
 	Connection conn = null;
@@ -194,7 +190,27 @@ public class DBAccessClass {
 		}
 		
 		return id;
-	}		
+	}
+	
+	public String getUserName(String id){
+		ps = null;
+		String fName;
+		try {
+			String query = "SELECT * FROM `User` WHERE UserId=?;";			
+			ps = conn.prepareStatement(query);
+			ps.setString(1,id);
+			ResultSet rs = ps.executeQuery();
+			while(rs.next()) {
+			    fName = rs.getString("FirstName");
+			    return fName;
+			}			
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return "";
+	}	
 
 	public User getUser(int id){
 		ps = null;
@@ -317,17 +333,23 @@ public class DBAccessClass {
 		return null;
 	}		
 	
-	public List<String> getMovieReviews(int id){
+	public List<CustomerReview> getMovieReviews(int id){
 		ps = null;
-		String customerReview;
-		List<String> customerReviews = new ArrayList<String>();
+		List<CustomerReview> customerReviews = new ArrayList<CustomerReview>();
+		String userId;
 		try {
 			String query = "SELECT * FROM `CustomerReview` WHERE MovieId=?;";			
 			ps = conn.prepareStatement(query);
 			ps.setInt(1,id);
 			ResultSet rs = ps.executeQuery();
 			while(rs.next()) {
-			    customerReview = rs.getString("Review");
+				
+				CustomerReview customerReview = new CustomerReview();
+			    customerReview.setReview(rs.getString("Review"));
+			    userId = (rs.getString("UserId"));
+			    customerReview.setCustomerName(getUserName(userId));
+			    customerReview.setRating(rs.getDouble("Rating"));
+			    customerReview.setDate(rs.getString("ReviewDate"));
 			    customerReviews.add(customerReview);
 			}
 			
