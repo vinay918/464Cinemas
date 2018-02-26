@@ -45,7 +45,7 @@ public class Login extends HttpServlet {
 			session.removeAttribute("WrongPassword");
 			session.removeAttribute("Error");
 			session.setAttribute("user", user);
-			//TODO shopping cart
+
 			session.setAttribute("shoppingCart", shoppingCart);
 			TheatreDB theatreDB = new TheatreDB();
 			ArrayList<Theatre> theatres = theatreDB.getTheatres();

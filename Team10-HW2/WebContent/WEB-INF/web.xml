@@ -99,4 +99,14 @@
     <servlet-name>MovieDetails</servlet-name>
     <url-pattern>/MovieDetails</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>AddShoppingCart</display-name>
+    <servlet-name>AddShoppingCart</servlet-name>
+    <servlet-class>lecture464.servlet.AddShoppingCart</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>AddShoppingCart</servlet-name>
+    <url-pattern>/AddShoppingCart</url-pattern>
+  </servlet-mapping>
 </web-app>

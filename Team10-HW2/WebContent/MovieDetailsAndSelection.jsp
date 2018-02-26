@@ -79,21 +79,13 @@
   		alt="Movie 2">
   		</div>
 	</div>	
-	<form name="quantityForm" action="Login" onsubmit="return validateForm()">
-	<div class=container>
-	<div class="row" style="padding-top:5px; padding-bottom:10px">
-  			<input type="text" class="form-control col-md-3 offset-md-4" name="ticketQuantity" placeholder="Number of ticket" value = "0" style="margin-right:5px"></input>
-  			<button type="submit" class="btn btn-primary">Add to Cart</button>
-	</div>
-	</div>
-	</form>
 	
 	<div class="row text-center">
   		<div class="col-xs-1 offset-sm-5">
-  			<form action="ViewAndCheckoutShoppingCart.jsp">
+  			<form name = "quantityForm" action=AddShoppingCart method = "post">
   				<div class="form-group">
   				Tickets:
-  					<select class="form-control" id="sel1" name="quantity">
+  					<select class="form-control" id="sel1" name="ticketQuantity">
   						<option value="1" >1</option>
   						<option value="1" >2</option>
   						<option value="1" >3</option>
@@ -145,11 +137,7 @@
 	
 <br>
 <br>
-<div class="container">
-	<div class="offset-md-5">
-		<h4>Reviews/Comments</h4>
-	</div>
-</div>
+
 
 	<div class="row">
   		<div class="col-md-5 offset-md-3 text-center"><h3>Customer Reviews</h3></div>

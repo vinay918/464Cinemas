@@ -333,34 +333,6 @@ public class DBAccessClass {
 		return null;
 	}		
 	
-	public List<CustomerReview> getMovieReviews(int id){
-		ps = null;
-		List<CustomerReview> customerReviews = new ArrayList<CustomerReview>();
-		String userId;
-		try {
-			String query = "SELECT * FROM `CustomerReview` WHERE MovieId=?;";			
-			ps = conn.prepareStatement(query);
-			ps.setInt(1,id);
-			ResultSet rs = ps.executeQuery();
-			while(rs.next()) {
-				
-				CustomerReview customerReview = new CustomerReview();
-			    customerReview.setReview(rs.getString("Review"));
-			    userId = (rs.getString("UserId"));
-			    customerReview.setCustomerName(getUserName(userId));
-			    customerReview.setRating(rs.getDouble("Rating"));
-			    customerReview.setDate(rs.getString("ReviewDate"));
-			    customerReviews.add(customerReview);
-			}
-			
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-		return customerReviews;
-	}
-	
 	public ArrayList<CustomerReview> getCustomerReviews(int movieId){
 		ps = null;
 		String customerReview;
