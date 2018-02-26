@@ -51,8 +51,9 @@ public class CustomerReview extends HttpServlet {
 			address = "ReviewSuccess.jsp";
 		} else {
 			address = "ReviewFail.jsp";
-		}RequestDispatcher dispatcher = request.getRequestDispatcher(address);
-			    dispatcher.forward(request, response);
+			RequestDispatcher dispatcher = request.getRequestDispatcher(address);
+			dispatcher.forward(request, response);
+		}
 	}
 
 	/**

@@ -21,18 +21,13 @@ public class CustomerReviewDB
 		db.closeConnection();
 	}
 	
-	public Boolean userValid(User newUser){
+	
+	public ArrayList<CustomerReview> getCustomerReview(int movieId){
 		DBAccessClass db = new DBAccessClass();
 		db.connectMeIn();
-		String enteredPassword = newUser.getPassword();
-		String dbPass = db.getPassword(newUser);
-		if(enteredPassword.trim().equals(dbPass.trim())){
-			db.closeConnection();
-			return true;
-		}else{
-			db.closeConnection();
-			return false;
-		}
-	}
+		ArrayList<CustomerReview> output = db.getCustomerReviews(movieId);
+		db.closeConnection();
+		return output;
+	}	
 
 }

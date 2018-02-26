@@ -37,7 +37,7 @@
 		    </ul>	
 		    <ul class="navbar-nav mr-auto">
 		      <li class="nav-item active">
-		        <a class="nav-link" href="Login.jsp">Logout <span class="sr-only">(current)</span></a>
+		        <a class="nav-link" href="Logout">Logout <span class="sr-only">(current)</span></a>
 		      </li>
 		    </ul>
 
@@ -67,6 +67,21 @@
 	<div class="row text-center">
   		<div class="col-xs-1 offset-sm-5">
   			<form action="ViewAndCheckoutShoppingCart.jsp">
+  				<div class="form-group">
+  				Tickets:
+  					<select class="form-control" id="sel1" name="quantity">
+  						<option value="1" >1</option>
+  						<option value="1" >2</option>
+  						<option value="1" >3</option>
+  						<option value="1" >4</option>
+  						<option value="1" >5</option>
+  						<option value="1" >6</option>
+  						<option value="1" >7</option>
+  						<option value="1" >8</option>
+  						<option value="1" >9</option>
+  						<option value="1" >10</option>
+  					</select>
+  				</div>
   				<div class="form-group">
   					<button type="submit" class="btn btn-primary mb-2">Add to Cart</button>
   				</div>
@@ -111,7 +126,7 @@
   		<div class="col-md-5 offset-md-3 text-center"><h3>Customer Reviews</h3></div>
 	</div>	
 	<div class="row">
-  		<div class="col-md-5 offset-md-3 text-center">(4.7/5)</div>
+  		<div class="col-md-5 offset-md-3 text-center">Average Score: ${avg} / 5</div>
 	</div>	
 	
 <br>
@@ -122,20 +137,14 @@
 	</div>	
 	
 <br>
+
+<c:forEach var="review" items="${reviews}">
 	<div class="row">
-  		<div class="col-md-3 offset-md-1 text-center vcenter">Julia Roberts (11/10/17)</div>
-  		<div class="col-md-3 text-center">5.0</div>
-  		<div class="col-md-3 text-center">The best movie of all time!</div>
+  		<div class="col-md-3 offset-md-1 text-center vcenter">${review.reviewer.firstName} ${review.reviewer.lastName} (${review.date})</div>
+  		<div class="col-md-3 text-center">${review.rating}</div>
+  		<div class="col-md-3 text-center">${review.comment}</div>
 	</div>
-	<div class="row">
-  		<div class="col-md-3 offset-md-1 text-center vcenter">Beh Jia Yeh (09/19/17)</div>
-  		<div class="col-md-3 text-center">4.0</div>
-  		<div class="col-md-3 text-center">It was decent. Could have been better.</div>
-	</div>	
-	<div class="row">
-  		<div class="col-md-3 offset-md-1 text-center vcenter">James Alexander (09/01/16)</div>
-  		<div class="col-md-3 text-center">4.8</div>
-  		<div class="col-md-3 text-center">Great experience. My life has been changed!</div>
-	</div>
+</c:forEach>
+
 </body>
 </html>

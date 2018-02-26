@@ -13,6 +13,7 @@ import java.util.HashMap;
 import java.util.*;
 
 import lecture464.model.User;
+import lecture464.model.CustomerReview;
 import lecture464.model.Movie;
 import lecture464.model.MovieShowing;
 import lecture464.model.Showroom;
@@ -337,7 +338,44 @@ public class DBAccessClass {
 		}
 		
 		return customerReviews;
+	}
+	
+	public ArrayList<CustomerReview> getCustomerReviews(int movieId){
+		ps = null;
+		String customerReview;
+		ArrayList<CustomerReview> customerReviews = new ArrayList<CustomerReview>();
+		User reviewer;
+		String reviewDate;
+		double rating;
+		Movie movie;
+		CustomerReview review;
+		int id;
+		
+		try {
+			String query = "SELECT * FROM `CustomerReview` WHERE MovieId=?;";			
+			ps = conn.prepareStatement(query);
+			ps.setInt(1,movieId);
+			ResultSet rs = ps.executeQuery();
+			while(rs.next()) {
+			    customerReview = rs.getString("Review");
+			    reviewer = getUser(rs.getInt("UserId"));
+			    id = rs.getInt("CustomerReviewId");
+			    movie = getMovie(rs.getInt("MovieId"));
+			    rating = rs.getInt("Rating");
+			    reviewDate = rs.getString("ReviewDate");
+			    review = new CustomerReview(id,reviewer,reviewDate,rating,customerReview);
+			    customerReviews.add(review);
+			}
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return customerReviews;
 	}		
+	
+	
 	
 	public void addMovieReview(MovieShowing movie, User user, String review, double rating){
 		ps = null;

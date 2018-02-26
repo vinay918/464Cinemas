@@ -79,11 +79,11 @@
 			  </div>				  		      	
 			  <div class="form-group col-sm-6 offset-sm-3 text-center">
 			    <label for="exampleInputEmail1">Email Address</label>
-			    <input type="text" class="form-control" name="email"  aria-describedby="emailHelp" value="${email.lastName}" placeholder="Enter Email Address">
+			    <input type="text" class="form-control" name="email"  aria-describedby="emailHelp" value="${aUser.email}" placeholder="Enter Email Address">
 			  </div>	
 			  <div class="form-group col-sm-6 offset-sm-3 text-center">
 			    <label for="exampleInputEmail1">Phone Number</label>
-			    <input type="text" class="form-control" name="phone"  aria-describedby="emailHelp" value="${phone.lastName}" placeholder="Enter Phone Number">
+			    <input type="text" class="form-control" name="phone"  aria-describedby="emailHelp" value="${aUser.phone}" placeholder="Enter Phone Number">
 			  </div>				  			  			  			  			  			  			  		      
 			  <div class="form-group col-sm-6 offset-sm-3 text-center">
 			    <label for="exampleInputEmail1">User Name</label>

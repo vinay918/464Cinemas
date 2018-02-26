@@ -78,8 +78,13 @@ public class Register extends HttpServlet {
 			session.removeAttribute("WrongPassword");
 			response.sendRedirect("Register.jsp");
 			return;
-		}else if(!aUser.validEmail(aUser) || !aUser.validPhone(aUser)){
-			session.setAttribute("Error","Please enter valid inputs for your email and phone numbers");
+		}else if(!aUser.validEmail(aUser)) {
+			session.setAttribute("Error","Please a valid email address");
+			session.removeAttribute("WrongPassword");
+			response.sendRedirect("Register.jsp");	
+			return;
+		} else if(!aUser.validPhone(aUser)){
+			session.setAttribute("Error","Please enter a valid phone number");
 			session.removeAttribute("WrongPassword");
 			response.sendRedirect("Register.jsp");	
 			return;
