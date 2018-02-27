@@ -45,8 +45,11 @@
 		</nav>
 
 <br>
-<h1>Shopping cart</h1>
-	<table class="table text-center">
+<div class="container">
+	<p class="text-center">
+		<h1>Shopping cart</h1>
+	</p>
+	<table class="table table-striped">
 	  <thead>
 	    <tr>
 	      <th scope="col" >#</th>
@@ -60,49 +63,56 @@
 	      	      	      
 	    </tr>
 	  </thead>
-
-	      <td class="text-center">${showing.showroom.theatre.name}</td>
-	      <td class="text-center">${showing.showroom.number}</td>
-	      <td class="text-center">${showing.movie.name}</td>
-	      <td class="text-center">${showing.startTime}</td>
-	      <td class="text-center">${showing.seatsRemaining}</td>
-	      <td class="text-center">${showing.price}</td>
-	      <td><img src="${showing.movie.thumbnail}" alt="Movie 1" class="poster"></td>
-	      <td>
 	  <tbody>
 	  <c:set var="count" value="1" scope="page" />
 	    <c:forEach var="item" items="${shoppingCart}">
 	    <tr>
-	    	  <c:set var="count" value="1" scope="page" />
-	      <th scope="row">${count}</th>
-	      <c:set var="count" value="${count + 1}" scope="page"/>
-	      <td class="text-center">${item.movie.movie.name} }</td>
+	      <th scope="row" name="index">${count}</th>
+	      <td class="text-center">${item.movie.movie.name}</td>
 	      <td ><img src="${item.movie.movie.thumbnail }" alt="Movie 1" class="poster"></td>
-	      <td class="text-center">${item.movie.movie.theatre.name}</td>
+	      <td class="text-center">${item.movie.showroom.theatre.name}</td>
 	      <td class="text-center">${item.movie.startTime }</td>
-	      <td class="text-center"><input type="text" class="numTicket" placeholder="Quantity" value ="${item.ticketQuantity }"></input></td>
-	      <td class="text-center">$ ${item.ticketQuantity}</td>
-	      <td><button type="button" class="btn btn-primary" onclick="click()">Remove</button></td> 	      
+	      <td class="text-center">
+			<form method="POST" action ="UpdateShoppingCart">
+			<input type="hidden" name="index" value = "${count}"/>
+	      		<select class="form-control" name="ticketQuantity" onchange="this.form.submit()">
+  					<c:set var="count" value="1" scope="page" />
+  					<c:forEach var = "i" begin = "1" end = "${showing.seatsRemaining}">
+  						<c:choose> 
+  						  	<c:when test= "${ i == item.ticketQuantity}">
+  								<option value="${i}" selected="selected">${i}</option>
+  							</c:when>
+  							<c:when test= "${ i != item.ticketQuantity}">
+  								<option value="${i}">${i}</option>
+  							</c:when>
+  						</c:choose>
+  					</c:forEach>
+  				</select>
+  			</form>
+  		  </td>
+	      <%-- <td class="text-center"><input type="text" class="numTicket" placeholder="Quantity" value ="${item.ticketQuantity}"></input></td> --%>
+	      <td class="text-center">$ ${item.price}</td>
+	      <c:set var="count" value="${count + 1}" scope="page"/>
+	      <td>
+	      <form>
+			<input type="hidden" name="selection" value = "${item.movie.id}"/>
+	      	<button type="submit" formaction="RemoveItem" class="btn btn-primary">Remove</button>
+	      </form>
+		  </td> 	
+	      
 	    </tr>
 	    	    </c:forEach>
-	    <tr>
-	      <th scope="row">2</th>
-	      <td class="text-center">Star Wars: Episode IV</td>
-	      <td ><img src="./Images/img2.jpg" alt="Movie 1" class="poster"></td>
-	      <td class="text-center">Avery 12</td>
-	      <td class="text-center">10:00 am</td>
-	      <td class="text-center"><input type="text" class="numTicket" placeholder="1" value ="2"></input></td>
-	      <td class="text-center">$20</td>
-	      <td><button type="button" class="btn btn-primary" onclick="click()">Remove</button></td> 	 	      
-	    </tr>
 	  </tbody>
 	</table>
 	<br>
 	<div class="row">
-		<div class="col-md-3"></div>
-		<h3 class="text-center">Your total price is $30</h3> 	
+		<h3 class="col-md-4 text-center">Your total price is $ ${total}</h3>
 		<div class="col-md-1"></div>
+		<div class="col-md-2">
 		<a href="CustomerTransaction.jsp" class="btn btn-info" role="button">Proceed to Check out</a>
+		</div>
 	</div>
+	</div>
+
 </body>
 </html>

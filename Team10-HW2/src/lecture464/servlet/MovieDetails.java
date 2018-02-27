@@ -12,7 +12,6 @@ import javax.servlet.http.HttpSession;
 
 import lecture464.databaseAccessLayer.CustomerReviewDB;
 import lecture464.databaseAccessLayer.MovieShowingDB;
-import lecture464.model.*;
 import lecture464.model.CustomerReview;
 
 /**
@@ -32,6 +31,7 @@ public class MovieDetails extends HttpServlet {
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
+	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		if(request.getSession().getAttribute("active") == null || !request.getSession().getAttribute("active").equals(1)){
@@ -56,6 +56,7 @@ public class MovieDetails extends HttpServlet {
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
+	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		doGet(request, response);

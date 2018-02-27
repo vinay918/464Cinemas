@@ -5,6 +5,22 @@ public class CartItem {
 	
 	private int ticketQuantity;
 	
+	private double price;
+	
+	private double singlePrice;
+	
+	public double getSinglePrice() {
+		return singlePrice;
+	}
+	public void setSinglePrice(double singlePrice) {
+		this.singlePrice = singlePrice;
+	}
+	public double getPrice() {
+		return price;
+	}
+	public void setPrice(double price) {
+		this.price = price;
+	}
 	public MovieShowing getMovie() {
 		return movie;
 	}

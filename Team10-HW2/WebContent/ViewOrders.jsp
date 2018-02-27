@@ -9,6 +9,7 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 <link rel = "stylesheet" type = "text/css" href = "customStyles/customStyle.css" />
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<%@ taglib prefix="c"  uri="http://java.sun.com/jstl/core_rt" %>
 <title>View Orders</title>
 </head>
 <body>
@@ -26,7 +27,7 @@
 		    </ul>
 		    <ul class="navbar-nav mr-auto">
 		      <li class="nav-item active">
-		        <a class="nav-link" href="ViewOrders.jsp">View Orders<span class="sr-only">(current)</span></a>
+		        <a class="nav-link" href="ViewOrders">View Orders<span class="sr-only">(current)</span></a>
 		      </li>
 		    </ul>	
 		    <ul class="navbar-nav mr-auto">
@@ -52,14 +53,64 @@
 	  	  <th></th>
 	    </tr>
 	  </thead>
+	  	  <tbody>
+	  <c:set var="count" value="1" scope="page" />
+	    <c:forEach var="item" items="${shoppingCart}">
+	    <tr>
+	      <th scope="row" name="index">${count}</th>
+	      <td class="text-center">${item.movie.movie.name}</td>
+	      <td ><img src="${item.movie.movie.thumbnail }" alt="Movie 1" class="poster"></td>
+	      <td class="text-center">${item.movie.showroom.theatre.name}</td>
+	      <td class="text-center">${item.movie.startTime }</td>
+	      <td class="text-center">
+			<form method="POST" action ="UpdateShoppingCart">
+			<input type="hidden" name="index" value = "${count}"/>
+	      		<select class="form-control" name="ticketQuantity" onchange="this.form.submit()">
+  					<c:set var="count" value="1" scope="page" />
+  					<c:forEach var = "i" begin = "1" end = "${showing.seatsRemaining}">
+  						<c:choose> 
+  						  	<c:when test= "${ i == item.ticketQuantity}">
+  								<option value="${i}" selected="selected">${i}</option>
+  							</c:when>
+  							<c:when test= "${ i != item.ticketQuantity}">
+  								<option value="${i}">${i}</option>
+  							</c:when>
+  						</c:choose>
+  					</c:forEach>
+  				</select>
+  			</form>
+  		  </td>
+	      <%-- <td class="text-center"><input type="text" class="numTicket" placeholder="Quantity" value ="${item.ticketQuantity}"></input></td> --%>
+	      <td class="text-center">$ ${item.price}</td>
+	      <c:set var="count" value="${count + 1}" scope="page"/>
+	      <td>
+	      <form>
+			<input type="hidden" name="selection" value = "${item.movie.id}"/>
+	      	<button type="submit" formaction="RemoveItem" class="btn btn-primary">Remove</button>
+	      </form>
+		  </td> 	
+	      
+	    </tr>
+	    	    </c:forEach>
+	  </tbody>
 	  <tbody>
 	    <tr>
-	      <th scope="row">1</th>
-	      <td class="text-center">1801291001</td>
-	      <td class="text-center">$30</td>
-	      <td class="text-center">29-1-2019</td>
-	      <td><a href="ManageOrder.jsp">View Details</a></td> 
-	    </tr>
+	       <c:set var="count" value="1" scope="page" />
+	    			<c:forEach var="order" items="${orders}">
+	    			<tr>
+	      		<td scope="row" name="index">${count}</td>
+	      		<td class="text-center">${order.orderId}</td>
+	      		<td class="text-center">${order.totalCost}</td>
+	      		<td class="text-center">${order.orderDate}</td>
+	      		<td><a href="ManageOrder.jsp">View Details</a></td> 
+	      		<td>
+	      		<form>
+					<input type="hidden" name="selection" value = "${count}"/>
+	      			<button type="submit" formaction="ManageOrder" class="btn btn-primary">Remove</button>
+	      		</form>
+		  		</td> 	
+	    			</tr>
+	    	    		</c:forEach>
 	  </tbody>
 	</table>
 	<br>

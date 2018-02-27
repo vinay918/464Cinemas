@@ -368,8 +368,6 @@ public class DBAccessClass {
 		return customerReviews;
 	}		
 	
-	
-	
 	public void addMovieReview(MovieShowing movie, User user, String review, double rating){
 		ps = null;
 		String customerReview;
@@ -383,9 +381,167 @@ public class DBAccessClass {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-	}		
+	}	
+	
+	public void setBalance(int id, double balance){
+		ps = null;
+		try {
+			stmt = conn.createStatement();
+			String query = "UPDATE INTO `CreditCard` SET Balance = ? WHERE UserId = ? ";
+			ps.setDouble(1,balance);
+			ps.setInt(2,id);
+			stmt.executeUpdate(query);	
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	public Transaction getCardDetails(int userId) {
+		ps = null;
+		User user = getUser(userId);
+		Transaction trans = new Transaction();
+		try {
+			String query = "SELECT * FROM `User` WHERE UserId=?;";			
+			ps = conn.prepareStatement(query);
+			ps.setInt(1,userId);
+			ResultSet rs = ps.executeQuery();
+			while(rs.next()) {
+				trans.setAddress(rs.getString("Address"));
+				break;
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		try {
+			String query = "SELECT * FROM `CreditCard` WHERE UserId=?;";			
+			ps = conn.prepareStatement(query);
+			ps.setInt(1,userId);
+			ResultSet rs = ps.executeQuery();
+			while(rs.next()) {
+			trans.setCardType(rs.getString("CardType"));
+			trans.setExpirationDate(rs.getString("ExpirationDate"));
+			trans.setCvv(rs.getString("CVV"));
+			trans.setName(rs.getString("CardHolderName"));
+			trans.setBalance(rs.getDouble("Balance"));
+			return trans;
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return trans;
+		
+	}
+	
+	//add orders TODO: check column names
+	public void addOrderItem(int showingId, int quantity, int orderId, double totalPrice){
+		ps = null;
+		try {
+			stmt = conn.createStatement();
+			String query = "INSERT INTO `OrderItem` (`OrderId`,`ShowingId`,`Quantity`,`TotalPrice`) " +
+			          "VALUES ('"+orderId+"', '"+showingId+"', '"+quantity+"', '"+totalPrice+"');";
+			stmt.executeUpdate(query);	
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	public void addOrder(int orderId, int userId, double totalCost, String orderDate, String billingAddress, String creditCardNumber) {
+		ps = null;
+		try {
+			stmt = conn.createStatement();
+			String query = "INSERT INTO `Order` (`OrderId`,`CustomerId`,`TotalCost`,`OrderDate`,`BillingAddress`,`CreditCardNumber`) " +
+			          "VALUES ('"+orderId+"', '"+userId+"', '"+totalCost+"', '"+orderDate+"', '"+billingAddress+"', '"+creditCardNumber+"');";
+			stmt.executeUpdate(query);	
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	public void removeOrder(int orderId) {
+		ps = null;
+		try {
+			String query = "DELETE FROM `Order` WHERE OrderId=?;";
+			ps = conn.prepareStatement(query);
+			ps.setInt(1,orderId);
+			ps.executeQuery();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	public void removeOrderItems(int orderId) {
+		ps = null;
+		try {
+			String query = "DELETE FROM `OrderItem` WHERE OrderId=?;";
+			ps = conn.prepareStatement(query);
+			ps.setInt(1,orderId);
+			ps.executeQuery();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 	
 	
+	
+	//get orders TODO: check column names
+	public ArrayList<Orders> getOrders(int userId) {
+		ps = null;
+		User user = getUser(userId);
+		ArrayList<Orders> orders = new ArrayList<Orders>();
+		Orders order = new Orders();
+		try {
+			String query = "SELECT * FROM `Order` WHERE CustomerId=?;";			
+			ps = conn.prepareStatement(query);
+			ps.setInt(1,userId);
+			ResultSet rs = ps.executeQuery();
+			while(rs.next()) {
+				order.setOrderId(rs.getInt("OrderId"));
+				order.setOrderDate(rs.getString("OrderDate"));
+				order.setTotalCost(rs.getDouble("TotalCost"));
+				orders.add(order);
+			}
+			return orders;
+		}catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return orders;
+	}
+	
+	//TODO: check column name
+	public ArrayList<CartItem> getOrderItem(int orderId) {
+		ps = null;
+		ArrayList<CartItem> order = new ArrayList<CartItem>();
+		CartItem item = new CartItem();
+		try {
+			String query = "SELECT * FROM `OrderItem` WHERE OrderId=?;";			
+			ps = conn.prepareStatement(query);
+			ps.setInt(1,orderId);
+			ResultSet rs = ps.executeQuery();
+			while(rs.next()) {
+				item.setMovie(getShowing(rs.getInt("showingId")));
+				item.setPrice(rs.getDouble("TotalPrice"));
+				item.setTicketQuantity(rs.getInt("Quantity"));
+				order.add(item);
+			}
+			return order;
+		}catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return order;
+	}
+	
+	//Connection and disconnection
 	public void connectMeIn() {
 		try{
 			//Register the JDBC driver
@@ -402,7 +558,6 @@ public class DBAccessClass {
 
 		}
 	}
-	
 	
 	public void closeConnection(){
 		try {

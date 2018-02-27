@@ -28,6 +28,7 @@ public class Login extends HttpServlet {
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
+	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String userName = request.getParameter("userName");
 		String password = request.getParameter("password");
@@ -40,12 +41,11 @@ public class Login extends HttpServlet {
 		
 		if(tempUser.validateUser(tempUser)){
 			User user = tempUser.completeUser(tempUser);
-			ArrayList<CartItem> shoppingCart= (ArrayList<CartItem>)session.getAttribute("shoppingCart");
+			ArrayList<CartItem> shoppingCart= new ArrayList<CartItem>();
 			response.sendRedirect("CustomerHomePage.jsp");
 			session.removeAttribute("WrongPassword");
 			session.removeAttribute("Error");
 			session.setAttribute("user", user);
-
 			session.setAttribute("shoppingCart", shoppingCart);
 			TheatreDB theatreDB = new TheatreDB();
 			ArrayList<Theatre> theatres = theatreDB.getTheatres();
@@ -68,6 +68,7 @@ public class Login extends HttpServlet {
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
+	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		doGet(request, response);
 	}

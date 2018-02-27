@@ -23,13 +23,15 @@ public class About extends HttpServlet {
         // TODO Auto-generated constructor stub
     }
     
-    public void init() throws ServletException{
+    @Override
+	public void init() throws ServletException{
     	modtime = System.currentTimeMillis()/1000*1000;
     	owner = "This is currently an open-source movie ticketing platform";
     }
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
+	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		response.setContentType("text/html");
@@ -41,11 +43,13 @@ public class About extends HttpServlet {
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
+	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		doGet(request, response);
 	}
 	
+	@Override
 	public long getLastModified(HttpServletRequest request){
 		return(modtime);
 	}

@@ -1,6 +1,7 @@
 package lecture464.servlet;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -9,19 +10,18 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import lecture464.databaseAccessLayer.*;
-import lecture464.model.*;
+import lecture464.model.CartItem;
 
 /**
- * Servlet implementation class CustomerReview
+ * Servlet implementation class RemoveItem
  */
-public class CustomerReview extends HttpServlet {
+public class RemoveItem extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public CustomerReview() {
+    public RemoveItem() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -32,29 +32,29 @@ public class CustomerReview extends HttpServlet {
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		String address;
-		boolean success = true;
-		
-		String review = request.getParameter("review");
-		String rating = request.getParameter("rating");
+		if(request.getSession().getAttribute("active") == null || !request.getSession().getAttribute("active").equals(1)){
+			response.sendRedirect("Login.jsp");
+			return;
+		}
+		response.setContentType("text/html");
 		HttpSession session = request.getSession();
-		MovieShowing selectedMovie = (MovieShowing) session.getAttribute("showing");
-		User user = (User) request.getAttribute("user");
-		CustomerReviewDB customerReview = new CustomerReviewDB();
-		System.out.println(rating + "    " +review);
-		try {
-			double ratingD = Double.parseDouble(rating);
-			customerReview.addMovieReview(selectedMovie, user, review, ratingD);
-		}catch(Exception e){
-			success = false;
+		ArrayList<CartItem> cart = (ArrayList<CartItem>)session.getAttribute("shoppingCart");
+		String showingId = request.getParameter("selection");
+		for(int i=0;i<cart.size();i++) {
+			int id = cart.get(i).getMovie().getId();
+			if(id == Integer.parseInt(showingId)) {
+				cart.remove(i);
+			}
 		}
-		if (success) {
-			address = "ReviewSuccess.jsp";
-		} else {
-			address = "ReviewFail.jsp";
-			RequestDispatcher dispatcher = request.getRequestDispatcher(address);
-			dispatcher.forward(request, response);
+		session.removeAttribute("shoppingCart");
+		session.setAttribute("shoppingCart", cart);
+		double total = 0;
+		for(int i=0; i<cart.size();i++) {
+			total = cart.get(i).getPrice() + total;
 		}
+		session.setAttribute("total", total);
+		RequestDispatcher rd = request.getRequestDispatcher("ViewAndCheckoutShoppingCart.jsp");
+		rd.include(request, response);
 	}
 
 	/**

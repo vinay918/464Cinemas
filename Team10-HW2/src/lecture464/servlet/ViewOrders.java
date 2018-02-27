@@ -1,6 +1,7 @@
 package lecture464.servlet;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -9,19 +10,19 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import lecture464.databaseAccessLayer.*;
+import lecture464.databaseAccessLayer.OrdersDB;
 import lecture464.model.*;
 
 /**
- * Servlet implementation class CustomerReview
+ * Servlet implementation class ViewOrder
  */
-public class CustomerReview extends HttpServlet {
+public class ViewOrders extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public CustomerReview() {
+    public ViewOrders() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -29,38 +30,32 @@ public class CustomerReview extends HttpServlet {
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
-	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		String address;
-		boolean success = true;
-		
-		String review = request.getParameter("review");
-		String rating = request.getParameter("rating");
-		HttpSession session = request.getSession();
-		MovieShowing selectedMovie = (MovieShowing) session.getAttribute("showing");
-		User user = (User) request.getAttribute("user");
-		CustomerReviewDB customerReview = new CustomerReviewDB();
-		System.out.println(rating + "    " +review);
-		try {
-			double ratingD = Double.parseDouble(rating);
-			customerReview.addMovieReview(selectedMovie, user, review, ratingD);
-		}catch(Exception e){
-			success = false;
+		if(request.getSession().getAttribute("active") == null || !request.getSession().getAttribute("active").equals(1)){
+			response.sendRedirect("Login.jsp");
+			return;
 		}
-		if (success) {
-			address = "ReviewSuccess.jsp";
-		} else {
-			address = "ReviewFail.jsp";
-			RequestDispatcher dispatcher = request.getRequestDispatcher(address);
-			dispatcher.forward(request, response);
+		String address;
+		response.setContentType("text/html");
+		HttpSession session = request.getSession();
+		User user = (User) session.getAttribute("user");
+		OrdersDB orderDb = new OrdersDB();
+		ArrayList<Orders> orders = orderDb.getUserOrders(user.getId());
+		if(orders.isEmpty()) {
+			address = "NoOrder.jsp";
+			RequestDispatcher rd = request.getRequestDispatcher(address);
+			rd.include(request, response);
+		}else {
+			address = "ViewOrders.jsp";
+			session.setAttribute("orders", orders);
+			RequestDispatcher rd = request.getRequestDispatcher(address);
+			rd.include(request, response);
 		}
 	}
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
-	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		doGet(request, response);
