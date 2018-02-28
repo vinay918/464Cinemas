@@ -44,13 +44,16 @@ public class CustomerReview extends HttpServlet {
 		try {
 			customerReview.addMovieReview(selectedMovie.getId(), user.getId() , review, Double.parseDouble(rating));
 		}catch(Exception e){
+			e.printStackTrace();
 			success = false;
 		}
 		if (success) {
 			address = "ReviewSuccess.jsp";
+			RequestDispatcher rd = request.getRequestDispatcher(address);
+			rd.include(request, response);
 		} else {
 			address = "ReviewFail.jsp";
-			RequestDispatcher rd = request.getRequestDispatcher("EmptyCart.jsp");
+			RequestDispatcher rd = request.getRequestDispatcher(address);
 			rd.include(request, response);
 		}
 	}

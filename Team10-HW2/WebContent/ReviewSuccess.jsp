@@ -10,11 +10,10 @@
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 		<link rel = "stylesheet" type = "text/css" href = "customStyles/customStyle.css" />	
-	<%@ taglib prefix="c"  uri="http://java.sun.com/jstl/core_rt" %>
-
 	</head>
+<%@ taglib prefix="c"  uri="http://java.sun.com/jstl/core_rt" %>
 <body>
-<c:if test="${active != 1 }">
+	<c:if test="${active != 1 }">
 		<c:redirect url = "Login.jsp"/>
 	</c:if>
 	<nav class="navbar navbar-toggleable-md navbar-light bg-faded">
@@ -31,7 +30,9 @@
 		    </ul>
 		    <ul class="navbar-nav mr-auto">
 		      <li class="nav-item active">
-		        <a class="nav-link" href="ViewOrders.jsp">View Orders<span class="sr-only">(current)</span></a>
+				<form name="submitForm" method="POST" action="ViewOrders">
+		        <a class="nav-link" href="javascript:document.submitForm.submit()">View Orders<span class="sr-only">(current)</span></a>
+		      	</form>
 		      </li>
 		    </ul>	
 		    <ul class="navbar-nav mr-auto">
@@ -42,7 +43,6 @@
 
 		  </div>
 		</nav>
-		
 		<br>
 		
 		<h3>Your review has been submitted.</h3>

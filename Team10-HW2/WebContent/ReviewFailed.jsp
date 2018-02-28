@@ -13,8 +13,9 @@
 		<%@ taglib prefix="c"  uri="http://java.sun.com/jstl/core_rt" %>
 
 	</head>
+<%@ taglib prefix="c"  uri="http://java.sun.com/jstl/core_rt" %>
 <body>
-<c:if test="${active != 1 }">
+	<c:if test="${active != 1 }">
 		<c:redirect url = "Login.jsp"/>
 	</c:if>
 	<nav class="navbar navbar-toggleable-md navbar-light bg-faded">
@@ -31,7 +32,9 @@
 		    </ul>
 		    <ul class="navbar-nav mr-auto">
 		      <li class="nav-item active">
-		        <a class="nav-link" href="ViewOrders.jsp">View Orders<span class="sr-only">(current)</span></a>
+				<form name="submitForm" method="POST" action="ViewOrders">
+		        <a class="nav-link" href="javascript:document.submitForm.submit()">View Orders<span class="sr-only">(current)</span></a>
+		      	</form>
 		      </li>
 		    </ul>	
 		    <ul class="navbar-nav mr-auto">

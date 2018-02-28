@@ -12,8 +12,12 @@
 <%@ taglib prefix="c"  uri="http://java.sun.com/jstl/core_rt" %>
 <title>Manage Order</title>
 </head>
+<%@ taglib prefix="c"  uri="http://java.sun.com/jstl/core_rt" %>
 <body>
-<nav class="navbar navbar-toggleable-md navbar-light bg-faded">
+	<c:if test="${active != 1 }">
+		<c:redirect url = "Login.jsp"/>
+	</c:if>
+	<nav class="navbar navbar-toggleable-md navbar-light bg-faded">
 		  <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
 		    <span class="navbar-toggler-icon"></span>
 		  </button>
@@ -27,18 +31,19 @@
 		    </ul>
 		    <ul class="navbar-nav mr-auto">
 		      <li class="nav-item active">
-		        <a class="nav-link" href="ViewOrders.jsp">View Orders<span class="sr-only">(current)</span></a>
+				<form name="submitForm" method="POST" action="ViewOrders">
+		        <a class="nav-link" href="javascript:document.submitForm.submit()">View Orders<span class="sr-only">(current)</span></a>
+		      	</form>
 		      </li>
 		    </ul>	
 		    <ul class="navbar-nav mr-auto">
 		      <li class="nav-item active">
-		        <a class="nav-link" href="Login.jsp">Logout <span class="sr-only">(current)</span></a>
+		        <a class="nav-link" href="Logout">Logout <span class="sr-only">(current)</span></a>
 		      </li>
 		    </ul>
 
 		  </div>
 		</nav>
-
 <br>
 
 <h3 style="padding-left:10px">Order #${orderId} information </h3>

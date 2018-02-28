@@ -48,7 +48,9 @@
 		    </ul>
 		    <ul class="navbar-nav mr-auto">
 		      <li class="nav-item active">
-		        <a class="nav-link" href="ViewOrders.jsp">View Orders<span class="sr-only">(current)</span></a>
+				<form name="submitForm" method="POST" action="ViewOrders">
+		        <a class="nav-link" href="javascript:document.submitForm.submit()">View Orders<span class="sr-only">(current)</span></a>
+		      	</form>
 		      </li>
 		    </ul>	
 		    <ul class="navbar-nav mr-auto">

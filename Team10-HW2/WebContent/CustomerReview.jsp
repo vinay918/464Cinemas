@@ -25,7 +25,8 @@
 
 	</head>
 	
-	<body>
+<%@ taglib prefix="c"  uri="http://java.sun.com/jstl/core_rt" %>
+<body>
 	<c:if test="${active != 1 }">
 		<c:redirect url = "Login.jsp"/>
 	</c:if>
@@ -43,7 +44,9 @@
 		    </ul>
 		    <ul class="navbar-nav mr-auto">
 		      <li class="nav-item active">
-		        <a class="nav-link" href="ViewOrders.jsp">View Orders<span class="sr-only">(current)</span></a>
+				<form name="submitForm" method="POST" action="ViewOrders">
+		        <a class="nav-link" href="javascript:document.submitForm.submit()">View Orders<span class="sr-only">(current)</span></a>
+		      	</form>
 		      </li>
 		    </ul>	
 		    <ul class="navbar-nav mr-auto">
@@ -77,14 +80,14 @@
 				</div>				
 			  </div>				  		      	
 			  <div class="form-group col-sm-6 offset-sm-3 text-center">
-			    <label for="exampleInputEmail1">Review/Comment:</label>
+			    <label for="review">Review/Comment:</label>
 			    <textarea class="form-control" name="review" value="${selectedMovieShowing.review}" placeholder="Enter your review..." rows="5"></textarea>
 			  </div>	
 		      
 		      </div>
 
 			  <button type="submit" class="btn btn-primary">Submit</button>	
-		<a href="MovieDetailsAndSelection"> Cancel </a> <br>
+			<a href="MovieDetailsAndSelection"> Cancel </a> <br>
 		</form>
 		</div>		
 		<br>

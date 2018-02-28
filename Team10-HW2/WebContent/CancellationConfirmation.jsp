@@ -13,7 +13,10 @@
 </head>
 <%@ taglib prefix="c"  uri="http://java.sun.com/jstl/core_rt" %>
 <body>
-<nav class="navbar navbar-toggleable-md navbar-light bg-faded">
+	<c:if test="${active != 1 }">
+		<c:redirect url = "Login.jsp"/>
+	</c:if>
+	<nav class="navbar navbar-toggleable-md navbar-light bg-faded">
 		  <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
 		    <span class="navbar-toggler-icon"></span>
 		  </button>
@@ -27,12 +30,14 @@
 		    </ul>
 		    <ul class="navbar-nav mr-auto">
 		      <li class="nav-item active">
-		        <a class="nav-link" href="ViewOrders.jsp">View Orders<span class="sr-only">(current)</span></a>
+				<form name="submitForm" method="POST" action="ViewOrders">
+		        <a class="nav-link" href="javascript:document.submitForm.submit()">View Orders<span class="sr-only">(current)</span></a>
+		      	</form>
 		      </li>
 		    </ul>	
 		    <ul class="navbar-nav mr-auto">
 		      <li class="nav-item active">
-		        <a class="nav-link" href="Login.jsp">Logout <span class="sr-only">(current)</span></a>
+		        <a class="nav-link" href="Logout">Logout <span class="sr-only">(current)</span></a>
 		      </li>
 		    </ul>
 
@@ -56,15 +61,15 @@
 	  <tbody>
 	    <tr>
 	      <th scope="row">1</th>
-	      <td class="text-center">${item.orderItemId }</td>
+	      <td class="text-center">${orderItemId }</td>
 	      <td class="text-left"><ul>
-  				<li>Movie Name: ${item.movie.movie.name}</li>
-  				<li>Ticket quantity: ${item.quantity} </li>
-  				<li>Location: ${item.movie.showroom.theatre.name }</li>
-  				<li>Date/ Time: ${item.movie.startTime }</li>
+  				<li>Movie Name: ${cancelledItem.movie.movie.name}</li>
+  				<li>Ticket quantity: ${cancelledItem.quantity} </li>
+  				<li>Location: ${cancelledItem.movie.showroom.theatre.name }</li>
+  				<li>Date/ Time: ${cancelledItem.movie.startTime }</li>
 				</ul>
 			</td>
-	      <td class="text-center">$${item.orderPrice}</td>
+	      <td class="text-center">$${cancelledItem.orderPrice}</td>
 	      <td class="text-center">${orderDate }</td>
 	      	<c:choose> 
   						  	<c:when test= "${  item.isCancel == 1}">

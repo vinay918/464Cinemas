@@ -54,9 +54,9 @@ public class CancelOrderItem extends HttpServlet {
 			trans.setTransaction(afterRefund, user.getId());
 			session.setAttribute("orderItemId", orderItemId);
 			OrderItem item = db.getOrderItem(Integer.parseInt(orderItemId));
-			session.setAttribute("cancalledItem", item);
+			session.setAttribute("cancelledItem", item);
 			session.setAttribute("orderDate", orderDate);
-			RequestDispatcher rd = request.getRequestDispatcher("CancellationConfirm.jsp");
+			RequestDispatcher rd = request.getRequestDispatcher("CancellationConfirmation.jsp");
 			rd.include(request, response);
 		}catch(Exception e) {
 			e.printStackTrace();

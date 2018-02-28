@@ -64,10 +64,13 @@ public class CustomerTransactionConfirmation extends HttpServlet {
 		Transaction userTransaction = new Transaction(cardNumber, cardType, securityCode, expirationDate, total, cardName, address);
 		String transactionAddress;
 //		if(!userTransaction.ValidateTransaction(trans, userTransaction)) {
-//			transactionAddress = "TransactionFailed.jsp";
+//			String msg = "Please make sure your bank details are correct and the balance is enough.";
+//			session.setAttribute("balanceAndDetails", msg);
+//			transactionAddress = "CustomerTransaction.jsp";
 //			RequestDispatcher rd = request.getRequestDispatcher(transactionAddress);
 //			rd.include(request, response);
 //		}else {
+			session.removeAttribute("balanceAndDetails");
 			transactionAddress = "TransactionSuccess.jsp";
 			OrdersDB orders = new OrdersDB();
 			double balance = trans.getBalance() - userTransaction.getBalance();
@@ -84,10 +87,11 @@ public class CustomerTransactionConfirmation extends HttpServlet {
 				orders.addOrderItem(Integer.parseInt(orderId), cart.get(i).getMovie().getId(), cart.get(i).getTicketQuantity(), userTransaction.getBalance());
 			}
 			transDb.setTransaction(balance, id);
-			
+			session.setAttribute("orderId", orderId);
+			session.setAttribute("orderDate", java.time.LocalDate.now());
 			RequestDispatcher rd = request.getRequestDispatcher(transactionAddress);
 			rd.include(request, response);
-		//}
+//		}
 	}
 
 	/**
