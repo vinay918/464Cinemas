@@ -1,6 +1,7 @@
 package lecture464.servlet;
 import lecture464.model.*;
 import java.io.IOException;
+import java.text.DecimalFormat;
 import java.util.*;
 
 import javax.servlet.RequestDispatcher;
@@ -48,7 +49,9 @@ public class MovieDetails extends HttpServlet {
 		CustomerReviewDB reviewDB = new CustomerReviewDB();
 		ArrayList<CustomerReview> reviews = reviewDB.getCustomerReview(movieId);
 		session.setAttribute("reviews", reviews);
-		session.setAttribute("avg", reviewAverage(reviews));		
+		double avg = reviewAverage(reviews);
+		DecimalFormat numberFormat = new DecimalFormat("#.0");
+		session.setAttribute("avg", numberFormat.format(avg));		
 		RequestDispatcher rd = request.getRequestDispatcher("MovieDetailsAndSelection.jsp");
 		rd.include(request, response);
 	}

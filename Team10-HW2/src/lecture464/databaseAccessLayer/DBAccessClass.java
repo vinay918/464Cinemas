@@ -370,12 +370,11 @@ public class DBAccessClass {
 	
 	public void addMovieReview(int movieId, int userId, String review, double rating){
 		ps = null;
-		String customerReview;
 
 		try {
 			stmt = conn.createStatement();
 			String query = "INSERT INTO `CustomerReview` (`MovieId`,`UserId`,`ReviewDate`,`Rating`,`Review` ) " +
-			          "VALUES ('"+movieId+"', '"+userId+"', '"+java.time.LocalDate.now()+"', '"+rating+"', '"+review+"');";
+			          "VALUES ('"+movieId+"', '"+userId+"', '"+java.time.LocalDate.now().getMonthValue()+"-"+java.time.LocalDate.now().getDayOfMonth()+"-"+java.time.LocalDate.now().getYear()+"', '"+rating+"', '"+review+"');";
 			stmt.executeUpdate(query);	
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block

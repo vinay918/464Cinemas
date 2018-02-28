@@ -67,7 +67,7 @@
 		      <p>${showing.movie.name}</p>
 			  <div class="form-group col-sm-6 offset-sm-3 text-center">
 			    <label for="exampleInputEmail1">User Name: </label>
-			    <input type="text" class="form-control" name="fName"  aria-describedby="emailHelp" value="${user.firstName}" disabled>
+			    <input type="text" class="form-control" name="fName"  aria-describedby="emailHelp" value="${user.firstName} ${user.lastName}" disabled>
 			  </div>	
 			  <div class="form-group col-sm-6 offset-sm-3 text-center">
 			    <label for="exampleInputEmail1">Rating (1-5):</label>

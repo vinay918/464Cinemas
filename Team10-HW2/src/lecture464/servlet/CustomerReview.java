@@ -38,11 +38,12 @@ public class CustomerReview extends HttpServlet {
 		String rating = request.getParameter("rating");
 		HttpSession session = request.getSession();
 		MovieShowing selectedMovie = (MovieShowing) session.getAttribute("showing");
-		User user = (User) request.getAttribute("user");
+		User user = (User) session.getAttribute("user");
 		CustomerReviewDB customerReview = new CustomerReviewDB();
-		System.out.println(rating + "    " +review);
+
+
 		try {
-			customerReview.addMovieReview(selectedMovie.getId(), user.getId() , review, Double.parseDouble(rating));
+			customerReview.addMovieReview(selectedMovie.getMovie().getId(), user.getId() , review, Double.parseDouble(rating));
 		}catch(Exception e){
 			e.printStackTrace();
 			success = false;
@@ -52,7 +53,7 @@ public class CustomerReview extends HttpServlet {
 			RequestDispatcher rd = request.getRequestDispatcher(address);
 			rd.include(request, response);
 		} else {
-			address = "ReviewFail.jsp";
+			address = "ReviewFailed.jsp";
 			RequestDispatcher rd = request.getRequestDispatcher(address);
 			rd.include(request, response);
 		}
