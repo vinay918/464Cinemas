@@ -28,4 +28,21 @@ public class TransactionDB {
 		return balance;
 	}
 	
+	public void setNumberPurchased(int numberPurchased, int movieShowingId) {
+		DBAccessClass db = new DBAccessClass();
+		db.connectMeIn();
+		db.setNumberPurchased(numberPurchased, movieShowingId);;
+		db.closeConnection();
+	}
+	
+	public int getNumberPurchased(int movieShowingId) {
+		DBAccessClass db = new DBAccessClass();
+		int ticket;
+		db.connectMeIn();
+		ticket = db.getNumberPurchased(movieShowingId);
+		db.closeConnection();
+		return ticket;
+	}
+	
+	
 }

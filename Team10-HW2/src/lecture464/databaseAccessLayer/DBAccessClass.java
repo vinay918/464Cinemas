@@ -440,6 +440,7 @@ public class DBAccessClass {
 			ps.setInt(1,userId);
 			ResultSet rs = ps.executeQuery();
 			while(rs.next()) {
+			trans.setCreditCardNumber(rs.getString("CreditCardNumber"));
 			trans.setCardType(rs.getString("CardType"));
 			trans.setExpirationDate(rs.getString("ExpirationDate"));
 			trans.setCvv(rs.getString("CVV"));
@@ -599,6 +600,38 @@ public class DBAccessClass {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+	
+	public void setNumberPurchased(int ticketPurchased, int movieShowingId) {
+		ps = null;
+		try {
+			String query = "UPDATE `MovieShowing` SET NumberPurchased=? WHERE MovieShowingId=?;";
+			ps = conn.prepareStatement(query);
+			ps.setInt(1, ticketPurchased);
+			ps.setInt(2, movieShowingId);
+			ps.executeUpdate();	
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	public int getNumberPurchased(int movieShowingId) {
+		ps = null;
+		int ticketPurchased=0;
+		try {
+			String query = "SELECT * FROM `MovieShowing` WHERE MovieShowingId=?;";
+			ps = conn.prepareStatement(query);
+			ps.setInt(1, movieShowingId);
+			ResultSet rs = ps.executeQuery();
+			while(rs.next()) {
+				ticketPurchased = rs.getInt("NumberPurchased");
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return ticketPurchased;
 	}
 	
 	//Connection and disconnection

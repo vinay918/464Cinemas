@@ -81,9 +81,16 @@
   		alt="Movie 2">
   		</div>
 	</div>	
-	
 	<div class="row text-center">
   		<div class="col-xs-1 offset-sm-5">
+  		  <c:choose> 
+  			<c:when test= "${ showing.seatsRemaining <= 0}">
+  					<div class="form-group">
+  					<br>
+  					<h4>Sold Out</h4>
+  					</div>
+  			</c:when> 
+  			<c:when test= "${ showing.seatsRemaining > 0}">
   			<form name = "quantityForm" action=AddShoppingCart method = "post">
   				<div class="form-group">
   				Tickets:
@@ -98,6 +105,8 @@
   					<button type="submit" class="btn btn-primary mb-2">Add to Cart</button>
   				</div>
 			</form>
+			</c:when>
+		</c:choose>
 		</div>		
 	</div>
 	

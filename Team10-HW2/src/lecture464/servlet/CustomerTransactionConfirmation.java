@@ -39,10 +39,22 @@ public class CustomerTransactionConfirmation extends HttpServlet {
 			response.sendRedirect("Login.jsp");
 			return;
 		}
+	}
+
+	/**
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 */
+	@Override
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		if(request.getSession().getAttribute("active") == null || !request.getSession().getAttribute("active").equals(1)){
+			response.sendRedirect("Login.jsp");
+			return;
+		}
 		//TODO: Validate user card credential
 		boolean isValidate = true;
 		HttpSession session = request.getSession();
 		TransactionDB transDb = new TransactionDB();
+		session.removeAttribute("currentOrder");
 		User user = (User) session.getAttribute("user");
 		int id = user.getId();
 		Transaction trans = transDb.getTransaction(id);
@@ -63,13 +75,15 @@ public class CustomerTransactionConfirmation extends HttpServlet {
 		}
 		Transaction userTransaction = new Transaction(cardNumber, cardType, securityCode, expirationDate, total, cardName, address);
 		String transactionAddress;
-//		if(!userTransaction.ValidateTransaction(trans, userTransaction)) {
-//			String msg = "Please make sure your bank details are correct and the balance is enough.";
-//			session.setAttribute("balanceAndDetails", msg);
-//			transactionAddress = "CustomerTransaction.jsp";
-//			RequestDispatcher rd = request.getRequestDispatcher(transactionAddress);
-//			rd.include(request, response);
-//		}else {
+		System.out.println(trans.getBalance()+", "+trans.getCreditCardNumber()+", "+ trans.getAddress()+", "+ trans.getCvv()+", "+ trans.getExpirationDate()+", "+ trans.getName());
+		System.out.println(total+", "+cardNumber+", "+address+", "+ securityCode+", "+ expirationDate+", "+ cardName);
+		if(!userTransaction.ValidateTransaction(trans, userTransaction)) {
+			String msg = "Please make sure your bank details are correct and the balance is enough.";
+			session.setAttribute("balanceAndDetails", msg);
+			transactionAddress = "CustomerTransaction.jsp";
+			RequestDispatcher rd = request.getRequestDispatcher(transactionAddress);
+			rd.include(request, response);
+		}else {
 			session.removeAttribute("balanceAndDetails");
 			transactionAddress = "TransactionSuccess.jsp";
 			OrdersDB orders = new OrdersDB();
@@ -85,22 +99,18 @@ public class CustomerTransactionConfirmation extends HttpServlet {
 			orders.addOrder(Integer.parseInt(orderId), id, total, LocalDate.now().toString() , address, cardNumber);
 			for(int i=0;i<cart.size();i++) {
 				orders.addOrderItem(Integer.parseInt(orderId), cart.get(i).getMovie().getId(), cart.get(i).getTicketQuantity(), userTransaction.getBalance());
+				int ticketPurchasedBeforeOrder = transDb.getNumberPurchased(cart.get(i).getMovie().getId());
+				transDb.setNumberPurchased((ticketPurchasedBeforeOrder+cart.get(i).getTicketQuantity()), cart.get(i).getMovie().getId());
+				System.out.println("Ticket purchased now: "+ transDb.getNumberPurchased(cart.get(i).getMovie().getId()));
 			}
+			ArrayList<OrderItem> currentOrder = orders.getOrderItems(Integer.parseInt(orderId));
 			transDb.setTransaction(balance, id);
 			session.setAttribute("orderId", orderId);
+			session.setAttribute("currentOrder", currentOrder);
 			session.setAttribute("orderDate", java.time.LocalDate.now());
 			RequestDispatcher rd = request.getRequestDispatcher(transactionAddress);
 			rd.include(request, response);
-//		}
-	}
-
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
-	@Override
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		doGet(request, response);
+		}
 	}
 
 }

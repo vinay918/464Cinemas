@@ -31,7 +31,7 @@
 		    </ul>
 		    <ul class="navbar-nav mr-auto">
 		      <li class="nav-item active">
-				<form name="submitForm" method="POST" action="ViewOrders">
+				<form name="submitForm" method="GET" action="ViewOrders">
 		        <a class="nav-link" href="javascript:document.submitForm.submit()">View Orders<span class="sr-only">(current)</span></a>
 		      	</form>
 		      </li>
@@ -175,10 +175,10 @@
 					<br>
 					<div class="row">
 						<div class="col-md-6 text-center">
-						<input type="text" class="form-control" name="userBillingAddress" id="userBillingZip" placeholder="Zip Code">
+						<input type="text" class="form-control" name="userBillingZip" id="userBillingZip" placeholder="Zip Code">
 			   		 	</div>
 			   		 	<div class="col-md-6 text-center">
-			   		 	<input type="text" class="form-control" name="userBillingAddress" id="userState" placeholder="State">
+			   		 	<input type="text" class="form-control" name="userState" id="userState" placeholder="State">
 						</div>
 					</div>
 				</div>
@@ -194,11 +194,11 @@
 					<br>
 					<div class="row">
 						<div class="col-md-6 text-center">
-						<input type="text" class="form-control" name="userShippingAddress" id="userShipZip" placeholder="Zip Code">
+						<input type="text" class="form-control" name="userShipZip" id="userShipZip" placeholder="Zip Code">
 
 			   		 	</div>
 			   		 	<div class="col-md-6 text-center">
-			   		 	<input type="text" class="form-control" name="userAddress" id="userState" placeholder="State">
+			   		 	<input type="text" class="form-control" name="userState" id="userState" placeholder="State">
 						</div>
 					</div>
 				</div>

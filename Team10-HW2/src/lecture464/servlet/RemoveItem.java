@@ -36,6 +36,19 @@ public class RemoveItem extends HttpServlet {
 			response.sendRedirect("Login.jsp");
 			return;
 		}
+	}
+
+	/**
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 */
+	@Override
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		// TODO Auto-generated method stub
+
+		if(request.getSession().getAttribute("active") == null || !request.getSession().getAttribute("active").equals(1)){
+			response.sendRedirect("Login.jsp");
+			return;
+		}
 		response.setContentType("text/html");
 		HttpSession session = request.getSession();
 		ArrayList<CartItem> cart = (ArrayList<CartItem>)session.getAttribute("shoppingCart");
@@ -53,17 +66,13 @@ public class RemoveItem extends HttpServlet {
 			total = cart.get(i).getPrice() + total;
 		}
 		session.setAttribute("total", total);
+		if(cart.isEmpty()) {
+			RequestDispatcher rd = request.getRequestDispatcher("EmptyCart.jsp");
+			rd.include(request, response);
+		}else {
 		RequestDispatcher rd = request.getRequestDispatcher("ViewAndCheckoutShoppingCart.jsp");
 		rd.include(request, response);
-	}
-
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
-	@Override
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		doGet(request, response);
+		}
 	}
 
 }

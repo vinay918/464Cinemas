@@ -37,6 +37,18 @@ public class AddShoppingCart extends HttpServlet {
 			response.sendRedirect("Login.jsp");
 			return;
 		}
+	}
+
+	/**
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 */
+	@Override
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		// TODO Auto-generated method stub
+		if(request.getSession().getAttribute("active") == null || !request.getSession().getAttribute("active").equals(1)){
+			response.sendRedirect("Login.jsp");
+			return;
+		}
 		String ticketQuantityS = request.getParameter("ticketQuantity");
 		response.setContentType("text/html");
 		HttpSession session = request.getSession();
@@ -61,15 +73,6 @@ public class AddShoppingCart extends HttpServlet {
 		session.setAttribute("total", total);
 		RequestDispatcher rd = request.getRequestDispatcher("ViewAndCheckoutShoppingCart.jsp");
 		rd.include(request, response);
-	}
-
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
-	@Override
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		doGet(request, response);
 	}
 
 }

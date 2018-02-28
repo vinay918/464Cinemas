@@ -31,13 +31,20 @@ public class ManageOrder extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
+		if(request.getSession().getAttribute("active") == null || !request.getSession().getAttribute("active").equals(1)){
+			response.sendRedirect("Login.jsp");
+			return;
+		}
 	}
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		if(request.getSession().getAttribute("active") == null || !request.getSession().getAttribute("active").equals(1)){
+			response.sendRedirect("Login.jsp");
+			return;
+		}
 		HttpSession session = request.getSession();
 		session.removeAttribute("order");
 		session.removeAttribute("orderId");

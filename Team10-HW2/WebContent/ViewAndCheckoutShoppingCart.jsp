@@ -32,7 +32,7 @@
 		    </ul>
 		    <ul class="navbar-nav mr-auto">
 		      <li class="nav-item active">
-				<form name="submitForm" method="POST" action="ViewOrders">
+				<form name="submitForm" method="GET" action="ViewOrders">
 		        <a class="nav-link" href="javascript:document.submitForm.submit()">View Orders<span class="sr-only">(current)</span></a>
 		      	</form>
 		      </li>
@@ -98,7 +98,7 @@
 	      <td>
 	      <form>
 			<input type="hidden" name="selection" value = "${item.movie.id}"/>
-	      	<button type="submit" formaction="RemoveItem" class="btn btn-primary">Remove</button>
+	      	<button type="submit" formaction="RemoveItem" formmethod="POST" class="btn btn-primary">Remove</button>
 	      </form>
 		  </td> 	
 	      

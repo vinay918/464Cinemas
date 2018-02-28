@@ -31,7 +31,10 @@ public class CancelOrderItem extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
+		if(request.getSession().getAttribute("active") == null || !request.getSession().getAttribute("active").equals(1)){
+			response.sendRedirect("Login.jsp");
+			return;
+		}
 	}
 
 	/**
@@ -39,6 +42,10 @@ public class CancelOrderItem extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
+		if(request.getSession().getAttribute("active") == null || !request.getSession().getAttribute("active").equals(1)){
+			response.sendRedirect("Login.jsp");
+			return;
+		}
 		HttpSession session = request.getSession();
 		String orderItemId = request.getParameter("orderItemId");
 		String orderDate = request.getParameter("orderDate");
@@ -50,10 +57,12 @@ public class CancelOrderItem extends HttpServlet {
 			TransactionDB trans = new TransactionDB();
 			db.setCancelOrderItem(Integer.parseInt(orderItemId));
 			double afterRefund = trans.getCardBalance(user.getId()) + db.getOrderItemPrice(Integer.parseInt(orderItemId));
-			System.out.println("Details "+ afterRefund);
 			trans.setTransaction(afterRefund, user.getId());
 			session.setAttribute("orderItemId", orderItemId);
 			OrderItem item = db.getOrderItem(Integer.parseInt(orderItemId));
+			int ticketBeforeCancellation = trans.getNumberPurchased(item.getMovie().getId());
+			int ticketAfterCancellation = ticketBeforeCancellation - item.getQuantity();
+			trans.setNumberPurchased(ticketAfterCancellation, item.getMovie().getId());
 			session.setAttribute("cancelledItem", item);
 			session.setAttribute("orderDate", orderDate);
 			RequestDispatcher rd = request.getRequestDispatcher("CancellationConfirmation.jsp");

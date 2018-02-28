@@ -21,5 +21,4 @@ public class MovieShowingDB {
 		db.closeConnection();
 		return output;
 	}
-	
 }

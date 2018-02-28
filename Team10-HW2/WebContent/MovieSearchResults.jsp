@@ -74,7 +74,14 @@
 	      <td class="text-center">${showing.showroom.number}</td>
 	      <td class="text-center">${showing.movie.name}</td>
 	      <td class="text-center">${showing.startTime}</td>
-	      <td class="text-center">${showing.seatsRemaining}</td>
+  			<c:choose> 
+  				<c:when test= "${ showing.seatsRemaining == 0}">
+  					<td class="text-center">Sold Out</td>
+  				</c:when>
+  				<c:when test= "${ showing.seatsRemaining != 0}">
+  					<td class="text-center">${showing.seatsRemaining}</td>
+  				</c:when>
+  			</c:choose>
 	      <td class="text-center">${showing.price}</td>
 	      <td><img src="${showing.movie.thumbnail}" alt="Movie 1" class="poster"></td>
 	      <td>
