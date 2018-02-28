@@ -9,6 +9,7 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 <link rel = "stylesheet" type = "text/css" href = "customStyles/customStyle.css" />
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<%@ taglib prefix="c"  uri="http://java.sun.com/jstl/core_rt" %>
 <title>Manage Order</title>
 </head>
 <body>
@@ -40,12 +41,11 @@
 
 <br>
 
-<h3 style="padding-left:10px">Orders information </h3>
+<h3 style="padding-left:10px">Order #${orderId} information </h3>
 	<table class="table text-center">
 	  <thead>
 	    <tr>
 	      <th scope="col" >#</th>
-	      <th scope="col" class="text-center">Order Number</th>
 	      <th scope="col" class="text-center">Order Details</th>
 	      <th scope="col" class="text-center">Ordered Total</th> 
 	      <th scope="col" class="text-center">Ordered Date</th>
@@ -55,22 +55,41 @@
 	  </thead>
 	  <tbody>
 	    <tr>
-	      <th scope="row">1</th>
-	      <td class="text-center">1801291001</td>
-	      <td class="text-left"><ul>
-  				<li>Movie Name: Star Wars: Episode IV - A New Hope</li>
-  				<li>Ticket quantity: 3 </li>
-  				<li>Total Price: $30</li>
-  				<li>Location: Avery 12</li>
-  				<li>Date/ Time: 2-1-2018 10.00am</li>
-				</ul>
-			</td>
-	      <td class="text-center">$30</td>
-	      <td class="text-center">01-29-2018</td>
-	      <td class="text-center">Prepare for shipment</td>
-	      <td><a href="MovieDetailsAndSelection.jsp" class="btn btn-info" role="button">View</a></td> 	      
-	      <td><a href="CancelOrder.jsp" class="btn btn-info" role="button">Cancel</a></td> 
-	    </tr>
+	       <c:set var="count" value="1" scope="page" />
+	    			<c:forEach var="item" items="${orderItems}">
+	    			<tr>
+	      		<td scope="row" name="index">${count}</td>
+	      		<td class="text-center"><ul>
+  					<li>Movie Name: ${item.movie.movie.name}</li>
+  					<li>Ticket quantity: ${item.quantity} </li>
+  					<li>Location: ${item.movie.showroom.theatre.name }</li>
+  					<li>Date/ Time: ${item.movie.startTime }</li>
+				</ul></td>
+				<td class="text-center">$${item.orderPrice}</td>
+				<td class="text-center">${orderDate}</td>
+	      			<c:choose> 
+  						  	<c:when test= "${  item.isCancel == 1}">
+  								<td class="text-center">Cancelled</td>
+  							</c:when>
+  							<c:when test= "${ item.isCancel != 1}">
+  								<td class="text-center">Confirmed</td>
+  							</c:when>
+  					</c:choose>
+	      			<c:choose> 
+  						  	<c:when test= "${  item.isCancel == 1}">
+  							</c:when>
+  							<c:when test= "${ item.isCancel != 1}">
+  								<td class="text-center">
+									<form>
+									<input type="hidden" name="orderId" value = "${item.orderItemId}"/>
+	      							<button type="submit" formaction="CancelOrderItem" class="btn btn-primary">Cancel Item</button>
+	      							</form>
+								</td>
+  							</c:when>
+  					</c:choose>
+	      		<c:set var="count" value="${count + 1}" scope="page"/>
+	    			</tr>
+	    	    		</c:forEach>
 	  </tbody>
 	</table>
 	<br>

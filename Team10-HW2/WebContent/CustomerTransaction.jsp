@@ -101,7 +101,7 @@
 			  	<div class="col-6 col-md-6">
 			    <label for="userCardNum">Card number</label>
 			   	</div>
-			    <input type="text" class="form-control col-sm-6" name="userCardnum" id="userCardNum" placeholder="Card number">
+			    <input type="text" class="form-control col-sm-6" name="userCardNum" id="userCardNum" placeholder="Card number">
 			  </div>
 			  <br>
 			  <div class="row text-center">

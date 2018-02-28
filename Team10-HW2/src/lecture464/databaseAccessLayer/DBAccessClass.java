@@ -386,11 +386,11 @@ public class DBAccessClass {
 	public void setBalance(int id, double balance){
 		ps = null;
 		try {
-			stmt = conn.createStatement();
-			String query = "UPDATE INTO `CreditCard` SET Balance = ? WHERE UserId = ? ";
+			String query = "UPDATE `CreditCard` SET Balance=? WHERE UserId=?;";
+			ps = conn.prepareStatement(query);
 			ps.setDouble(1,balance);
 			ps.setInt(2,id);
-			stmt.executeUpdate(query);	
+			ps.executeUpdate();	
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -440,6 +440,7 @@ public class DBAccessClass {
 	//add orders TODO: check column names
 	public void addOrderItem(int showingId, int quantity, int orderId, double totalPrice){
 		ps = null;
+		int isCancel = 0;
 		try {
 			stmt = conn.createStatement();
 			String query = "INSERT INTO `OrderItem` (`OrderId`,`ShowingId`,`Quantity`,`TotalPrice`) " +
@@ -497,13 +498,13 @@ public class DBAccessClass {
 		ps = null;
 		User user = getUser(userId);
 		ArrayList<Orders> orders = new ArrayList<Orders>();
-		Orders order = new Orders();
 		try {
 			String query = "SELECT * FROM `Order` WHERE CustomerId=?;";			
 			ps = conn.prepareStatement(query);
 			ps.setInt(1,userId);
 			ResultSet rs = ps.executeQuery();
 			while(rs.next()) {
+				Orders order = new Orders();
 				order.setOrderId(rs.getInt("OrderId"));
 				order.setOrderDate(rs.getString("OrderDate"));
 				order.setTotalCost(rs.getDouble("TotalCost"));
@@ -518,27 +519,45 @@ public class DBAccessClass {
 	}
 	
 	//TODO: check column name
-	public ArrayList<CartItem> getOrderItem(int orderId) {
+	public ArrayList<OrderItem> getOrderItem(int orderId) {
 		ps = null;
-		ArrayList<CartItem> order = new ArrayList<CartItem>();
-		CartItem item = new CartItem();
+		ArrayList<OrderItem> orderItems = new ArrayList<OrderItem>();
 		try {
 			String query = "SELECT * FROM `OrderItem` WHERE OrderId=?;";			
 			ps = conn.prepareStatement(query);
 			ps.setInt(1,orderId);
 			ResultSet rs = ps.executeQuery();
 			while(rs.next()) {
+				System.out.println("row");
+				OrderItem item = new OrderItem();
 				item.setMovie(getShowing(rs.getInt("showingId")));
-				item.setPrice(rs.getDouble("TotalPrice"));
-				item.setTicketQuantity(rs.getInt("Quantity"));
-				order.add(item);
+				item.setOrderPrice(rs.getDouble("TotalPrice"));
+				item.setQuantity(rs.getInt("Quantity"));
+				System.out.println("cancel: " + rs.getInt("IsCancel"));
+				item.setIsCancel(rs.getInt("IsCancel"));
+				item.setOrderId(rs.getInt("OrderId"));
+				orderItems.add(item);
 			}
-			return order;
+			return orderItems;
 		}catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		return order;
+		return orderItems;
+	}
+	
+	public void setCancelOrderItem(int orderItemId) {
+		ps = null;
+		try {
+			String query = "UPDATE `OrderItem` SET IsCancel=? WHERE OrderItemId=?;";
+			ps = conn.prepareStatement(query);
+			ps.setInt(1, 1);
+			ps.setInt(2, orderItemId);
+			ps.executeUpdate();	
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 	//Connection and disconnection

@@ -20,16 +20,18 @@ public class OrdersDB {
 		return orders;
 	}
 	
-	public ArrayList<CartItem> getOrderItems(int orderId){
+	public ArrayList<OrderItem> getOrderItems(int orderId){
 		DBAccessClass db = new DBAccessClass();
 		db.connectMeIn();
-		ArrayList<CartItem> items = new ArrayList<CartItem>();
+		ArrayList<OrderItem> items = new ArrayList<OrderItem>();
 		items = db.getOrderItem(orderId);
 		return items;
 	}
 	
-	public void addOrder() {
-		
+	public void addOrder(int orderId, int userId, double totalCost, String orderDate, String billingAddress, String creditCardNumber) {
+		DBAccessClass db = new DBAccessClass();
+		db.connectMeIn();
+		db.addOrder(orderId, userId, totalCost, orderDate, billingAddress, creditCardNumber);
 	}
 	
 	

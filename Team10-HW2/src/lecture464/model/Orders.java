@@ -1,7 +1,5 @@
 package lecture464.model;
 
-import java.util.*;
-
 public class Orders {
 	
 	private int orderId;

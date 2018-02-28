@@ -50,49 +50,9 @@
 	      <th scope="col" class="text-center">Order Number</th>
 	      <th scope="col" class="text-center">Order Total</th>
 	      <th scope="col" class="text-center">Ordered date</th>     
-	  	  <th></th>
+	  	  <th>Manage</th>
 	    </tr>
 	  </thead>
-	  	  <tbody>
-	  <c:set var="count" value="1" scope="page" />
-	    <c:forEach var="item" items="${shoppingCart}">
-	    <tr>
-	      <th scope="row" name="index">${count}</th>
-	      <td class="text-center">${item.movie.movie.name}</td>
-	      <td ><img src="${item.movie.movie.thumbnail }" alt="Movie 1" class="poster"></td>
-	      <td class="text-center">${item.movie.showroom.theatre.name}</td>
-	      <td class="text-center">${item.movie.startTime }</td>
-	      <td class="text-center">
-			<form method="POST" action ="UpdateShoppingCart">
-			<input type="hidden" name="index" value = "${count}"/>
-	      		<select class="form-control" name="ticketQuantity" onchange="this.form.submit()">
-  					<c:set var="count" value="1" scope="page" />
-  					<c:forEach var = "i" begin = "1" end = "${showing.seatsRemaining}">
-  						<c:choose> 
-  						  	<c:when test= "${ i == item.ticketQuantity}">
-  								<option value="${i}" selected="selected">${i}</option>
-  							</c:when>
-  							<c:when test= "${ i != item.ticketQuantity}">
-  								<option value="${i}">${i}</option>
-  							</c:when>
-  						</c:choose>
-  					</c:forEach>
-  				</select>
-  			</form>
-  		  </td>
-	      <%-- <td class="text-center"><input type="text" class="numTicket" placeholder="Quantity" value ="${item.ticketQuantity}"></input></td> --%>
-	      <td class="text-center">$ ${item.price}</td>
-	      <c:set var="count" value="${count + 1}" scope="page"/>
-	      <td>
-	      <form>
-			<input type="hidden" name="selection" value = "${item.movie.id}"/>
-	      	<button type="submit" formaction="RemoveItem" class="btn btn-primary">Remove</button>
-	      </form>
-		  </td> 	
-	      
-	    </tr>
-	    	    </c:forEach>
-	  </tbody>
 	  <tbody>
 	    <tr>
 	       <c:set var="count" value="1" scope="page" />
@@ -102,12 +62,13 @@
 	      		<td class="text-center">${order.orderId}</td>
 	      		<td class="text-center">${order.totalCost}</td>
 	      		<td class="text-center">${order.orderDate}</td>
-	      		<td><a href="ManageOrder.jsp">View Details</a></td> 
 	      		<td>
 	      		<form>
-					<input type="hidden" name="selection" value = "${count}"/>
-	      			<button type="submit" formaction="ManageOrder" class="btn btn-primary">Remove</button>
+	      			<input type="hidden" name="orderDate" value = "${order.orderDate}"/>
+					<input type="hidden" name="orderId" value = "${order.orderId}"/>
+	      			<button type="submit" formaction="ManageOrder" class="btn btn-primary">Manage Order</button>
 	      		</form>
+	      		<c:set var="count" value="${count + 1}" scope="page"/>
 		  		</td> 	
 	    			</tr>
 	    	    		</c:forEach>

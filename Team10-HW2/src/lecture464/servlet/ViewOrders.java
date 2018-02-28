@@ -11,10 +11,11 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import lecture464.databaseAccessLayer.OrdersDB;
-import lecture464.model.*;
+import lecture464.model.Orders;
+import lecture464.model.User;
 
 /**
- * Servlet implementation class ViewOrder
+ * Servlet implementation class ViewOrders
  */
 public class ViewOrders extends HttpServlet {
 	private static final long serialVersionUID = 1L;
@@ -31,6 +32,7 @@ public class ViewOrders extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		// TODO Auto-generated method stub
 		if(request.getSession().getAttribute("active") == null || !request.getSession().getAttribute("active").equals(1)){
 			response.sendRedirect("Login.jsp");
 			return;
@@ -45,7 +47,7 @@ public class ViewOrders extends HttpServlet {
 			address = "NoOrder.jsp";
 			RequestDispatcher rd = request.getRequestDispatcher(address);
 			rd.include(request, response);
-		}else {
+		}else{
 			address = "ViewOrders.jsp";
 			session.setAttribute("orders", orders);
 			RequestDispatcher rd = request.getRequestDispatcher(address);

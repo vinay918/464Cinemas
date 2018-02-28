@@ -15,6 +15,7 @@ public class TransactionDB {
 	public void setTransaction(double balance, int id) {
 		DBAccessClass db = new DBAccessClass();
 		db.connectMeIn();
+		System.out.println(balance + "   " + id);
 		db.setBalance(id, balance);
 	}
 

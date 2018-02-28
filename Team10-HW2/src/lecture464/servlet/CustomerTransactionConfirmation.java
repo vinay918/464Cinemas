@@ -1,6 +1,7 @@
 package lecture464.servlet;
 
 import java.io.IOException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Calendar;
 
@@ -45,7 +46,6 @@ public class CustomerTransactionConfirmation extends HttpServlet {
 		User user = (User) session.getAttribute("user");
 		int id = user.getId();
 		Transaction trans = transDb.getTransaction(id);
-		System.out.println(trans.getAddress());
 		//TODO: debug
 		double total = (double) session.getAttribute("total");
 		String cardName = request.getParameter("cardName");
@@ -56,8 +56,11 @@ public class CustomerTransactionConfirmation extends HttpServlet {
 		String expirationDate  = expirationMonth+ "/" + expirationYear;
 		String cardType  = request.getParameter("cardType");
 		String address  = request.getParameter("userBillingAddress");
-		System.out.println(id);
 		ArrayList<CartItem> cart = (ArrayList<CartItem>)session.getAttribute("shoppingCart");
+		if(cart.isEmpty()) {
+			RequestDispatcher rd = request.getRequestDispatcher("EmptyCart.jsp");
+			rd.include(request, response);
+		}
 		Transaction userTransaction = new Transaction(cardNumber, cardType, securityCode, expirationDate, total, cardName, address);
 		String transactionAddress;
 //		if(!userTransaction.ValidateTransaction(trans, userTransaction)) {
@@ -71,17 +74,19 @@ public class CustomerTransactionConfirmation extends HttpServlet {
 			System.out.println(balance);
 			Calendar calendar = Calendar.getInstance();
 			int date = calendar.get(Calendar.DAY_OF_YEAR);
+			int hour = calendar.get(Calendar.HOUR_OF_DAY);
 			int minute = calendar.get(Calendar.MINUTE);
 			int second = calendar.get(Calendar.SECOND);
-			String orderId = Integer.toString(date)+Integer.toString(minute)+Integer.toString(second);
+			String orderId = Integer.toString(date)+Integer.toString(hour)+Integer.toString(minute)+Integer.toString(second);
 			System.out.print(orderId);
+			orders.addOrder(Integer.parseInt(orderId), id, total, LocalDate.now().toString() , address, cardNumber);
 			for(int i=0;i<cart.size();i++) {
 				orders.addOrderItem(Integer.parseInt(orderId), cart.get(i).getMovie().getId(), cart.get(i).getTicketQuantity(), userTransaction.getBalance());
 			}
-			//transDb.setTransaction(balance, id);
+			transDb.setTransaction(balance, id);
 			
-			//RequestDispatcher rd = request.getRequestDispatcher(transactionAddress);
-			//rd.include(request, response);
+			RequestDispatcher rd = request.getRequestDispatcher(transactionAddress);
+			rd.include(request, response);
 		//}
 	}
 
