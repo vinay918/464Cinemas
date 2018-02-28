@@ -66,7 +66,7 @@
 	      		<form>
 	      			<input type="hidden" name="orderDate" value = "${order.orderDate}"/>
 					<input type="hidden" name="orderId" value = "${order.orderId}"/>
-	      			<button type="submit" formaction="ManageOrder" class="btn btn-primary">Manage Order</button>
+	      			<button type="submit" formaction="ManageOrder" formmethod="post" class="btn btn-primary">Manage Order</button>
 	      		</form>
 	      		<c:set var="count" value="${count + 1}" scope="page"/>
 		  		</td> 	

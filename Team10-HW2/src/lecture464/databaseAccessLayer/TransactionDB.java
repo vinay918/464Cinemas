@@ -17,6 +17,15 @@ public class TransactionDB {
 		db.connectMeIn();
 		System.out.println(balance + "   " + id);
 		db.setBalance(id, balance);
+		db.closeConnection();
 	}
 
+	public double getCardBalance(int userId) {
+		DBAccessClass db = new DBAccessClass();
+		db.connectMeIn();
+		double balance = db.getBalance(userId);
+		db.closeConnection();
+		return balance;
+	}
+	
 }

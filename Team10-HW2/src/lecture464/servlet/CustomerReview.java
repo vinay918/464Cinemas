@@ -29,7 +29,6 @@ public class CustomerReview extends HttpServlet {
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
-	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		String address;
@@ -43,8 +42,7 @@ public class CustomerReview extends HttpServlet {
 		CustomerReviewDB customerReview = new CustomerReviewDB();
 		System.out.println(rating + "    " +review);
 		try {
-			double ratingD = Double.parseDouble(rating);
-			customerReview.addMovieReview(selectedMovie, user, review, ratingD);
+			customerReview.addMovieReview(selectedMovie.getId(), user.getId() , review, Double.parseDouble(rating));
 		}catch(Exception e){
 			success = false;
 		}
@@ -52,15 +50,14 @@ public class CustomerReview extends HttpServlet {
 			address = "ReviewSuccess.jsp";
 		} else {
 			address = "ReviewFail.jsp";
-			RequestDispatcher dispatcher = request.getRequestDispatcher(address);
-			dispatcher.forward(request, response);
+			RequestDispatcher rd = request.getRequestDispatcher("EmptyCart.jsp");
+			rd.include(request, response);
 		}
 	}
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
-	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		doGet(request, response);

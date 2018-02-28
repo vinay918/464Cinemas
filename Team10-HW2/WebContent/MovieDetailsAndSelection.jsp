@@ -98,6 +98,12 @@
 			</form>
 		</div>		
 	</div>
+	
+	<div class="row text-center">
+		<div class="col-xs-1 offset-sm-5">
+		<a class="nav-link" href="CustomerReview.jsp">Write a review</a>
+		</div>
+	</div>
 </center>
 	
 	<div class="row">

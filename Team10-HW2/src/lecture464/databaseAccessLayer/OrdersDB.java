@@ -10,6 +10,7 @@ public class OrdersDB {
 		DBAccessClass db = new DBAccessClass();
 		db.connectMeIn();
 		db.addOrderItem(showingId, quantity, orderId, totalPrice);
+		db.closeConnection();
 	}
 	
 	public ArrayList<Orders> getUserOrders(int userId) {
@@ -17,6 +18,7 @@ public class OrdersDB {
 		db.connectMeIn();
 		ArrayList<Orders> orders = new ArrayList<Orders>();
 		orders = db.getOrders(userId);
+		db.closeConnection();
 		return orders;
 	}
 	
@@ -24,7 +26,8 @@ public class OrdersDB {
 		DBAccessClass db = new DBAccessClass();
 		db.connectMeIn();
 		ArrayList<OrderItem> items = new ArrayList<OrderItem>();
-		items = db.getOrderItem(orderId);
+		items = db.getOrderItems(orderId);
+		db.closeConnection();
 		return items;
 	}
 	
@@ -32,7 +35,30 @@ public class OrdersDB {
 		DBAccessClass db = new DBAccessClass();
 		db.connectMeIn();
 		db.addOrder(orderId, userId, totalCost, orderDate, billingAddress, creditCardNumber);
+		db.closeConnection();
 	}
 	
+	public double getOrderItemPrice(int orderItemId) {
+		DBAccessClass db = new DBAccessClass();
+		db.connectMeIn();
+		double price = db.getOrderItem(orderItemId).getOrderPrice();
+		db.closeConnection();
+		return price;
+	}
+	
+	public void setCancelOrderItem(int orderItemId) {
+		DBAccessClass db = new DBAccessClass();
+		db.connectMeIn();
+		db.setCancelOrderItem(orderItemId);
+		db.closeConnection();
+	}
+	
+	public OrderItem getOrderItem(int orderItemId) {
+		DBAccessClass db = new DBAccessClass();
+		db.connectMeIn();
+		OrderItem item = db.getOrderItem(orderItemId);
+		db.closeConnection();
+		return item;
+	}
 	
 }

@@ -14,10 +14,10 @@ public class CustomerReviewDB
 		return db.getCustomerReviews(id);
 	}
 	
-	public void addMovieReview(MovieShowing movie, User user, String review, double rating){
+	public void addMovieReview(int movieId, int userId, String review, double rating){
 		DBAccessClass db = new DBAccessClass();
 		db.connectMeIn();
-		db.addMovieReview(movie,user, review, rating);
+		db.addMovieReview(movieId, userId, review, rating);
 		db.closeConnection();
 	}
 	

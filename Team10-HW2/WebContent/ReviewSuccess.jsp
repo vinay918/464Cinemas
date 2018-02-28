@@ -46,6 +46,8 @@
 		<br>
 		
 		<h3>Your review has been submitted.</h3>
-		<a href="MovieDetailsAndSelection.jsp"> Return </a> <br>
+		<form name="submitForm" method="POST" action="MovieDetails">
+		       <a class="nav-link" href="javascript:document.submitForm.submit()">Return</a>
+		</form>
 </body>
 </html>

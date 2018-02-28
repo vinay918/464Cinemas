@@ -11,6 +11,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Cancellation Confirmation</title>
 </head>
+<%@ taglib prefix="c"  uri="http://java.sun.com/jstl/core_rt" %>
 <body>
 <nav class="navbar navbar-toggleable-md navbar-light bg-faded">
 		  <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -55,19 +56,25 @@
 	  <tbody>
 	    <tr>
 	      <th scope="row">1</th>
-	      <td class="text-center">1801291001</td>
+	      <td class="text-center">${item.orderItemId }</td>
 	      <td class="text-left"><ul>
-  				<li>Movie Name: Star Wars: Episode IV - A New Hope</li>
-  				<li>Ticket quantity: 3 </li>
-  				<li>Total Price: $30</li>
-  				<li>Location: Avery 12</li>
-  				<li>Date/ Time: 2-1-2018 10.00am</li>
+  				<li>Movie Name: ${item.movie.movie.name}</li>
+  				<li>Ticket quantity: ${item.quantity} </li>
+  				<li>Location: ${item.movie.showroom.theatre.name }</li>
+  				<li>Date/ Time: ${item.movie.startTime }</li>
 				</ul>
 			</td>
-	      <td class="text-center">$30</td>
-	      <td class="text-center">01-29-2018</td>
-	      <td class="text-center">Cancelled</td>
-	      <td>The full amount will be refunded within 3 business day.</td> 
+	      <td class="text-center">$${item.orderPrice}</td>
+	      <td class="text-center">${orderDate }</td>
+	      	<c:choose> 
+  						  	<c:when test= "${  item.isCancel == 1}">
+  								<td class="text-center">Cancelled</td>
+  							</c:when>
+  							<c:when test= "${ item.isCancel != 1}">
+  								<td class="text-center">Confirmed</td>
+  							</c:when>
+  			</c:choose>
+	      <td>The full amount is refunded and added to the credit card of this user account.</td> 
 	    </tr>
 	  </tbody>
 	</table>

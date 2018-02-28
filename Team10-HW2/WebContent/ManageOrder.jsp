@@ -81,8 +81,9 @@
   							<c:when test= "${ item.isCancel != 1}">
   								<td class="text-center">
 									<form>
-									<input type="hidden" name="orderId" value = "${item.orderItemId}"/>
-	      							<button type="submit" formaction="CancelOrderItem" class="btn btn-primary">Cancel Item</button>
+									<input type="hidden" name="orderDate" value = "${orderDate}"/>
+									<input type="hidden" name="orderItemId" value = "${item.orderItemId}"/>
+	      							<button type="submit" formaction="CancelOrderItem" formmethod="post" class="btn btn-primary">Cancel Item</button>
 	      							</form>
 								</td>
   							</c:when>

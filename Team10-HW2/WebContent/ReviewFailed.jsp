@@ -46,6 +46,9 @@
 		<br>
 		
 		<h3>Hmm. Something went wrong. Your review wasn't saved.</h3>
-		<a href="MovieDetailsAndSelection.jsp"> Return </a> <br>
+		<form name="submitForm" method="POST" action="MovieDetails">
+		       <a class="nav-link" href="javascript:document.submitForm.submit()">Return</a>
+		</form>
+		<br>
 </body>
 </html>

@@ -169,4 +169,24 @@
     <servlet-name>CancelOrder</servlet-name>
     <url-pattern>/CancelOrder</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>CancelOrderItem</display-name>
+    <servlet-name>CancelOrderItem</servlet-name>
+    <servlet-class>lecture464.servlet.CancelOrderItem</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>CancelOrderItem</servlet-name>
+    <url-pattern>/CancelOrderItem</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>CustomerReview</display-name>
+    <servlet-name>CustomerReview</servlet-name>
+    <servlet-class>lecture464.servlet.CustomerReview</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>CustomerReview</servlet-name>
+    <url-pattern>/CustomerReview</url-pattern>
+  </servlet-mapping>
 </web-app>

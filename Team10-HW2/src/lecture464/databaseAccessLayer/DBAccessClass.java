@@ -368,14 +368,14 @@ public class DBAccessClass {
 		return customerReviews;
 	}		
 	
-	public void addMovieReview(MovieShowing movie, User user, String review, double rating){
+	public void addMovieReview(int movieId, int userId, String review, double rating){
 		ps = null;
 		String customerReview;
 
 		try {
 			stmt = conn.createStatement();
 			String query = "INSERT INTO `CustomerReview` (`MovieId`,`UserId`,`ReviewDate`,`Rating`,`Review` ) " +
-			          "VALUES ('"+movie.getId()+"', '"+user.getId()+"', '"+java.time.LocalDate.now()+"', '"+rating+"', '"+review+"');";
+			          "VALUES ('"+movieId+"', '"+userId+"', '"+java.time.LocalDate.now()+"', '"+rating+"', '"+review+"');";
 			stmt.executeUpdate(query);	
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -395,6 +395,26 @@ public class DBAccessClass {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+	
+	public double getBalance(int userId) {
+		ps = null;
+		User user = getUser(userId);
+		double balance = 0;
+		try {
+			String query = "SELECT * FROM `CreditCard` WHERE UserId=?;";			
+			ps = conn.prepareStatement(query);
+			ps.setInt(1,userId);
+			ResultSet rs = ps.executeQuery();
+			while(rs.next()) {
+				balance = rs.getDouble("Balance");
+				return balance;
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return balance;
 	}
 	
 	public Transaction getCardDetails(int userId) {
@@ -491,7 +511,28 @@ public class DBAccessClass {
 		}
 	}
 	
-	
+	public OrderItem getOrderItem(int orderItemId) {
+		ps = null;
+		OrderItem item = new OrderItem();
+		try {
+			String query = "SELECT * FROM `OrderItem` WHERE OrderItemId=?;";			
+			ps = conn.prepareStatement(query);
+			ps.setInt(1,orderItemId);
+			ResultSet rs = ps.executeQuery();
+			while(rs.next()) {
+				item.setMovie(getShowing(rs.getInt("showingId")));
+				item.setOrderPrice(rs.getDouble("TotalPrice"));
+				item.setQuantity(rs.getInt("Quantity"));
+				System.out.println("cancel: " + rs.getInt("IsCancel"));
+				item.setIsCancel(rs.getInt("IsCancel"));
+				item.setOrderId(rs.getInt("OrderId"));
+				return item;
+			}
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}
+		return item;
+	}
 	
 	//get orders TODO: check column names
 	public ArrayList<Orders> getOrders(int userId) {
@@ -519,7 +560,7 @@ public class DBAccessClass {
 	}
 	
 	//TODO: check column name
-	public ArrayList<OrderItem> getOrderItem(int orderId) {
+	public ArrayList<OrderItem> getOrderItems(int orderId) {
 		ps = null;
 		ArrayList<OrderItem> orderItems = new ArrayList<OrderItem>();
 		try {
@@ -530,6 +571,7 @@ public class DBAccessClass {
 			while(rs.next()) {
 				System.out.println("row");
 				OrderItem item = new OrderItem();
+				item.setOrderItemId(rs.getInt("OrderItemId"));
 				item.setMovie(getShowing(rs.getInt("showingId")));
 				item.setOrderPrice(rs.getDouble("TotalPrice"));
 				item.setQuantity(rs.getInt("Quantity"));
