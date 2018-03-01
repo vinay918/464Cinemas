@@ -10,6 +10,51 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 <link rel = "stylesheet" type = "text/css" href = "customStyles/customStyle.css" />
 <script>
+	function validateForm() {
+	var a = document.forms["userPayment"]["userFirstName"].value;
+	var b = document.forms["userPayment"]["userLastName"].value;
+	var c = document.forms["userPayment"]["cardName"].value;
+	var d = document.forms["userPayment"]["userCardNum"].value;
+	var e = document.forms["userPayment"]["userSecurityCode"].value;
+	var f = document.forms["userPayment"]["userBillingAddress"].value;
+	var g = document.forms["userPayment"]["userShippingAddress"].value;
+	var h = document.forms["userPayment"]["userBillingZip"].value;
+	var i = document.forms["userPayment"]["userShipZip"].value;
+	var j = document.forms["userPayment"]["userBillState"].value;
+	var k = document.forms["userPayment"]["userShipState"].value;
+	
+
+	if (a == "") {
+    		alert("Please fill in first name.");
+    		return false;
+	}		    
+	if (b == "") {
+    		alert("Please fill in last name.");
+    		return false;
+	}
+	if (c == "") {
+		alert("Please fill in card holder name.");
+		return false;
+	}
+	if (d == "") {
+		alert("Please fill in card number.");
+		return false;
+	}
+	if (e == "") {
+		alert("Please fill in security code.");
+		return false;
+	}else if(e.length>3){
+		alert("Security code should be 3 digits");
+	}
+	if (f == "") {
+		alert("Please fill in billing address.");
+		return false;
+	}
+	if (g == "") {
+		alert("Please fill in shipping address.");
+		return false;
+	}
+	}
 </script>
 </head>
 <%@ taglib prefix="c"  uri="http://java.sun.com/jstl/core_rt" %>
@@ -79,7 +124,7 @@
 		<br>
 		<h4 class="text-center">${balanceAndDetails}</h4>
 		<div class = "container">
-		<form name="userPayment" action="CustomerTransactionConfirmation" method="post">
+		<form name="userPayment" action="CustomerTransactionConfirmation" onsubmit="return validateForm()" method="post">
 			<div class="row">
 			  <div class="col-6 col-md-6">
 			  	<div class="row text-center">
@@ -178,7 +223,7 @@
 						<input type="text" class="form-control" name="userBillingZip" id="userBillingZip" placeholder="Zip Code">
 			   		 	</div>
 			   		 	<div class="col-md-6 text-center">
-			   		 	<input type="text" class="form-control" name="userState" id="userState" placeholder="State">
+			   		 	<input type="text" class="form-control" name="userBillState" id="userState" placeholder="State">
 						</div>
 					</div>
 				</div>
@@ -198,7 +243,7 @@
 
 			   		 	</div>
 			   		 	<div class="col-md-6 text-center">
-			   		 	<input type="text" class="form-control" name="userState" id="userState" placeholder="State">
+			   		 	<input type="text" class="form-control" name="userShipState" id="userState" placeholder="State">
 						</div>
 					</div>
 				</div>

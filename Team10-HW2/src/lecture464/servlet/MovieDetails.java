@@ -41,7 +41,12 @@ public class MovieDetails extends HttpServlet {
 		}
 		String showingId = request.getParameter("selection");
 		MovieShowingDB showingDB = new MovieShowingDB();
-		MovieShowing showing = showingDB.getMovieShowing(Integer.parseInt(showingId));
+		MovieShowing showing;
+		if(showingId!=null) {
+			showing = showingDB.getMovieShowing(Integer.parseInt(showingId));
+		}else{
+			showing = showingDB.getMovieShowing(Integer.parseInt(request.getParameter("showingId")));
+		}
 		HttpSession session = request.getSession();
 		session.setAttribute("showing", showing);		
 		int movieId=showing.getMovie().getId();

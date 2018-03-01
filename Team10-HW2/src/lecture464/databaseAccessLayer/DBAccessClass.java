@@ -416,10 +416,10 @@ public class DBAccessClass {
 		return balance;
 	}
 	
-	public Transaction getCardDetails(int userId) {
+	public CreditCard getCardDetails(int userId) {
 		ps = null;
 		User user = getUser(userId);
-		Transaction trans = new Transaction();
+		CreditCard trans = new CreditCard();
 		try {
 			String query = "SELECT * FROM `User` WHERE UserId=?;";			
 			ps = conn.prepareStatement(query);

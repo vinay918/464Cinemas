@@ -57,7 +57,7 @@ public class CustomerTransactionConfirmation extends HttpServlet {
 		session.removeAttribute("currentOrder");
 		User user = (User) session.getAttribute("user");
 		int id = user.getId();
-		Transaction trans = transDb.getTransaction(id);
+		CreditCard trans = transDb.getTransaction(id);
 		//TODO: debug
 		double total = (double) session.getAttribute("total");
 		String cardName = request.getParameter("cardName");
@@ -73,7 +73,8 @@ public class CustomerTransactionConfirmation extends HttpServlet {
 			RequestDispatcher rd = request.getRequestDispatcher("EmptyCart.jsp");
 			rd.include(request, response);
 		}
-		Transaction userTransaction = new Transaction(cardNumber, cardType, securityCode, expirationDate, total, cardName, address);
+		try {
+		CreditCard userTransaction = new CreditCard(cardNumber, cardType, securityCode, expirationDate, total, cardName, address);
 		String transactionAddress;
 		System.out.println(trans.getBalance()+", "+trans.getCreditCardNumber()+", "+ trans.getAddress()+", "+ trans.getCvv()+", "+ trans.getExpirationDate()+", "+ trans.getName());
 		System.out.println(total+", "+cardNumber+", "+address+", "+ securityCode+", "+ expirationDate+", "+ cardName);
@@ -98,7 +99,7 @@ public class CustomerTransactionConfirmation extends HttpServlet {
 			System.out.print(orderId);
 			orders.addOrder(Integer.parseInt(orderId), id, total, LocalDate.now().toString() , address, cardNumber);
 			for(int i=0;i<cart.size();i++) {
-				orders.addOrderItem(Integer.parseInt(orderId), cart.get(i).getMovie().getId(), cart.get(i).getTicketQuantity(), userTransaction.getBalance());
+				orders.addOrderItem(Integer.parseInt(orderId), cart.get(i).getMovie().getId(), cart.get(i).getTicketQuantity(), cart.get(i).getPrice());
 				int ticketPurchasedBeforeOrder = transDb.getNumberPurchased(cart.get(i).getMovie().getId());
 				transDb.setNumberPurchased((ticketPurchasedBeforeOrder+cart.get(i).getTicketQuantity()), cart.get(i).getMovie().getId());
 				System.out.println("Ticket purchased now: "+ transDb.getNumberPurchased(cart.get(i).getMovie().getId()));
@@ -108,7 +109,16 @@ public class CustomerTransactionConfirmation extends HttpServlet {
 			session.setAttribute("orderId", orderId);
 			session.setAttribute("currentOrder", currentOrder);
 			session.setAttribute("orderDate", java.time.LocalDate.now());
+			session.removeAttribute("shoppingCart");
+			ArrayList<CartItem> cart1 = new ArrayList<CartItem>();
+			session.setAttribute("shoppingCart", cart1);
 			RequestDispatcher rd = request.getRequestDispatcher(transactionAddress);
+			rd.include(request, response);
+			}
+		}catch(Exception e) {
+			String msg = "New user does not have an address.";
+			session.setAttribute("balanceAndDetails", msg);
+			RequestDispatcher rd = request.getRequestDispatcher("CustomerTransaction.jsp");
 			rd.include(request, response);
 		}
 	}

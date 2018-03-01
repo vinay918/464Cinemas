@@ -111,6 +111,10 @@
 		<h3 class="col-md-4 text-center">Your total price is $ ${total}</h3>
 		<div class="col-md-1"></div>
 		<div class="col-md-2">
+		<a href="CustomerHomePage.jsp" class="btn btn-info" role="button">Continue Shopping</a>
+		</div>
+		<div class="col-md-1"></div>
+		<div class="col-md-2">
 		<a href="CustomerTransaction.jsp" class="btn btn-info" role="button">Proceed to Check out</a>
 		</div>
 	</div>

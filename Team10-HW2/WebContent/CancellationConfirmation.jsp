@@ -72,10 +72,10 @@
 	      <td class="text-center">$${cancelledItem.orderPrice}</td>
 	      <td class="text-center">${orderDate }</td>
 	      	<c:choose> 
-  						  	<c:when test= "${  item.isCancel == 1}">
+  						  	<c:when test= "${  cancelledItem.isCancel == 1}">
   								<td class="text-center">Cancelled</td>
   							</c:when>
-  							<c:when test= "${ item.isCancel != 1}">
+  							<c:when test= "${ cancelledItem.isCancel != 1}">
   								<td class="text-center">Confirmed</td>
   							</c:when>
   			</c:choose>
