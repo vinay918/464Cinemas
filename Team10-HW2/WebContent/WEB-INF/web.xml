@@ -189,4 +189,14 @@
     <servlet-name>CustomerReview</servlet-name>
     <url-pattern>/CustomerReview</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>Start</display-name>
+    <servlet-name>Start</servlet-name>
+    <servlet-class>lecture464.servlet.Start</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>Start</servlet-name>
+    <url-pattern>/Start</url-pattern>
+  </servlet-mapping>
 </web-app>

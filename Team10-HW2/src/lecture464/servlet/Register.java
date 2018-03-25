@@ -57,6 +57,7 @@ public class Register extends HttpServlet {
 	 */
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
 		String userName = request.getParameter("userName");
 		String password = request.getParameter("password");
 		String fName = request.getParameter("fName");
@@ -75,6 +76,7 @@ public class Register extends HttpServlet {
 			users++;
 			session.setAttribute("WrongPassword","You have been successfully registered!");
 			session.removeAttribute("Error");
+			aUser.sendEmail(aUser, "tempmail464@gmail.com","CSCE 464 Cinemas","Welcome to our website, "+aUser.getFirstName()+"! We're glad to have you on board.");
 		}else if(aUser.userRegistered(aUser)){
 			session.setAttribute("Error","The Username has been already used. Please pick something else");
 			session.removeAttribute("WrongPassword");

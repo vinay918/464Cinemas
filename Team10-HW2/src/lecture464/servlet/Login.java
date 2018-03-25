@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import javax.servlet.ServletException;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -32,14 +33,21 @@ public class Login extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String userName = request.getParameter("userName");
 		String password = request.getParameter("password");
-		/* The users.properties file is stored in the "WEB-INF" folder.
-		   To access this file, you will need its absolute path. */
+		String remember = request.getParameter("remember");
 
 		HttpSession session = request.getSession();
 		
 		User tempUser = new User(-1,userName, password, "","","","");
 		
 		if(tempUser.validateUser(tempUser)){
+			if(remember != null && remember.equals("on")){
+				Cookie cookieUName = new Cookie("userName",userName);
+				Cookie cookiePass = new Cookie("password",password);				
+				cookieUName.setMaxAge(60 * 60 * 24 * 365 * 10);
+				cookiePass.setMaxAge(60 * 60 * 24 * 365 * 10);
+				response.addCookie(cookieUName);
+				response.addCookie(cookiePass);	
+			}
 			User user = tempUser.completeUser(tempUser);
 			ArrayList<CartItem> shoppingCart= new ArrayList<CartItem>();
 			response.sendRedirect("CustomerHomePage.jsp");

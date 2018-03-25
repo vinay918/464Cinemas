@@ -76,8 +76,6 @@ public class CustomerTransactionConfirmation extends HttpServlet {
 		try {
 		CreditCard userTransaction = new CreditCard(cardNumber, cardType, securityCode, expirationDate, total, cardName, address);
 		String transactionAddress;
-		System.out.println(trans.getBalance()+", "+trans.getCreditCardNumber()+", "+ trans.getAddress()+", "+ trans.getCvv()+", "+ trans.getExpirationDate()+", "+ trans.getName());
-		System.out.println(total+", "+cardNumber+", "+address+", "+ securityCode+", "+ expirationDate+", "+ cardName);
 		if(!userTransaction.ValidateTransaction(trans, userTransaction)) {
 			String msg = "Please make sure your bank details are correct and the balance is enough.";
 			session.setAttribute("balanceAndDetails", msg);
@@ -89,20 +87,17 @@ public class CustomerTransactionConfirmation extends HttpServlet {
 			transactionAddress = "TransactionSuccess.jsp";
 			OrdersDB orders = new OrdersDB();
 			double balance = trans.getBalance() - userTransaction.getBalance();
-			System.out.println(balance);
 			Calendar calendar = Calendar.getInstance();
 			int date = calendar.get(Calendar.DAY_OF_YEAR);
 			int hour = calendar.get(Calendar.HOUR_OF_DAY);
 			int minute = calendar.get(Calendar.MINUTE);
 			int second = calendar.get(Calendar.SECOND);
 			String orderId = Integer.toString(date)+Integer.toString(hour)+Integer.toString(minute)+Integer.toString(second);
-			System.out.print(orderId);
 			orders.addOrder(Integer.parseInt(orderId), id, total, LocalDate.now().toString() , address, cardNumber);
 			for(int i=0;i<cart.size();i++) {
 				orders.addOrderItem(Integer.parseInt(orderId), cart.get(i).getMovie().getId(), cart.get(i).getTicketQuantity(), cart.get(i).getPrice());
 				int ticketPurchasedBeforeOrder = transDb.getNumberPurchased(cart.get(i).getMovie().getId());
 				transDb.setNumberPurchased((ticketPurchasedBeforeOrder+cart.get(i).getTicketQuantity()), cart.get(i).getMovie().getId());
-				System.out.println("Ticket purchased now: "+ transDb.getNumberPurchased(cart.get(i).getMovie().getId()));
 			}
 			ArrayList<OrderItem> currentOrder = orders.getOrderItems(Integer.parseInt(orderId));
 			transDb.setTransaction(balance, id);

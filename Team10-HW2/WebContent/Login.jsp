@@ -9,6 +9,8 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 <link rel = "stylesheet" type = "text/css" href = "customStyles/customStyle.css" />
+<%@ taglib prefix="c"  uri="http://java.sun.com/jstl/core_rt" %>
+		
 		<title>CSCE 464 Cinemas</title>
 
 		
@@ -66,18 +68,30 @@
 		      <p>${WrongPassword}</p>
 			  <div class="form-group col-sm-6 offset-sm-3 text-center">
 			    <label for="exampleInputEmail1">User Name</label>
-			    <input type="text" class="form-control" name="userName" id="userName" aria-describedby="emailHelp" placeholder="Enter Username">
+			    <input type="text" value="${loginUName}" class="form-control" name="userName" id="userName" aria-describedby="emailHelp" placeholder="Enter Username">
 			  </div>
 			  <div class="form-group col-sm-6 offset-sm-3 text-center">
 			    <label for="exampleInputPassword1">Password</label>
-			    <input type="password" name="password" class="form-control" id="password" placeholder="Enter Password">
+			    <input type="password" value="${loginPass}" name="password" class="form-control" id="password" placeholder="Enter Password">
 			  </div>
-
+			  <div class="form-group col-sm-3 offset-sm-5 text-center">
+				<input type="checkbox" name="remember" class="custom-control-input" id="customCheck1">
+  				<label class="custom-control-label" for="customCheck1">Remember Me</label>
+			  </div>
 			  <button type="submit" class="btn btn-primary">Submit</button>	
 		<a href="Register.jsp"> Register </a> <br>
 		</form>
+		</div>'
+		<center>
+		<div class="footer navbar-fixed-bottom">
+		<c:if test="${empty search}">
+    		<h4>Watch Iron Man today!</h4>
+		</c:if>
+		<c:if test="${not empty search}">
+    		<h4>Watch ${search} today!</h4>
+		</c:if>
 		</div>
-		
+		</center>
 	
 	</body>
 	

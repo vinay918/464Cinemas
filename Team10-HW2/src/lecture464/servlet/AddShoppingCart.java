@@ -1,6 +1,7 @@
 package lecture464.servlet;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 
 import javax.servlet.RequestDispatcher;
@@ -71,8 +72,9 @@ public class AddShoppingCart extends HttpServlet {
 		}
 		session.setAttribute("shoppingCart", cart);
 		session.setAttribute("total", total);
-		RequestDispatcher rd = request.getRequestDispatcher("ViewAndCheckoutShoppingCart.jsp");
-		rd.include(request, response);
+		PrintWriter out = response.getWriter();
+		out.println("1");
+		return;
 	}
 
 }

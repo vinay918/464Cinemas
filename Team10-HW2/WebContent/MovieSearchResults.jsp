@@ -34,6 +34,11 @@
 		    </ul>
 		    <ul class="navbar-nav mr-auto">
 		      <li class="nav-item active">
+		        <a class="nav-link" href="ViewAndCheckoutShoppingCart.jsp">Shopping Cart <span class="sr-only">(current)</span></a>
+		      </li>
+		    </ul>		    
+		    <ul class="navbar-nav mr-auto">
+		      <li class="nav-item active">
 				<form name="submitForm" method="POST" action="ViewOrders">
 		        <a class="nav-link" href="javascript:document.submitForm.submit()">View Orders<span class="sr-only">(current)</span></a>
 		      	</form>

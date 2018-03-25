@@ -55,7 +55,6 @@ public class ManageOrder extends HttpServlet {
 		session.setAttribute("orderDate", orderDate);
 		OrdersDB db = new OrdersDB();
 		ArrayList<OrderItem> orderItems = db.getOrderItems(Integer.parseInt(orderId));
-		System.out.println("cncl "+ orderItems.get(0).getIsCancel());
 		session.setAttribute("orderItems", orderItems);
 		RequestDispatcher rd = request.getRequestDispatcher("ManageOrder.jsp");
 		rd.include(request, response);

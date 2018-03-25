@@ -49,10 +49,8 @@ public class CancelOrderItem extends HttpServlet {
 		HttpSession session = request.getSession();
 		String orderItemId = request.getParameter("orderItemId");
 		String orderDate = request.getParameter("orderDate");
-		System.out.println(orderItemId);
 		try {
 			User user = (User) session.getAttribute("user");
-			System.out.println("Details "+ orderItemId);
 			OrdersDB db = new OrdersDB();
 			TransactionDB trans = new TransactionDB();
 			db.setCancelOrderItem(Integer.parseInt(orderItemId));

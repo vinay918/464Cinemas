@@ -38,6 +38,7 @@ public class MovieDetails extends HttpServlet {
 		if(request.getSession().getAttribute("active") == null || !request.getSession().getAttribute("active").equals(1)){
 			response.sendRedirect("Login.jsp");
 			return;
+		
 		}
 		String showingId = request.getParameter("selection");
 		MovieShowingDB showingDB = new MovieShowingDB();
@@ -56,9 +57,10 @@ public class MovieDetails extends HttpServlet {
 		session.setAttribute("reviews", reviews);
 		double avg = reviewAverage(reviews);
 		DecimalFormat numberFormat = new DecimalFormat("#.0");
-		session.setAttribute("avg", numberFormat.format(avg));		
-		RequestDispatcher rd = request.getRequestDispatcher("MovieDetailsAndSelection.jsp");
-		rd.include(request, response);
+		session.setAttribute("avg", numberFormat.format(avg));	
+		response.sendRedirect("MovieDetailsAndSelection.jsp");
+		//RequestDispatcher rd = request.getRequestDispatcher("MovieDetailsAndSelection.jsp");
+		//rd.include(request, response);
 	}
 
 	/**

@@ -30,20 +30,10 @@ public class CreditCard {
 			||(!db.getCardType().equals(user.getCardType()))
 			||(!db.getName().equals(user.getName()))) {
 			isValidate = false;
-			System.out.println(db.getAddress().equals(user.getAddress()));
-			System.out.println((db.getCreditCardNumber().equals(user.getCreditCardNumber())));
-			System.out.println(db.cvv.equals(user.cvv));
-			System.out.println(db.getExpirationDate().equals(user.getExpirationDate()));
-			System.out.println(db.getCardType().equals(user.getCardType()));
-			System.out.println(db.getCardType().equals(user.getCardType()));
-			System.out.println(db.getName().equals(user.getName()));
-			System.out.println("False at cond 1");
-			System.out.println(db.getBalance()+", "+db.getCreditCardNumber()+", "+ db.getAddress()+", "+ db.getCvv()+", "+ db.getExpirationDate()+", "+ db.getName());
-			System.out.println(user.getBalance()+", "+user.getCreditCardNumber()+", "+ user.getAddress()+", "+ user.getCvv()+", "+ user.getExpirationDate()+", "+ user.getName());
+
 		}
 		if(db.getBalance()<user.getBalance()) {
 			isValidate = false;
-			System.out.println("False at cond 2");
 		}
 		return isValidate;
 	}

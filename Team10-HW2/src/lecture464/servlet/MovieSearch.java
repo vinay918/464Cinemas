@@ -5,6 +5,7 @@ import java.util.ArrayList;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -48,6 +49,17 @@ public class MovieSearch extends HttpServlet {
 		
 		HttpSession session = request.getSession();
 		session.setAttribute("showings", showings);
+
+		for(Cookie c:request.getCookies()){
+			if(c.getName().equals("searches")){
+				c.setValue(movie);
+				response.addCookie(c);
+			}else{
+				Cookie cookie = new Cookie("searches",movie);
+				cookie.setMaxAge(60 * 60 * 24 * 365 * 10);
+				response.addCookie(cookie);
+			}
+		}
 		
 		RequestDispatcher rd = request.getRequestDispatcher("MovieSearchResults.jsp");
 		rd.include(request, response);
@@ -63,5 +75,7 @@ public class MovieSearch extends HttpServlet {
 		// TODO Auto-generated method stub
 		doGet(request, response);
 	}
+	
+
 
 }

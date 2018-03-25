@@ -2,6 +2,9 @@ package lecture464.databaseAccessLayer;
 
 
 
+import java.math.BigInteger;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -129,12 +132,21 @@ public class DBAccessClass {
 	public void registerUser(User person){
 
 		try {
+			String secured ="";
+			try {
+				MessageDigest md = MessageDigest.getInstance("SHA-256");
+				md.update(person.getPassword().getBytes(), 0, person.getPassword().length());
+	            secured = new BigInteger(1, md.digest()).toString(16);
+			} catch (NoSuchAlgorithmException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			stmt = conn.createStatement();
 			String query = "INSERT INTO User (`Username`,`Password`,`FirstName`,`LastName`,`PhoneNumber`,`EmailAddress`) " +
 			          "VALUES (?,?,?,?,?,?);";		
 			ps = conn.prepareStatement(query);
 			ps.setString(1,person.getUserName());
-			ps.setString(2,person.getPassword());
+			ps.setString(2,secured);
 			ps.setString(3,person.getFirstName());
 			ps.setString(4,person.getLastName());
 			ps.setString(5,person.getPhone());
@@ -174,10 +186,9 @@ public class DBAccessClass {
 		ps = null;
 		int id = 0;
 		try {
-			String query = "SELECT * FROM `User` WHERE Username=? and Password=?;";			
+			String query = "SELECT * FROM `User` WHERE Username=?;";			
 			ps = conn.prepareStatement(query);
 			ps.setString(1,person.getUserName());
-			ps.setString(2,person.getPassword());
 			ResultSet rs = ps.executeQuery();
 			while(rs.next()) {
 			    id = rs.getInt("UserId");

@@ -25,6 +25,28 @@
  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous"><script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+		<script>
+			function sendData() {
+			
+				var quant = $("#sel1").val();
+			    $.post("AddShoppingCart", {ticketQuantity:quant}, function(data,status) {
+			    		if(data == 1){
+		    				$("#banner").css("visibility", "visible");
+			    			
+			    			$("#banner").html("Item Successfully Added to Cart");
+			    			setTimeout(function() { 
+			    				$("#banner").html(""); 
+			    				$("#banner").css("visibility", "hidden");
+			    			}, 3000);
+			    			
+			    		}
+					});
+			   
+			  }
+		</script>
+
+
 <link rel = "stylesheet" type = "text/css" href = "customStyles/customStyle.css" />
 <%@ taglib prefix="c"  uri="http://java.sun.com/jstl/core_rt" %>
 </head>
@@ -48,6 +70,11 @@
 		    </ul>
 		    <ul class="navbar-nav mr-auto">
 		      <li class="nav-item active">
+		        <a class="nav-link" href="ViewAndCheckoutShoppingCart.jsp">Shopping Cart <span class="sr-only">(current)</span></a>
+		      </li>
+		    </ul>		    
+		    <ul class="navbar-nav mr-auto">
+		      <li class="nav-item active">
 				<form name="submitForm" method="POST" action="ViewOrders">
 		        <a class="nav-link" href="javascript:document.submitForm.submit()">View Orders<span class="sr-only">(current)</span></a>
 		      	</form>
@@ -64,6 +91,7 @@
 
 <br>
 <center>
+	<div class="alert alert-success" style="visibility:hidden;" id="banner"></div>
 	<div class="row text-center">
   		<div class="col-xs-1 offset-sm-8">
   			<form action = "MovieSearchResults.jsp">
@@ -91,7 +119,7 @@
   					</div>
   			</c:when> 
   			<c:when test= "${ showing.seatsRemaining > 0}">
-  			<form name = "quantityForm" action=AddShoppingCart method = "post">
+  			<div name = "quantityForm">
   				<div class="form-group">
   				Tickets:
   					<select class="form-control" id="sel1" name="ticketQuantity">
@@ -102,9 +130,9 @@
   					</select>
   				</div>
   				<div class="form-group">
-  					<button type="submit" class="btn btn-primary mb-2">Add to Cart</button>
+  					<button class="btn btn-primary mb-2" onClick="sendData()">Add to Cart</button>
   				</div>
-			</form>
+			</div>
 			</c:when>
 		</c:choose>
 		</div>		
@@ -119,15 +147,15 @@
 	
 	<div class="row">
   		<div class="col-xs-6 col-md-4 offset-md-2">Movie Title:</div>
-  		<div class="col-xs-5 col-md-5 text-center">${showing.movie.name}</div>
+  		<div class="col-xs-5 col-md-5 text-center"><c:out value = "${showing.movie.name}"/> </div>
 	</div>
 	<div class="row">
   		<div class="col-xs-6 col-md-4 offset-md-2">Description:</div>
-  		<div class="col-xs-5 col-md-5 text-center">${showing.movie.description}</div>
+  		<div class="col-xs-5 col-md-5 text-center"><c:out value="${showing.movie.description}"/></div>
 	</div>	
 	<div class="row">
   		<div class="col-xs-6 col-md-4 offset-md-2">Rating:</div>
-  		<div class="col-xs-5 col-md-5 text-center">${showing.movie.rating }</div>
+  		<div class="col-xs-5 col-md-5 text-center"><c:out value="${showing.movie.rating }"/></div>
 	</div>	
 	<div class="row">
   		<div class="col-xs-6 col-md-4 offset-md-2">Theatre Selection:</div>
