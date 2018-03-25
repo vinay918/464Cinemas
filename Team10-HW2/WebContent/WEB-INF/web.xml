@@ -8,6 +8,7 @@
     <welcome-file>default.html</welcome-file>
     <welcome-file>default.htm</welcome-file>
     <welcome-file>default.jsp</welcome-file>
+    <welcome-file>Login.jsp</welcome-file>
   </welcome-file-list>
   <servlet>
     <description></description>
@@ -199,4 +200,10 @@
     <servlet-name>Start</servlet-name>
     <url-pattern>/Start</url-pattern>
   </servlet-mapping>
+<error-page>
+    <error-code>404</error-code>
+    <location>/Error.jsp</location>
+</error-page>	
+
+
 </web-app>

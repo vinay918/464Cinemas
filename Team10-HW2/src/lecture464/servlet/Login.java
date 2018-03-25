@@ -38,7 +38,6 @@ public class Login extends HttpServlet {
 		HttpSession session = request.getSession();
 		
 		User tempUser = new User(-1,userName, password, "","","","");
-		
 		if(tempUser.validateUser(tempUser)){
 			if(remember != null && remember.equals("on")){
 				Cookie cookieUName = new Cookie("userName",userName);
