@@ -1,6 +1,6 @@
 package lecture464.model;
 
-public class CreditCard {
+public class BankModel {
 	private String creditCardNumber;
 	private String cardType;
 	private String cvv;
@@ -9,7 +9,7 @@ public class CreditCard {
 	private String name;
 	private String address;
 	
-	public CreditCard(String creditCardNumber, String cardType, String cvv, String expirationDate, double balance,
+	public BankModel(String creditCardNumber, String cardType, String cvv, String expirationDate, double balance,
 			String name, String address) {
 		super();
 		this.creditCardNumber = creditCardNumber;
@@ -21,7 +21,7 @@ public class CreditCard {
 		this.address = address;
 	}
 	
-	public boolean ValidateTransaction(CreditCard db, CreditCard user) {
+	public boolean ValidateTransaction(BankModel db, BankModel user) {
 		boolean isValidate = true;
 		if((!db.getAddress().equals(user.getAddress()))
 			||(!db.getCreditCardNumber().equals(user.getCreditCardNumber()))
@@ -46,7 +46,7 @@ public class CreditCard {
 		this.address = address;
 	}
 
-	public CreditCard() {
+	public BankModel() {
 		super();
 	}
 

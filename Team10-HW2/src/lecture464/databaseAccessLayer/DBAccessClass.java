@@ -434,10 +434,10 @@ public class DBAccessClass {
 		return balance;
 	}
 	
-	public CreditCard getCardDetails(int userId) {
+	public BankModel getCardDetails(int userId) {
 		ps = null;
 		User user = getUser(userId);
-		CreditCard trans = new CreditCard();
+		BankModel trans = new BankModel();
 		try {
 			String query = "SELECT * FROM `User` WHERE UserId=?;";			
 			ps = conn.prepareStatement(query);

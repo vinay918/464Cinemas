@@ -54,7 +54,7 @@ public class CustomerTransactionConfirmation extends HttpServlet {
 		//TODO: Validate user card credential
 		boolean isValidate = true;
 		HttpSession session = request.getSession();
-		TransactionDB transDb = new TransactionDB();
+		BankDB transDb = new BankDB();
 		session.removeAttribute("currentOrder");
 //		User user = (User) session.getAttribute("user");
 //		int id = user.getId();

@@ -49,7 +49,7 @@ public class PlaceOrder extends HttpServlet {
 		
 		HttpSession session = request.getSession();
 		//Get connection to database
-		TransactionDB transDb = new TransactionDB();
+		BankDB transDb = new BankDB();
 		OrdersDB orders = new OrdersDB();
 		
 		try {
@@ -96,6 +96,7 @@ public class PlaceOrder extends HttpServlet {
 		session.setAttribute("orderId", orderId);
 		session.setAttribute("currentOrder", currentOrder);
 		session.setAttribute("orderDate", java.time.LocalDate.now());
+		session.removeAttribute("total");
 		session.removeAttribute("shoppingCart");
 		
 		//reset cart

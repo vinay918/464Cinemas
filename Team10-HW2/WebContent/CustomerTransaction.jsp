@@ -54,6 +54,8 @@
 	var k = document.forms["userPayment"]["userShipState"].value;
 	var expirationDate = document.forms["userPayment"]["cardMonth"].value + "/" +document.forms["userPayment"]["cardYear"].value;
 	var cardType = document.forms["userPayment"]["cardType"].value
+	var total = $("#total").val();
+	var userId = $("#userid").val();
 	
  	if (a == "") {
 		alert("Please fill in first name.");
@@ -92,14 +94,16 @@
 	
  	 $.ajax({
 		 type: "POST",
-         url: "Bank",
+         url: "../Team10-HW3-Bank/Bank",
          data: { 
         	 	"cardName" : c,
         	 	"userCardNum" : d,
         	 	"userSecurityCode" : e,
         	 	"userBillingAddress" : f,
         	 	"expirationDate" : expirationDate,
-        	 	"cardType" : cardType
+        	 	"cardType" : cardType,
+        	 	"total" : total,
+        	 	"userId" : userId
          },
 		 
 		 success: function(responseText) {
@@ -179,7 +183,9 @@
 	  </tbody>
 	  </table>
 	<br>
-		<h3 class="text-center">Your total price is $${total}</h3>
+		<input type="hidden" id="total" value="${total}">
+		<input type="hidden" id="userid" value="${user.id}">
+		<h3 class="text-center" >Your total price is $${total}</h3>
 </div>
 		<br>
 		<br>

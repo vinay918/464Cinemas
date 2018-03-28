@@ -52,7 +52,7 @@ public class CancelOrderItem extends HttpServlet {
 		try {
 			User user = (User) session.getAttribute("user");
 			OrdersDB db = new OrdersDB();
-			TransactionDB trans = new TransactionDB();
+			BankDB trans = new BankDB();
 			db.setCancelOrderItem(Integer.parseInt(orderItemId));
 			double afterRefund = trans.getCardBalance(user.getId()) + db.getOrderItemPrice(Integer.parseInt(orderItemId));
 			trans.setTransaction(afterRefund, user.getId());
