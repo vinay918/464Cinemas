@@ -200,10 +200,28 @@
     <servlet-name>Start</servlet-name>
     <url-pattern>/Start</url-pattern>
   </servlet-mapping>
-<error-page>
+  <error-page>
     <error-code>404</error-code>
     <location>/Error.jsp</location>
-</error-page>	
-
-
+  </error-page>
+  <servlet>
+    <description></description>
+    <display-name>Bank</display-name>
+    <servlet-name>Bank</servlet-name>
+    <servlet-class>lecture464.servlet.Bank</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>Bank</servlet-name>
+    <url-pattern>/Bank</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>PlaceOrder</display-name>
+    <servlet-name>PlaceOrder</servlet-name>
+    <servlet-class>lecture464.servlet.PlaceOrder</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>PlaceOrder</servlet-name>
+    <url-pattern>/PlaceOrder</url-pattern>
+  </servlet-mapping>
 </web-app>

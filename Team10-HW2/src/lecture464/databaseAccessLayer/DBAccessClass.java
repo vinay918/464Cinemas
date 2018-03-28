@@ -379,14 +379,21 @@ public class DBAccessClass {
 		return customerReviews;
 	}		
 	
+	//Test needed
 	public void addMovieReview(int movieId, int userId, String review, double rating){
 		ps = null;
 
 		try {
-			stmt = conn.createStatement();
+			String reviewDate = java.time.LocalDate.now().getMonthValue()+"-"+java.time.LocalDate.now().getDayOfMonth()+"-"+java.time.LocalDate.now().getYear();
 			String query = "INSERT INTO `CustomerReview` (`MovieId`,`UserId`,`ReviewDate`,`Rating`,`Review` ) " +
-			          "VALUES ('"+movieId+"', '"+userId+"', '"+java.time.LocalDate.now().getMonthValue()+"-"+java.time.LocalDate.now().getDayOfMonth()+"-"+java.time.LocalDate.now().getYear()+"', '"+rating+"', '"+review+"');";
-			stmt.executeUpdate(query);	
+			          "VALUES (?,?,?,?,?);";
+			ps = conn.prepareStatement(query);
+			ps.setInt(1,movieId);
+			ps.setInt(2,userId);
+			ps.setString(3, reviewDate);
+			ps.setDouble(4, rating);
+			ps.setString(5, review);
+			ps.executeUpdate();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -469,14 +476,19 @@ public class DBAccessClass {
 	}
 	
 	//add orders TODO: check column names
+	//TEST NEEDED CHANGED TO PS
 	public void addOrderItem(int showingId, int quantity, int orderId, double totalPrice){
 		ps = null;
 		int isCancel = 0;
 		try {
-			stmt = conn.createStatement();
 			String query = "INSERT INTO `OrderItem` (`OrderId`,`ShowingId`,`Quantity`,`TotalPrice`) " +
-			          "VALUES ('"+orderId+"', '"+showingId+"', '"+quantity+"', '"+totalPrice+"');";
-			stmt.executeUpdate(query);	
+			          "VALUES ('?,?,?,?');";
+			ps = conn.prepareStatement(query);
+			ps.setInt(1, orderId);
+			ps.setInt(2, showingId);
+			ps.setInt(3, quantity);
+			ps.setDouble(4, totalPrice);
+			ps.executeUpdate();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -486,10 +498,16 @@ public class DBAccessClass {
 	public void addOrder(int orderId, int userId, double totalCost, String orderDate, String billingAddress, String creditCardNumber) {
 		ps = null;
 		try {
-			stmt = conn.createStatement();
 			String query = "INSERT INTO `Order` (`OrderId`,`CustomerId`,`TotalCost`,`OrderDate`,`BillingAddress`,`CreditCardNumber`) " +
-			          "VALUES ('"+orderId+"', '"+userId+"', '"+totalCost+"', '"+orderDate+"', '"+billingAddress+"', '"+creditCardNumber+"');";
-			stmt.executeUpdate(query);	
+			          "VALUES ('?,?,?,?,?,?');";
+			ps = conn.prepareStatement(query);
+			ps.setInt(1, orderId);
+			ps.setInt(2, userId);
+			ps.setDouble(3, totalCost);
+			ps.setString(4, orderDate);
+			ps.setString(5, billingAddress);
+			ps.setString(6, creditCardNumber);
+			ps.executeQuery();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

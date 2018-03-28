@@ -6,12 +6,41 @@
 <title>CSCE 464 Cinemas</title>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous"><script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+ <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 <link rel = "stylesheet" type = "text/css" href = "customStyles/customStyle.css" />
 <script>
-	function validateForm() {
+	function placeOrder() {
+		var d = document.forms["userPayment"]["userCardNum"].value;
+		var f = document.forms["userPayment"]["userBillingAddress"].value;
+		$.ajax({
+			 type: "POST",
+	         url: "PlaceOrder",
+	         data: { 
+	        	 	"userCardNum" : d,
+	        	 	"userBillingAddress" : f
+	         },
+			 
+			 success: function(responseText) {
+	             var obj = JSON.parse(responseText);
+	             if(!obj.success){
+	                 alert(obj.message);
+	             }else{
+	            	 	alert(obj.message);
+	            		$(".orderid").html("<h2 style=\"padding-left:10px\">Score! Your order #"+ obj.orderId +" has been placed. Detail(s):</h2>");
+	            		$(".orderinfo").html("<h3 style=\"padding-left:10px\">Order #"+ obj.orderId+" information </h3>");
+	            		$(".orderdate").text(obj.orderDate);
+	            		$(".reviewandcheckout").hide();
+	            		$(".orderconfirmed").show();
+	             }
+
+	         }
+		 });  
+	}
+	
+	function confirm() {
 	var a = document.forms["userPayment"]["userFirstName"].value;
 	var b = document.forms["userPayment"]["userLastName"].value;
 	var c = document.forms["userPayment"]["cardName"].value;
@@ -23,15 +52,16 @@
 	var i = document.forms["userPayment"]["userShipZip"].value;
 	var j = document.forms["userPayment"]["userBillState"].value;
 	var k = document.forms["userPayment"]["userShipState"].value;
+	var expirationDate = document.forms["userPayment"]["cardMonth"].value + "/" +document.forms["userPayment"]["cardYear"].value;
+	var cardType = document.forms["userPayment"]["cardType"].value
 	
-
-	if (a == "") {
-    		alert("Please fill in first name.");
-    		return false;
+ 	if (a == "") {
+		alert("Please fill in first name.");
+		return false;
 	}		    
 	if (b == "") {
-    		alert("Please fill in last name.");
-    		return false;
+		alert("Please fill in last name.");
+		return false;
 	}
 	if (c == "") {
 		alert("Please fill in card holder name.");
@@ -54,7 +84,36 @@
 	if (g == "") {
 		alert("Please fill in shipping address.");
 		return false;
-	}
+	} 
+	
+/* 	$.get("Bank", function(responseText) {   // Execute Ajax GET request on URL of "someservlet" and execute the following function with Ajax response text...
+        alert(responseText);           // Locate HTML DOM element with ID "somediv" and set its text content with the response text.
+    }); */
+	
+ 	 $.ajax({
+		 type: "POST",
+         url: "Bank",
+         data: { 
+        	 	"cardName" : c,
+        	 	"userCardNum" : d,
+        	 	"userSecurityCode" : e,
+        	 	"userBillingAddress" : f,
+        	 	"expirationDate" : expirationDate,
+        	 	"cardType" : cardType
+         },
+		 
+		 success: function(responseText) {
+             var obj = JSON.parse(responseText);
+             if(!obj.success){
+                 alert(obj.message);
+             }else{
+            	 	alert(obj.message);
+            	 	placeOrder();
+             }
+
+         }
+	 }); 
+	 return false;
 	}
 </script>
 </head>
@@ -91,6 +150,7 @@
 		  </div>
 		</nav>
 <br>
+<div class="reviewandcheckout">
 <div class="container" >
 <h1>Review and Checkout</h1>
 	<table class="table table-striped">
@@ -123,9 +183,10 @@
 </div>
 		<br>
 		<br>
-		<h4 class="text-center">${balanceAndDetails}</h4>
+		<div>
+		</div>
 		<div class = "container">
-		<form name="userPayment" action="CustomerTransactionConfirmation" onsubmit="return validateForm()" method="post">
+		<form name="userPayment" action="CustomerTransactionConfirmation" onsubmit="return validateForm()" method="post" id="userPayment">
 			<div class="row">
 			  <div class="col-6 col-md-6">
 			  	<div class="row text-center">
@@ -249,28 +310,57 @@
 					</div>
 				</div>
 			</div>
-			  </div>
-			  </div>
-			  </div>
-
-				<div class="col-sm-6 "></div>
-				</div>
-				</div>
-			</div>
-<br>
-<br>
 		<br>
 		<br>
 		<div class="row">
 			<div class="col-md-3"></div>
 			<div class="col-md-6 text-center">
-			  	<button type="submit" class="btn btn-primary">Confirm Payment</button>	
+			  	<button type="button" class="btn btn-primary" onclick="confirm()">Confirm Payment</button>	
 				<a href="ViewAndCheckoutShoppingCart.jsp"> Cancel </a>
 				</div>
 			<div class="col-md-3"></div>
 			</div>
 		</form>
 		</div>
+</div>
+		<div class="orderconfirmed" style="display: none;">
+		    <div class="text-right" style="padding-right:10px">
+            <button type="button" class="btn btn-primary">Print Order Details</button>
+    			</div>
+			<div class="orderid">
+			</div>
+			<div class="orderinfo">
+			</div>
+			<table class="table text-center">
+	  			<thead>
+	    				<tr>
+	      				<th scope="col" >#</th>
+	      				<th scope="col" class="text-center">Order Details</th>
+	      				<th scope="col" class="text-center">Ordered Total</th> 
+	      				<th scope="col" class="text-center">Ordered Date</th>   
+	  	  				<th></th>
+	    				</tr>
+	  		</thead>
+	  		<tbody>
+	    		<tr>
+	       		<c:set var="count" value="1" scope="page" />
+	    			<c:forEach var="item" items="${shoppingCart}">
+	    			<tr>   
+	      			<td scope="row" name="index">${count}</td>
+	      			<td class="text-center"><ul>
+  						<li>Movie Name: ${item.movie.movie.name}</li>
+  						<li>Ticket quantity: ${item.ticketQuantity} </li>
+  						<li>Location: ${item.movie.showroom.theatre.name }</li>
+  						<li>Date/ Time: ${item.movie.startTime}</li>
+					</ul></td>
+					<td class="text-center">$${item.price}</td>
+					<td class="text-center orderdate"></td>
+	      			<c:set var="count" value="${count + 1}" scope="page"/>
+	    				</tr>
+	    	    			</c:forEach>
+	  		</tbody>
+		</table>	
+	</div>
 		
 </body>
 </html>
