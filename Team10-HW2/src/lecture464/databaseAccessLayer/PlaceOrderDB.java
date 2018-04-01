@@ -2,15 +2,7 @@ package lecture464.databaseAccessLayer;
 
 import lecture464.model.*;
 
-public class BankDB {
-
-	public BankModel getTransaction(int id){
-		DBAccessClass db = new DBAccessClass();
-		db.connectMeIn();
-		BankModel transDb = db.getCardDetails(id);
-		db.closeConnection();
-		return transDb;
-	}
+public class PlaceOrderDB {
 	
 	public void setTransaction(double balance, int id) {
 		DBAccessClass db = new DBAccessClass();

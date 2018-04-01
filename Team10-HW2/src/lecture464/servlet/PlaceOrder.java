@@ -52,7 +52,7 @@ public class PlaceOrder extends HttpServlet {
 		
 		HttpSession session = request.getSession();
 		//Get connection to database
-		BankDB transDb = new BankDB();
+		PlaceOrderDB transDb = new PlaceOrderDB();
 		OrdersDB orders = new OrdersDB();
 		
 		try {

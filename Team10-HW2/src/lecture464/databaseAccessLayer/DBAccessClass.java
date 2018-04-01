@@ -556,18 +556,20 @@ public class DBAccessClass {
 	}
 	
 	//add orders TODO: check column names
-	//TEST NEEDED CHANGED TO PS
 	public void addOrderItem(int showingId, int quantity, int orderId, double totalPrice){
 		ps = null;
+		System.out.println("I am running the sql");
+		System.out.println(showingId + " " + quantity +" " + orderId+ " "+totalPrice);
 		int isCancel = 0;
 		try {
 			String query = "INSERT INTO `OrderItem` (`OrderId`,`ShowingId`,`Quantity`,`TotalPrice`) " +
-			          "VALUES ('?,?,?,?');";
+			          "VALUES (?,?,?,?);";
 			ps = conn.prepareStatement(query);
 			ps.setInt(1, orderId);
 			ps.setInt(2, showingId);
 			ps.setInt(3, quantity);
 			ps.setDouble(4, totalPrice);
+			System.out.println(ps.toString());
 			ps.executeUpdate();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -578,9 +580,10 @@ public class DBAccessClass {
 	
 	public void addOrder(int orderId, int userId, double totalCost, String orderDate, String billingAddress, String creditCardNumber) {
 		ps = null;
+		System.out.println(orderId + " " + userId +" " + totalCost+ " "+orderDate +" "+billingAddress+" "+ creditCardNumber);
 		try {
 			String query = "INSERT INTO `Order` (`OrderId`,`CustomerId`,`TotalCost`,`OrderDate`,`BillingAddress`,`CreditCardNumber`) " +
-			          "VALUES ('?,?,?,?,?,?');";
+			          "VALUES (?,?,?,?,?,?);";
 			ps = conn.prepareStatement(query);
 			ps.setInt(1, orderId);
 			ps.setInt(2, userId);
@@ -588,7 +591,8 @@ public class DBAccessClass {
 			ps.setString(4, orderDate);
 			ps.setString(5, billingAddress);
 			ps.setString(6, creditCardNumber);
-			ps.executeQuery();
+			System.out.println(ps.toString());
+			ps.executeUpdate();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 	    	log.debug("query failed",e);
