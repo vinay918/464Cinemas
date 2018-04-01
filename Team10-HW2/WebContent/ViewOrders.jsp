@@ -63,10 +63,10 @@
 	       <c:set var="count" value="1" scope="page" />
 	    			<c:forEach var="order" items="${orders}">
 	    			<tr>
-	      		<td scope="row" name="index">${count}</td>
-	      		<td class="text-center">${order.orderId}</td>
-	      		<td class="text-center">${order.totalCost}</td>
-	      		<td class="text-center">${order.orderDate}</td>
+	      		<td scope="row" name="index"><c:out value="${count}"/></td>
+	      		<td class="text-center"><c:out value = "${order.orderId}"/></td>
+	      		<td class="text-center"><c:out value = "${order.totalCost}"/></td>
+	      		<td class="text-center"><c:out value = "${order.orderDate}"/></td>
 	      		<td>
 	      		<form>
 	      			<input type="hidden" name="orderDate" value = "${order.orderDate}"/>

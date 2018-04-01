@@ -5,6 +5,7 @@ package lecture464.databaseAccessLayer;
 import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.security.SecureRandom;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -13,9 +14,13 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.HashMap;
+
+import org.apache.log4j.Logger;
+
 import java.util.*;
 
 import lecture464.model.*;
+import lecture464.servlet.Register;
 
 public class DBAccessClass {	
 	Connection conn = null;
@@ -25,6 +30,8 @@ public class DBAccessClass {
 	// JDBC driver name and database URL
 	static final String JDBC_DRIVER = "com.mysql.jdbc.Driver";  
 	static final String DB_URL = "jdbc:mysql://cse.unl.edu:3306/vbaldevsingh"; 
+    static org.apache.log4j.Logger log = Logger.getLogger(DBAccessClass.class);
+
 	//final String DB_URL = "jdbc:mysql://cse.unl.edu:3306/CSE_LOGIN";
 	
 	
@@ -70,7 +77,7 @@ public class DBAccessClass {
 			
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			log.debug("query failed",e);
 		}
 		return showings;
 	}
@@ -98,7 +105,7 @@ public class DBAccessClass {
 			
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			log.debug("query failed",e);
 		}
 		return theatres;
 	
@@ -123,27 +130,35 @@ public class DBAccessClass {
 			
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			log.debug("query failed",e);
 		}	
 		return showrooms;
 	}
 	
 
 	public void registerUser(User person){
-
+		Random r = new SecureRandom();
+		byte[] saltBytes = new byte[32];
+		r.nextBytes(saltBytes);
+		String salt = Base64.getEncoder().encodeToString(saltBytes);
+		
+		
 		try {
 			String secured ="";
 			try {
 				MessageDigest md = MessageDigest.getInstance("SHA-256");
-				md.update(person.getPassword().getBytes(), 0, person.getPassword().length());
+				md.update((salt+person.getPassword()).getBytes(), 0, (salt+person.getPassword()).length());
 	            secured = new BigInteger(1, md.digest()).toString(16);
 			} catch (NoSuchAlgorithmException e) {
 				// TODO Auto-generated catch block
-				e.printStackTrace();
+				log.debug("query failed",e);
 			}
+
+			
 			stmt = conn.createStatement();
-			String query = "INSERT INTO User (`Username`,`Password`,`FirstName`,`LastName`,`PhoneNumber`,`EmailAddress`) " +
-			          "VALUES (?,?,?,?,?,?);";		
+			String query = "INSERT INTO User (`Username`,`Password`,`FirstName`,`LastName`,`PhoneNumber`,`EmailAddress`,`Salt`) " +
+			          "VALUES (?,?,?,?,?,?,?);";
+			
 			ps = conn.prepareStatement(query);
 			ps.setString(1,person.getUserName());
 			ps.setString(2,secured);
@@ -151,13 +166,49 @@ public class DBAccessClass {
 			ps.setString(4,person.getLastName());
 			ps.setString(5,person.getPhone());
 			ps.setString(6,person.getEmail());
+			ps.setString(7,salt);
 			ps.executeUpdate();
+			System.out.println(ps.toString());
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			log.debug("query failed",e);
 		}
 		return;
 	}
+	
+	public void updatePassword(User person, String newPass){
+		Random r = new SecureRandom();
+		byte[] saltBytes = new byte[32];
+		r.nextBytes(saltBytes);
+		String salt = Base64.getEncoder().encodeToString(saltBytes);
+		
+		
+		try {
+			String secured ="";
+			try {
+				MessageDigest md = MessageDigest.getInstance("SHA-256");
+				md.update((salt+newPass).getBytes(), 0, (salt+newPass).length());
+	            secured = new BigInteger(1, md.digest()).toString(16);
+			} catch (NoSuchAlgorithmException e) {
+				// TODO Auto-generated catch block
+				log.debug("query failed",e);
+			}
+
+			
+			stmt = conn.createStatement();
+			String query = "UPDATE User SET Password = ?, Salt = ? WHERE UserId=?;";
+			
+			ps = conn.prepareStatement(query);
+			ps.setString(1,secured);
+			ps.setString(2,salt);
+			ps.setInt(3,person.getId());
+			ps.executeUpdate();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			log.debug("query failed",e);
+		}
+		return;
+	}	
 	
 	public String getPassword(User person){
 		ps = null;
@@ -176,11 +227,35 @@ public class DBAccessClass {
 			
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			log.debug("query failed",e);
 		}
 		
 		return password;
 	}
+	
+	
+	public String getSalt(User person){
+		ps = null;
+		String password = "";
+		try {
+			String query = "SELECT * FROM `User` WHERE Username=?;";			
+			ps = conn.prepareStatement(query);
+			ps.setString(1,person.getUserName());
+			ResultSet rs = ps.executeQuery();
+			while(rs.next()) {
+			    password = rs.getString("Password");
+			    String salt = rs.getString("Salt");
+			    return salt;
+			}			
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			log.debug("query failed",e);
+		}
+		
+		return password;
+	}
+	
 	
 	public int getUserId(User person){
 		ps = null;
@@ -197,7 +272,7 @@ public class DBAccessClass {
 			
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			log.debug("query failed",e);
 		}
 		
 		return id;
@@ -218,7 +293,7 @@ public class DBAccessClass {
 			
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			log.debug("query failed",e);
 		}
 		return "";
 	}	
@@ -242,7 +317,7 @@ public class DBAccessClass {
 			
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			log.debug("query failed",e);
 		}
 		
 		return null;
@@ -267,7 +342,7 @@ public class DBAccessClass {
 			
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			log.debug("query failed",e);
 		}
 		
 		return null;		
@@ -291,7 +366,7 @@ public class DBAccessClass {
 			
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			log.debug("query failed",e);
 		}
 		
 		return null;
@@ -316,7 +391,7 @@ public class DBAccessClass {
 			
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			log.debug("query failed",e);
 		}
 		
 		return null;
@@ -338,7 +413,7 @@ public class DBAccessClass {
 			
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			log.debug("query failed",e);
 		}
 		
 		return null;
@@ -373,7 +448,7 @@ public class DBAccessClass {
 			
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			log.debug("query failed",e);
 		}
 		
 		return customerReviews;
@@ -396,21 +471,23 @@ public class DBAccessClass {
 			ps.executeUpdate();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+	    	log.debug("query failed",e);
+
 		}
 	}	
 	
 	public void setBalance(int id, double balance){
 		ps = null;
 		try {
-			String query = "UPDATE `CreditCard` SET Balance=? WHERE UserId=?;";
+			String query = "UPDATE `Bank` SET Balance=? WHERE UserId=?;";
 			ps = conn.prepareStatement(query);
 			ps.setDouble(1,balance);
 			ps.setInt(2,id);
 			ps.executeUpdate();	
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+	    	log.debug("query failed",e);
+
 		}
 	}
 	
@@ -419,7 +496,7 @@ public class DBAccessClass {
 		User user = getUser(userId);
 		double balance = 0;
 		try {
-			String query = "SELECT * FROM `CreditCard` WHERE UserId=?;";			
+			String query = "SELECT * FROM `Bank` WHERE UserId=?;";			
 			ps = conn.prepareStatement(query);
 			ps.setInt(1,userId);
 			ResultSet rs = ps.executeQuery();
@@ -429,7 +506,8 @@ public class DBAccessClass {
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+	    	log.debug("query failed",e);
+
 		}
 		return balance;
 	}
@@ -449,11 +527,12 @@ public class DBAccessClass {
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+	    	log.debug("query failed",e);
+
 		}
 		
 		try {
-			String query = "SELECT * FROM `CreditCard` WHERE UserId=?;";			
+			String query = "SELECT * FROM `Bank` WHERE UserId=?;";			
 			ps = conn.prepareStatement(query);
 			ps.setInt(1,userId);
 			ResultSet rs = ps.executeQuery();
@@ -468,7 +547,8 @@ public class DBAccessClass {
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+	    	log.debug("query failed",e);
+
 		}
 		
 		return trans;
@@ -491,7 +571,8 @@ public class DBAccessClass {
 			ps.executeUpdate();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+	    	log.debug("query failed",e);
+
 		}
 	}
 	
@@ -510,7 +591,8 @@ public class DBAccessClass {
 			ps.executeQuery();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+	    	log.debug("query failed",e);
+
 		}
 	}
 	
@@ -523,7 +605,8 @@ public class DBAccessClass {
 			ps.executeQuery();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+	    	log.debug("query failed",e);
+
 		}
 	}
 	
@@ -536,7 +619,8 @@ public class DBAccessClass {
 			ps.executeQuery();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+	    	log.debug("query failed",e);
+
 		}
 	}
 	
@@ -558,7 +642,8 @@ public class DBAccessClass {
 				return item;
 			}
 		}catch(SQLException e) {
-			e.printStackTrace();
+	    	log.debug("query failed",e);
+
 		}
 		return item;
 	}
@@ -583,7 +668,8 @@ public class DBAccessClass {
 			return orders;
 		}catch (SQLException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+	    	log.debug("query failed",e);
+
 		}
 		return orders;
 	}
@@ -612,7 +698,8 @@ public class DBAccessClass {
 			return orderItems;
 		}catch (SQLException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+	    	log.debug("query failed",e);
+
 		}
 		return orderItems;
 	}
@@ -627,7 +714,8 @@ public class DBAccessClass {
 			ps.executeUpdate();	
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+	    	log.debug("query failed",e);
+
 		}
 	}
 	
@@ -641,7 +729,8 @@ public class DBAccessClass {
 			ps.executeUpdate();	
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+	    	log.debug("query failed",e);
+
 		}
 	}
 	
@@ -658,7 +747,7 @@ public class DBAccessClass {
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+	    	log.debug("movie showing query failed",e);
 		}
 		return ticketPurchased;
 	}
@@ -669,14 +758,15 @@ public class DBAccessClass {
 			//Register the JDBC driver
 			Class.forName("com.mysql.jdbc.Driver");			
 		}catch(ClassNotFoundException e){
-			System.err.println(e);
+	    	log.debug("jdbc driver missing",e);
 			System.exit (-1);
 		}
 		try {
 			 //Open a connection
 			conn = DriverManager.getConnection(DB_URL, USER, PASS);
 		} catch (SQLException e){
-			e.printStackTrace();
+	    	log.debug("no connection",e);
+
 
 		}
 	}
@@ -685,7 +775,7 @@ public class DBAccessClass {
 		try {
 			conn.close();
 		} catch (SQLException e) {
-			e.printStackTrace();
+	    	log.debug("database connection not closed",e);
 		}
 	}
 	

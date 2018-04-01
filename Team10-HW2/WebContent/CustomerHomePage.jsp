@@ -12,6 +12,9 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 <link rel = "stylesheet" type = "text/css" href = "customStyles/customStyle.css" />
 <%@ taglib prefix="c"  uri="http://java.sun.com/jstl/core_rt" %>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+<script type="text/javascript" src="functions.js"></script>
+
 </head>
 <body>
 	<c:if test="${active != 1 }">
@@ -43,6 +46,11 @@
 		    </ul>	
 		    <ul class="navbar-nav mr-auto">
 		      <li class="nav-item active">
+					<a href="ChangePassword.jsp" class="nav-link" data-toggle="modal" data-target="#exampleModal">Change Password</a>
+		      </li>
+		    </ul>		    
+		    <ul class="navbar-nav mr-auto">
+		      <li class="nav-item active">
 		        <a class="nav-link" href="Logout">Logout <span class="sr-only">(current)</span></a>
 		      </li>
 		    </ul>
@@ -52,7 +60,7 @@
 
 
 
-<h2 style="padding-left:10px">Welcome, ${user.firstName}</h2>
+<h2 style="padding-left:10px">Welcome, <c:out value="${user.firstName}"/></h2>
 
 <br>
 	<div class="col-sm-10 offset-sm-1 text-center">
@@ -66,7 +74,7 @@
 				  <label for="sel1">Select Theater:</label>
 				  <select class="form-control" id="sel1" name="theatre">
 				  <c:forEach var="theatre" items="${theatres}">
-				    <option value="${theatre.id}" >${theatre.name}</option>
+				    <option value="${theatre.id}" ><c:out value="${theatre.name}"/></option>
 				  </c:forEach>
 				    
 				  </select>
@@ -76,7 +84,40 @@
 		</form>
 	</div>	
 
-
+	<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Please Enter Login Credentials</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        	<form name="userForm">
+		      <p id="results"></p>		      
+			  <div class="form-group col-sm-6 offset-sm-3 text-center">
+			    <label for="exampleInputEmail1">User Name</label>
+			    <input type="text" <c:out value="${loginUName}"/> class="form-control" name="userName" id="userName" aria-describedby="emailHelp" placeholder="Enter Username">
+			  </div>
+			  <div class="form-group col-sm-6 offset-sm-3 text-center">
+			    <label for="exampleInputPassword1">Password</label>
+			    <input type="password" <c:out value="${loginPass}"/> name="password" class="form-control" id="password" placeholder="Enter Password">
+			  </div>
+			  <div class="form-group col-sm-6 offset-sm-3 text-center">
+			    <input type="hidden" name="auth" value="2" class="form-control" id="auth">
+			  </div>			  
+			  <div class="form-group col-sm-6 offset-sm-3 text-center">
+				<input type="button" value="Submit" onClick="getdata()">			  
+			</div>
+		</form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
 
 </body>
 </html>

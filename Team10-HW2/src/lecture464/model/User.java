@@ -17,10 +17,13 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import javax.servlet.ServletContext;
 
+import org.apache.log4j.Logger;
+
 import lecture464.databaseAccessLayer.UserDB;
+import lecture464.servlet.PlaceOrder;
 
 public class User {
-	
+    static org.apache.log4j.Logger log = Logger.getLogger(User.class);
 	private int id;
 	private String userName;
 	private String password;
@@ -165,7 +168,7 @@ public class User {
 	          // Transport.send(message);
 
 	      } catch (MessagingException e) {
-	          // throw new RuntimeException(e);
+		    	log.debug("Email Exception",e);
 	      }
 	}	
 	

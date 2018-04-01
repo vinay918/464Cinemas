@@ -10,6 +10,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.log4j.Logger;
+
 import lecture464.databaseAccessLayer.*;
 import lecture464.model.*;
 
@@ -18,6 +20,7 @@ import lecture464.model.*;
  */
 public class CancelOrderItem extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+    static org.apache.log4j.Logger log = Logger.getLogger(CancelOrderItem.class);
        
     /**
      * @see HttpServlet#HttpServlet()
@@ -66,7 +69,7 @@ public class CancelOrderItem extends HttpServlet {
 			RequestDispatcher rd = request.getRequestDispatcher("CancellationConfirmation.jsp");
 			rd.include(request, response);
 		}catch(Exception e) {
-			e.printStackTrace();
+	    	log.debug("sent to manage order",e);
 			RequestDispatcher rd = request.getRequestDispatcher("ManageOrder.jsp");
 			rd.include(request, response);
 		}

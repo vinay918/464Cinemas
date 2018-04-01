@@ -12,6 +12,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.log4j.Logger;
+
 import lecture464.databaseAccessLayer.*;
 import lecture464.model.*;
 
@@ -20,6 +22,7 @@ import lecture464.model.*;
  */
 public class PlaceOrder extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+    static org.apache.log4j.Logger log = Logger.getLogger(PlaceOrder.class);
        
     /**
      * @see HttpServlet#HttpServlet()
@@ -109,6 +112,7 @@ public class PlaceOrder extends HttpServlet {
 			response.getWriter().flush();
 			
 		}catch(Exception e) {
+	    	log.debug("Placing order exception",e);
 			
 			String msg = "Something went wrong.";
 			String jsonObject = "{ \"message\": \""+ msg+ "\",  \"success\": false }";

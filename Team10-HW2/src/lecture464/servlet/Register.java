@@ -10,6 +10,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.log4j.Logger;
+import org.jsoup.Jsoup;
+import org.jsoup.safety.Whitelist;
+
 import lecture464.model.User;
 
 
@@ -20,6 +24,7 @@ public class Register extends HttpServlet {
 	private static final long serialVersionUID = 1L;
     private static long users = 0;
     private static String firstUser;
+    static org.apache.log4j.Logger log = Logger.getLogger(Register.class);
     
     /**
      * @see HttpServlet#HttpServlet()
@@ -50,6 +55,7 @@ public class Register extends HttpServlet {
         return;
        }
        catch (IOException e) { 
+    	   log.debug("error saving state",e);
        }
      }
 	/**
@@ -63,7 +69,17 @@ public class Register extends HttpServlet {
 		String fName = request.getParameter("fName");
 		String lName = request.getParameter("lName");
 		String phone = request.getParameter("phone");
-		String email = request.getParameter("email");		
+		String email = request.getParameter("email");	
+
+		userName = Jsoup.clean(userName, Whitelist.basic());
+		password = Jsoup.clean(password, Whitelist.basic());
+		fName = Jsoup.clean(fName, Whitelist.basic());
+		lName = Jsoup.clean(lName, Whitelist.basic());
+		phone = Jsoup.clean(phone, Whitelist.basic());
+		email = Jsoup.clean(email, Whitelist.basic());		
+		
+		
+		
 		// Registration via the Users object
 		User aUser = new User(-1,userName, password, fName, lName, email, phone);
 		

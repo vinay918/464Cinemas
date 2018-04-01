@@ -10,15 +10,20 @@
 		    var x = document.forms["userForm"]["userName"].value;
 		    var y = document.forms["userForm"]["password"].value;
 		    var z = document.forms["userForm"]["password2"].value;
-
+		    var strength = document.getElementById('strength').innerHTML;
+		    
 		    if (x == "") {
 		        alert("Username must be filled out");
 		        return false;
 	   		}else if(x.length < 6){
 	    		alert("Username must be at least 6 characters long");
 	    		return false;
-	  		}			    
-		    if (y == "") {
+	  		}	
+		    if(strength.indexOf('Weak') >= 0){
+		    	alert("Please improve your password strength (using special characters and numbers might help)");
+		    	return false;
+		    }
+	   		else if (y == "") {
 		        alert("Password must be filled out");
 		        return false;
 		    }else if(y.length < 6){
@@ -29,6 +34,26 @@
 		    	return false;
 		    }
 		
+		}
+		
+		//credit:https://martech.zone/javascript-password-strength/
+		function passwordChanged() {
+			var strength = document.getElementById('strength');
+			var strongRegex = new RegExp("^(?=.{8,})(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*\\W).*$", "g");
+			var mediumRegex = new RegExp("^(?=.{7,})(((?=.*[A-Z])(?=.*[a-z]))|((?=.*[A-Z])(?=.*[0-9]))|((?=.*[a-z])(?=.*[0-9]))).*$", "g");
+			var enoughRegex = new RegExp("(?=.{6,}).*", "g");
+			var pwd = document.getElementById("password");
+			if (pwd.value.length==0) {
+			strength.innerHTML = 'Type Password';
+			} else if (false == enoughRegex.test(pwd.value)) {
+			strength.innerHTML = 'More Characters';
+			} else if (strongRegex.test(pwd.value)) {
+			strength.innerHTML = '<span style="color:green">Strong!</span>';
+			} else if (mediumRegex.test(pwd.value)) {
+			strength.innerHTML = '<span style="color:orange">Medium!</span>';
+			} else {
+			strength.innerHTML = '<span style="color:red">Weak!</span>';
+			}
 		}
 	   </script>
 		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -91,7 +116,9 @@
 			  </div>
 			  <div class="form-group col-sm-6 offset-sm-3 text-center">
 			    <label for="exampleInputPassword1">Password</label>
-			    <input type="password" name="password" class="form-control" placeholder="Enter Password">
+			    <input type="password" name="password" id="password" class="form-control" placeholder="Enter Password" onkeyup="return passwordChanged();">
+			    <span id="strength">Type Password</span>
+
 			  </div>
 			  <div class="form-group col-sm-6 offset-sm-3 text-center">
 			    <label for="exampleInputPassword1">Confirm Password</label>

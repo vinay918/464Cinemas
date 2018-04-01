@@ -11,6 +11,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.log4j.Logger;
+import org.jsoup.Jsoup;
+import org.jsoup.safety.Whitelist;
+
 import lecture464.databaseAccessLayer.MovieShowingDB;
 import lecture464.model.MovieShowing;
 
@@ -39,10 +43,13 @@ public class MovieSearch extends HttpServlet {
 			return;
 		}
 		
-		
 		String theatre = request.getParameter("theatre");
 		int theatreId = Integer.parseInt(theatre);
 		String movie = request.getParameter("movie");
+
+		theatre = Jsoup.clean(theatre, Whitelist.basic());
+		movie = Jsoup.clean(movie, Whitelist.basic());		
+		
 		
 		MovieShowingDB movieDB = new MovieShowingDB();
 		ArrayList<MovieShowing> showings = movieDB.getMovieShowings(theatreId, movie);

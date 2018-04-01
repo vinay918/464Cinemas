@@ -4,18 +4,9 @@
 <html>
 	<head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>CSCE 464 Cinemas</title>
-		<script>
-		function validateForm() {
-		    var textBox = document.getElementById("reviewTextBox");
-			var textLength = textBox.value.length;
-		    if (x > 255 || textBox.value == "Enter your review...") {
-		        alert("The review exceeded the maximum length. Sorry.");
-		        return false;
-	   		}
-		
-		}
-	   </script>
+	<title>CSCE 464 Cinemas</title>
+	<script type="text/javascript" src="functions.js"></script>
+
 		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 		 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous"><script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
@@ -61,7 +52,7 @@
 		<br>
 		<div class="col-sm-10 offset-sm-1 text-center">
 		<h3>Customer Review</h3>
-		<form name="userForm" action	="CustomerReview" onsubmit="return validateForm()" method="post">
+		<form name="userForm" action	="CustomerReview" onsubmit="return validateForm2()" method="post">
 		      <p>${Error}</p>
 		      <div class="container">
 		      <p>${showing.movie.name}</p>

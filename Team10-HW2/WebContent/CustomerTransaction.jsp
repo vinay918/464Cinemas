@@ -10,122 +10,20 @@
 <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
 <link rel = "stylesheet" type = "text/css" href = "customStyles/customStyle.css" />
-<script>
-	function placeOrder() {
-		var d = document.forms["userPayment"]["userCardNum"].value;
-		var f = document.forms["userPayment"]["userBillingAddress"].value;
-		$.ajax({
-			 type: "POST",
-	         url: "PlaceOrder",
-	         data: { 
-	        	 	"userCardNum" : d,
-	        	 	"userBillingAddress" : f
-	         },
-			 
-			 success: function(responseText) {
-	             var obj = JSON.parse(responseText);
-	             if(!obj.success){
-	                 alert(obj.message);
-	             }else{
-	            	 	alert(obj.message);
-	            		$(".orderid").html("<h2 style=\"padding-left:10px\">Score! Your order #"+ obj.orderId +" has been placed. Detail(s):</h2>");
-	            		$(".orderinfo").html("<h3 style=\"padding-left:10px\">Order #"+ obj.orderId+" information </h3>");
-	            		$(".orderdate").text(obj.orderDate);
-	            		$(".reviewandcheckout").hide();
-	            		$(".orderconfirmed").show();
-	             }
+<script type="text/javascript" src="functions.js"></script>
 
-	         }
-		 });  
-	}
-	
-	function confirm() {
-	var a = document.forms["userPayment"]["userFirstName"].value;
-	var b = document.forms["userPayment"]["userLastName"].value;
-	var c = document.forms["userPayment"]["cardName"].value;
-	var d = document.forms["userPayment"]["userCardNum"].value;
-	var e = document.forms["userPayment"]["userSecurityCode"].value;
-	var f = document.forms["userPayment"]["userBillingAddress"].value;
-	var g = document.forms["userPayment"]["userShippingAddress"].value;
-	var h = document.forms["userPayment"]["userBillingZip"].value;
-	var i = document.forms["userPayment"]["userShipZip"].value;
-	var j = document.forms["userPayment"]["userBillState"].value;
-	var k = document.forms["userPayment"]["userShipState"].value;
-	var expirationDate = document.forms["userPayment"]["cardMonth"].value + "/" +document.forms["userPayment"]["cardYear"].value;
-	var cardType = document.forms["userPayment"]["cardType"].value
-	var total = $("#total").val();
-	var userId = $("#userid").val();
-	
- 	if (a == "") {
-		alert("Please fill in first name.");
-		return false;
-	}		    
-	if (b == "") {
-		alert("Please fill in last name.");
-		return false;
-	}
-	if (c == "") {
-		alert("Please fill in card holder name.");
-		return false;
-	}
-	if (d == "") {
-		alert("Please fill in card number.");
-		return false;
-	}
-	if (e == "") {
-		alert("Please fill in security code.");
-		return false;
-	}else if(e.length>3){
-		alert("Security code should be 3 digits");
-	}
-	if (f == "") {
-		alert("Please fill in billing address.");
-		return false;
-	}
-	if (g == "") {
-		alert("Please fill in shipping address.");
-		return false;
-	} 
-	
-/* 	$.get("Bank", function(responseText) {   // Execute Ajax GET request on URL of "someservlet" and execute the following function with Ajax response text...
-        alert(responseText);           // Locate HTML DOM element with ID "somediv" and set its text content with the response text.
-    }); */
-	
- 	 $.ajax({
-		 type: "POST",
-         url: "../Team10-HW3-Bank/Bank",
-         data: { 
-        	 	"cardName" : c,
-        	 	"userCardNum" : d,
-        	 	"userSecurityCode" : e,
-        	 	"userBillingAddress" : f,
-        	 	"expirationDate" : expirationDate,
-        	 	"cardType" : cardType,
-        	 	"total" : total,
-        	 	"userId" : userId
-         },
-		 
-		 success: function(responseText) {
-             var obj = JSON.parse(responseText);
-             if(!obj.success){
-                 alert(obj.message);
-             }else{
-            	 	alert(obj.message);
-            	 	placeOrder();
-             }
-
-         }
-	 }); 
-	 return false;
-	}
-</script>
 </head>
 <%@ taglib prefix="c"  uri="http://java.sun.com/jstl/core_rt" %>
 <body>
 	<c:if test="${active != 1 }">
 		<c:redirect url = "Login.jsp"/>
 	</c:if>
+	<c:if test="${valid != 1 }">
+		<c:redirect url = "CustomerHomePage.jsp"/>
+	</c:if>	
+	
 	<nav class="navbar navbar-toggleable-md navbar-light bg-faded">
 		  <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
 		    <span class="navbar-toggler-icon"></span>
@@ -174,10 +72,10 @@
 	    <tr>
 	      <th scope="row" name="index">${count}</th>
 	      <c:set var="count" value="${count + 1}" scope="page"/>
-	      <td class="text-center">${item.movie.movie.name}</td>
-	      <td class="text-center">${item.movie.showroom.theatre.name}</td>
-	      <td class="text-center">${item.ticketQuantity}</td>
-	      <td class="text-center">$ ${item.price}</td>   
+	      <td class="text-center"><c:out value="${item.movie.movie.name}"/></td>
+	      <td class="text-center"><c:out value="${item.movie.showroom.theatre.name}"/></td>
+	      <td class="text-center"><c:out value="${item.ticketQuantity}"/></td>
+	      <td class="text-center">$ <c:out value="${item.price}"/></td>   
 	    </tr>
 	    	    </c:forEach>
 	  </tbody>
@@ -354,10 +252,10 @@
 	    			<tr>   
 	      			<td scope="row" name="index">${count}</td>
 	      			<td class="text-center"><ul>
-  						<li>Movie Name: ${item.movie.movie.name}</li>
-  						<li>Ticket quantity: ${item.ticketQuantity} </li>
-  						<li>Location: ${item.movie.showroom.theatre.name }</li>
-  						<li>Date/ Time: ${item.movie.startTime}</li>
+  						<li>Movie Name: <c:out value="${item.movie.movie.name}"/></li>
+  						<li>Ticket quantity: <c:out value="${item.ticketQuantity}"/> </li>
+  						<li>Location: <c:out value="${item.movie.showroom.theatre.name }"/></li>
+  						<li>Date/ Time: <c:out value="${item.movie.startTime}"/></li>
 					</ul></td>
 					<td class="text-center">$${item.price}</td>
 					<td class="text-center orderdate"></td>

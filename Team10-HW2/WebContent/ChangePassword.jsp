@@ -15,60 +15,67 @@
 </head>
 	
 <body>
-	
+		<c:if test="${active != 1 }">
+		<c:redirect url = "Login.jsp"/>
+		</c:if>
 		<!-- STEP TWO COPY AND PASTE THIS WHOLE NAV CLASS AT THE TOP OF YOUR BODY TAG. IT CREATES A STANDARD LAYOUT -->
-		<nav class="navbar navbar-toggleable-md navbar-light bg-faded">
+	<nav class="navbar navbar-toggleable-md navbar-light bg-faded">
 		  <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
 		    <span class="navbar-toggler-icon"></span>
 		  </button>
-		  <a class="navbar-brand" href="#">CSCE 464 Cinemas</a>
+		  <a class="navbar-brand" href="CustomerHomePage.jsp">CSCE 464 Cinemas</a>
 		
 		  <div class="collapse navbar-collapse" id="navbarSupportedContent">
 		    <ul class="navbar-nav mr-auto">
 		      <li class="nav-item active">
-		        <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+		        <a class="nav-link" href="CustomerHomePage.jsp">Home <span class="sr-only">(current)</span></a>
 		      </li>
 		    </ul>
 		    <ul class="navbar-nav mr-auto">
 		      <li class="nav-item active">
-		        <a class="nav-link" href="About">About <span class="sr-only">(current)</span></a>
+		        <a class="nav-link" href="ViewAndCheckoutShoppingCart.jsp">Shopping Cart <span class="sr-only">(current)</span></a>
+		      </li>
+		    </ul>		    
+		    <ul class="navbar-nav mr-auto">
+		      <li class="nav-item active">
+				<form name="submitForm" method="GET" action="ViewOrders">
+		        <a class="nav-link" href="javascript:document.submitForm.submit()">View Orders<span class="sr-only">(current)</span></a>
+		      	</form>
+		      </li>
+		    </ul>			    
+		    <ul class="navbar-nav mr-auto">
+		      <li class="nav-item active">
+		        <a class="nav-link" href="Logout">Logout <span class="sr-only">(current)</span></a>
 		      </li>
 		    </ul>
+
 		  </div>
 		</nav>
 		
 		<br>
 		<div class="col-sm-10 offset-sm-1 text-center">
-		<h3> Login here</h3>
-		<form name="userForm" action	= Login 
-		      onsubmit="return validateForm()" method="post">
-		      <p><c:out value="${WrongPassword}"/></p>		      
+		<form name="changePass" action	= ChangePassword 
+		      onsubmit="return validateForm4()" method="post">
+		      <p><c:out value="${passError}"/></p>		      
+
 			  <div class="form-group col-sm-6 offset-sm-3 text-center">
-			    <label for="exampleInputEmail1">User Name</label>
-			    <input type="text" <c:out value="${loginUName}"/> class="form-control" name="userName" id="userName" aria-describedby="emailHelp" placeholder="Enter Username">
+			    <label for="exampleInputPassword1">Current Password</label>
+			    <input type="password" <c:out value="${loginPass}"/> name="prevpassword" class="form-control" id="prevpassword" placeholder="Enter Current Password">
 			  </div>
 			  <div class="form-group col-sm-6 offset-sm-3 text-center">
-			    <label for="exampleInputPassword1">Password</label>
-			    <input type="password" <c:out value="${loginPass}"/> name="password" class="form-control" id="password" placeholder="Enter Password">
+			    <label for="exampleInputPassword1">New Password</label>
+			    <input type="password"  name="newpassword1" class="form-control" id="newpassword1" placeholder="Enter New Password">
 			  </div>
-			  <div class="form-group col-sm-3 offset-sm-5 text-center">
-				<input type="checkbox" name="remember" class="custom-control-input" id="customCheck1">
-  				<label class="custom-control-label" for="customCheck1">Remember Me</label>
-			  </div>
-			  <button type="submit" class="btn btn-primary">Submit</button>	
-		<a href="Register.jsp"> Register </a> <br>
+			  <div class="form-group col-sm-6 offset-sm-3 text-center">
+			    <label for="exampleInputPassword1">New Password</label>
+			    <input type="password"  name="newpassword2" class="form-control" id="newpassword2" placeholder="Re-Enter New Password">
+			  </div>			  			  
+
+			  <button type="submit" class="btn btn-primary">Confirm</button>	
+
 		</form>
-		</div>'
-		<center>
-		<div class="footer navbar-fixed-bottom">
-		<c:if test="${empty search}">
-    		<h4>Watch Iron Man today!</h4>
-		</c:if>
-		<c:if test="${not empty search}">
-    		<h4>Watch ${search} today!</h4>
-		</c:if>
 		</div>
-		</center>
+
 	
 	</body>
 	

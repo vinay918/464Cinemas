@@ -61,16 +61,16 @@
 	  <tbody>
 	    <tr>
 	      <th scope="row">1</th>
-	      <td class="text-center">${orderItemId }</td>
+	      <td class="text-center"><c:out value="${orderItemId }"/></td>
 	      <td class="text-left"><ul>
-  				<li>Movie Name: ${cancelledItem.movie.movie.name}</li>
-  				<li>Ticket quantity: ${cancelledItem.quantity} </li>
-  				<li>Location: ${cancelledItem.movie.showroom.theatre.name }</li>
-  				<li>Date/ Time: ${cancelledItem.movie.startTime }</li>
+  				<li>Movie Name: <c:out value="${cancelledItem.movie.movie.name}"/></li>
+  				<li>Ticket quantity: <c:out value="${cancelledItem.quantity}"/> </li>
+  				<li>Location: <c:out value="${cancelledItem.movie.showroom.theatre.name }"/></li>
+  				<li>Date/ Time: <c:out value="${cancelledItem.movie.startTime }"/></li>
 				</ul>
 			</td>
-	      <td class="text-center">$${cancelledItem.orderPrice}</td>
-	      <td class="text-center">${orderDate }</td>
+	      <td class="text-center">$<c:out value="${cancelledItem.orderPrice}"/></td>
+	      <td class="text-center"><c:out value="${orderDate }"/></td>
 	      	<c:choose> 
   						  	<c:when test= "${  cancelledItem.isCancel == 1}">
   								<td class="text-center">Cancelled</td>

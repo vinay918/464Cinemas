@@ -65,13 +65,13 @@
 	    			<tr>
 	      		<td scope="row" name="index">${count}</td>
 	      		<td class="text-center"><ul>
-  					<li>Movie Name: ${item.movie.movie.name}</li>
-  					<li>Ticket quantity: ${item.quantity} </li>
-  					<li>Location: ${item.movie.showroom.theatre.name }</li>
-  					<li>Date/ Time: ${item.movie.startTime }</li>
+  					<li>Movie Name: <c:out value="${item.movie.movie.name}"/></li>
+  					<li>Ticket quantity: <c:out value="${item.quantity}"/> </li>
+  					<li>Location: <c:out value="${item.movie.showroom.theatre.name }"/></li>
+  					<li>Date/ Time: <c:out value="${item.movie.startTime }"/></li>
 				</ul></td>
-				<td class="text-center">$${item.orderPrice}</td>
-				<td class="text-center">${orderDate}</td>
+				<td class="text-center">$<c:out value="${item.orderPrice}"/></td>
+				<td class="text-center"><c:out value="${orderDate}"/></td>
 	      			<c:choose> 
   						  	<c:when test= "${  item.isCancel == 1}">
   								<td class="text-center">Cancelled</td>
